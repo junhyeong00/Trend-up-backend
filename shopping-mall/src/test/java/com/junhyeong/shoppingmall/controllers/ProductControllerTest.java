@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -50,5 +51,18 @@ class ProductControllerTest {
                 .andExpect(status().isOk());
 
         verify(productService).products(page);
+    }
+
+    @Test
+    void product() throws Exception {
+        Long productId = 1L;
+        Product product = new Product(productId, "남성 패션", "상품 1", "상품 설명 1", 3, 500L, null);
+
+        given(productService.product(productId)).willReturn(product);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/1"))
+                .andExpect(status().isOk());
+
+        verify(productService).product(productId);
     }
 }

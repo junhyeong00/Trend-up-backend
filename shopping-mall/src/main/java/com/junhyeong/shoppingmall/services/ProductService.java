@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import org.springframework.data.domain.Page;
@@ -21,5 +22,9 @@ public class ProductService {
     public Page<Product> products(Integer page) {
         Pageable pageable = PageRequest.of(page -1, 8);
         return productRepository.findAll(pageable);
+    }
+
+    public Product product(Long productId) {
+        return productRepository.findById(productId).orElseThrow(() -> new ProductNotFound());
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,5 +49,18 @@ class ProductServiceTest {
         assertThat(pageableProducts).hasSize(products.size());
 
         verify(productRepository).findAll(any(Pageable.class));
+    }
+
+    @Test
+    void product() {
+        Product product = new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 3, 500L, null);
+
+        given(productRepository.findById(product.id())).willReturn(Optional.of(product));
+
+        Product found = productService.product(product.id());
+
+        assertThat(found).isNotNull();
+
+        verify(productRepository).findById(product.id());
     }
 }

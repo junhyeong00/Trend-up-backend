@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +39,13 @@ public class ProductController {
                 =new PageImpl<>(productDtos, PageRequest.of(page - 1, 8), productDtos.size());
 
         return new ProductsDto(pageableProductDtos, totalPageCount);
+    }
+
+    @GetMapping("{id}")
+    public ProductDto product(
+            @PathVariable("id") Long productId
+    ) {
+        Product product = productService.product(productId);
+        return product.toDto();
     }
 }
