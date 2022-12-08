@@ -59,4 +59,8 @@ public class Product {
     public ProductDto toDto() {
         return new ProductDto(id, category, name, description, productCount, price, image);
     }
+
+    public Long id() {
+        return id;
+    }
 }
