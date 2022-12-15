@@ -9,6 +9,7 @@ import com.junhyeong.shoppingmall.models.Address;
 import com.junhyeong.shoppingmall.models.Option;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.OrderProduct;
+import com.junhyeong.shoppingmall.models.PhoneNumber;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.UserName;
@@ -38,7 +39,7 @@ public class CreateOrderService {
         this.optionRepository = optionRepository;
     }
 
-    public Order createOrder(UserName userName, String phoneNumber,
+    public Order createOrder(UserName userName, PhoneNumber phoneNumber,
                              String receiver, Long payment,
                              Long totalPrice, Long deliveryFee,
                              List<OrderProductDto> orderProductDtos,
@@ -62,17 +63,18 @@ public class CreateOrderService {
 
             orderProducts.add(orderProduct);
 
-            if (option.stockQuantity() < orderProductDto.getQuantity()) {
-                throw new OrderFailed(product.name() + " - " + option.name() + "의 재고가 부족합니다");
-            }
+//            if (option.stockQuantity() < orderProductDto.getQuantity()) {
+//                throw new OrderFailed(product.name() + " - " + option.name() + "의 재고가 부족합니다");
+//            }
+//
+//            option.reduceStock(orderProductDto.getQuantity());
         }
-
-        orderProductDtos.stream().forEach((product) -> {
-            Option option = optionRepository.findById(product.getOptionId())
-                    .orElseThrow(OptionNotFound::new);
-
-            option.sell(product.getQuantity());
-        });
+//
+//        orderProductDtos.stream().forEach((product) -> {
+//            Option option = optionRepository.findById(product.getOptionId())
+//                    .orElseThrow(OptionNotFound::new);
+//
+//        });
 
         Order order = new Order(
                 user.id(), phoneNumber, receiver,

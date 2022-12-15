@@ -4,6 +4,7 @@ import com.junhyeong.shoppingmall.dtos.OrderProductDto;
 import com.junhyeong.shoppingmall.models.Address;
 import com.junhyeong.shoppingmall.models.Option;
 import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.PhoneNumber;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.UserName;
@@ -72,7 +73,7 @@ class CreateOrderServiceTest {
                 order.address().detailAddress());
 
         Order found = createOrderService.createOrder(
-                userName, "01012341234", "배준형", order.payment()
+                userName, new PhoneNumber("01012341234"), "배준형", order.payment()
                 , order.totalPrice(), order.deliveryFee(), orderProductDtos,
                 order.deliveryRequest(), address);
 
@@ -80,7 +81,7 @@ class CreateOrderServiceTest {
 
         verify(userRepository).findByUserName(userName);
         verify(productRepository).findById(productId);
-        verify(optionRepository, times(2)).findById(optionId);
+        verify(optionRepository).findById(optionId);
         verify(orderRepository).save(found);
     }
 }

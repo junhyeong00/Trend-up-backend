@@ -33,7 +33,7 @@ public class BackdoorController {
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(1, '기본', null, 1, 4)"
+                "VALUES(1, '기본', 0, 1, 4)"
         );
 
         jdbcTemplate.execute("INSERT INTO " +
@@ -48,12 +48,12 @@ public class BackdoorController {
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(3, '사이즈 250', null, 2, 3)"
+                "VALUES(3, '사이즈 250', 0, 2, 3)"
         );
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(4, '사이즈 260', null, 2, 4)"
+                "VALUES(4, '사이즈 260', 0, 2, 4)"
         );
 
         jdbcTemplate.update("INSERT INTO " +
@@ -63,7 +63,7 @@ public class BackdoorController {
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(5, '촉촉', null, 3, 8)"
+                "VALUES(5, '촉촉', 0, 3, 8)"
         );
         return "OK";
     }

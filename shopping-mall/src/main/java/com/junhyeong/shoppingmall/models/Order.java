@@ -23,7 +23,8 @@ public class Order {
 
     private Long userId;
 
-    private String phoneNumber;
+    @Embedded
+    private PhoneNumber phoneNumber;
 
     private String receiver;
 
@@ -48,7 +49,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long userId, String phoneNumber,
+    public Order(Long userId, PhoneNumber phoneNumber,
                  String receiver, Long payment, Long totalPrice,
                  Long deliveryFee, String deliveryRequest, List<OrderProduct> OrderProducts,
                  Address address) {
@@ -63,7 +64,7 @@ public class Order {
         this.address = address;
     }
 
-    public Order(Long id, Long userId, String phoneNumber,
+    public Order(Long id, Long userId, PhoneNumber phoneNumber,
                  String receiver, Long payment, Long totalPrice,
                  Long deliveryFee, String deliveryRequest,
                  List<OrderProduct> orderProducts, Address address) {
@@ -83,14 +84,15 @@ public class Order {
         Address address = new Address(123L, "인천", "102호");
         List<OrderProduct> orderProducts = new ArrayList<>();
         OrderProduct orderProduct = new OrderProduct(1L, "가디건", 10000L, "반짝반짝",1L, null);
+        PhoneNumber phoneNumber = new PhoneNumber("01012341234");
         orderProducts.add(orderProduct);
 
-        return new Order(orderId, 1L, "01012341234", "배준형", 20000L, 17000L, 3000L,
+        return new Order(orderId, 1L, phoneNumber, "배준형", 20000L, 17000L, 3000L,
                 "", orderProducts,  address);
     }
 
     public OrderResultDto toOrderResultDto() {
-        return new OrderResultDto(id, receiver, phoneNumber,
+        return new OrderResultDto(id, receiver, phoneNumber.value(),
                 address.zipCode(), address.roadAddress(), address.detailAddress(),
                 payment, totalPrice, deliveryFee);
     }
@@ -103,7 +105,7 @@ public class Order {
         return userId;
     }
 
-    public String phoneNumber() {
+    public PhoneNumber phoneNumber() {
         return phoneNumber;
     }
 
