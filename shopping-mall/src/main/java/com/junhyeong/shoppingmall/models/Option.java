@@ -1,5 +1,8 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.dtos.OptionDto;
+import com.junhyeong.shoppingmall.exceptions.OrderFailed;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,16 +24,15 @@ public class Option {
     public Option() {
     }
 
-    public Option(Long id, Long productId, String name, Long optionPrice, Long stockQuantity) {
+    public Option(Long id, Long productId, String name, Long optionPrice) {
         this.id = id;
         this.productId = productId;
         this.name = name;
         this.optionPrice = optionPrice;
-        this.stockQuantity = stockQuantity;
     }
 
     public static Option fake(Long optionId) {
-        return new Option(optionId, 1L, "반짝반짝", 10000L, 2L);
+        return new Option(optionId, 1L, "반짝반짝", 10000L);
     }
 
     public Long id() {
@@ -53,7 +55,15 @@ public class Option {
         return stockQuantity;
     }
 
-    public void sell(Long orderQuantity) {
-        this.stockQuantity -= orderQuantity;
+    public void reduceStock(Long orderQuantity) {
+      if (this.stockQuantity < orderQuantity) {
+          throw new OrderFailed("재고 부족");
+      }
+
+      this.stockQuantity -= orderQuantity;
+    }
+
+    public OptionDto toDto() {
+        return new OptionDto(id, productId, name, optionPrice);
     }
 }

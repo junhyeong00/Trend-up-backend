@@ -7,6 +7,7 @@ import com.junhyeong.shoppingmall.exceptions.LoginFailed;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.models.Address;
 import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.PhoneNumber;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.services.CreateOrderService;
 import org.springframework.http.HttpStatus;
@@ -46,9 +47,11 @@ public class OrderController {
                 orderRequestDto.getRoadAddress(),
                 orderRequestDto.getDetailAddress());
 
+        PhoneNumber phoneNumber = new PhoneNumber(orderRequestDto.getPhoneNumber());
+
         Order order = createOrderService.createOrder(
                 userName,
-                orderRequestDto.getPhoneNumber(),
+                phoneNumber,
                 orderRequestDto.getReceiver(),
                 orderRequestDto.getPayment(),
                 orderRequestDto.getTotalPrice(),
