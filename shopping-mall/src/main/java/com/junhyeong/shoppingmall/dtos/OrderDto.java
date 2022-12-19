@@ -1,50 +1,50 @@
 package com.junhyeong.shoppingmall.dtos;
 
-import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.junhyeong.shoppingmall.models.Address;
+import com.junhyeong.shoppingmall.models.PhoneNumber;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
 
-public class OrderRequestDto {
-    @NotBlank(message = "받는 분 성함을 입력해주세요")
+public class OrderDto {
+    private Long id;
     private String receiver;
-
-    @NotBlank(message = "받는 분 번호를 입력해주세요")
     private String phoneNumber;
-
     private Long payment;
-
     private Long totalPrice;
-
     private Long deliveryFee;
-
     private String deliveryRequest;
-
+    private List<OrderProductDto> orderProducts;
     private Long zipCode;
-
-    @NotBlank(message = "주소를 입력해주세요")
     private String roadAddress;
-
     private String detailAddress;
 
-    private List<CreateOrderProductDto> orderProducts;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createAt;
 
-    public OrderRequestDto() {
-    }
-
-    public OrderRequestDto(String receiver, String phoneNumber,
-                           Long payment, Long totalPrice,
-                           Long deliveryFee, String deliveryRequest, Long zipCode,
-                           String roadAddress, String detailAddress,
-                           List<CreateOrderProductDto> orderProducts) {
+    public OrderDto(Long id, String receiver, String phoneNumber,
+                    Long payment, Long totalPrice, Long deliveryFee,
+                    String deliveryRequest, List<OrderProductDto> orderProducts,
+                    Address address, LocalDateTime createAt) {
+        this.id = id;
         this.receiver = receiver;
         this.phoneNumber = phoneNumber;
         this.payment = payment;
         this.totalPrice = totalPrice;
         this.deliveryFee = deliveryFee;
         this.deliveryRequest = deliveryRequest;
-        this.zipCode = zipCode;
-        this.roadAddress = roadAddress;
-        this.detailAddress = detailAddress;
         this.orderProducts = orderProducts;
+        this.zipCode = address.zipCode();
+        this.roadAddress = address.roadAddress();
+        this.detailAddress = address.detailAddress();
+        this.createAt = createAt;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getReceiver() {
@@ -71,6 +71,10 @@ public class OrderRequestDto {
         return deliveryRequest;
     }
 
+    public List<OrderProductDto> getOrderProducts() {
+        return orderProducts;
+    }
+
     public Long getZipCode() {
         return zipCode;
     }
@@ -83,7 +87,7 @@ public class OrderRequestDto {
         return detailAddress;
     }
 
-    public List<CreateOrderProductDto> getOrderProducts() {
-        return orderProducts;
+    public LocalDateTime getCreateAt() {
+        return createAt;
     }
 }

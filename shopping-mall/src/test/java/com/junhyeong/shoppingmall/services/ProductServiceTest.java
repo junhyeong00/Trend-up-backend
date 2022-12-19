@@ -25,6 +25,7 @@ class ProductServiceTest {
 
     @BeforeEach
     void setup() {
+
         productRepository = mock(ProductRepository.class);
         productService = new ProductService(productRepository);
     }
@@ -32,9 +33,9 @@ class ProductServiceTest {
     @Test
     void products() {
         List<Product> products = List.of(
-                new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 3, 500L, null),
-                new Product(2L, "남성 패션", "상품 2", "상품 설명 2", 4, 5000L, null),
-                new Product(2L, "남성 패션", "상품 3", "상품 설명 3", 4, 5000L, null)
+                new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null),
+                new Product(2L, "남성 패션", "상품 2", "상품 설명 2", 5000L, null),
+                new Product(2L, "남성 패션", "상품 3", "상품 설명 3", 5000L, null)
         );
 
         int page = 1;
@@ -53,7 +54,7 @@ class ProductServiceTest {
 
     @Test
     void product() {
-        Product product = new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 3, 500L, null);
+        Product product = new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null);
 
         given(productRepository.findById(product.id())).willReturn(Optional.of(product));
 

@@ -2,8 +2,10 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.services.CreateOrderService;
+import com.junhyeong.shoppingmall.services.GetOrdersService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,17 +13,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.hamcrest.Matchers.containsString;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(OrderController.class)
@@ -32,6 +37,9 @@ class OrderControllerTest {
 
     @MockBean
     private CreateOrderService createOrderService;
+
+    @MockBean
+    private GetOrdersService getOrdersService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -166,5 +174,25 @@ class OrderControllerTest {
                 .andExpect(status().isBadRequest());
 
         verify(createOrderService, never()).createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any());
+    }
+
+    @Test
+    void orders() throws Exception {
+        Long orderId = 1L;
+        List<Order> orders = List.of(
+                Order.fake(orderId)
+        );
+
+        int page = 1;
+
+        Page<Order> pageableOrders
+                = new PageImpl<>(orders, PageRequest.of(page - 1, 2), orders.size());
+        given(getOrdersService.searchOrders(any(),any(),any(),any()))
+                .willReturn(pageableOrders);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders")
+                        .header("Authorization", "Bearer " + token)
+                        .param("page", "1"))
+                .andExpect(status().isOk());
     }
 }

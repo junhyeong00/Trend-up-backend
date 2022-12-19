@@ -5,16 +5,14 @@ public class ProductDto {
     private String category;
     private String name;
     private String description;
-    private Integer productCount;
     private Long price;
     private String image;
 
-    public ProductDto(Long id, String category, String name, String description, Integer productCount, Long price, String image) {
+    public ProductDto(Long id, String category, String name, String description, Long price, String image) {
         this.id = id;
         this.category = category;
         this.name = name;
         this.description = description;
-        this.productCount = productCount;
         this.price = price;
         this.image = image;
     }
@@ -33,10 +31,6 @@ public class ProductDto {
 
     public String getDescription() {
         return description;
-    }
-
-    public Integer getProductCount() {
-        return productCount;
     }
 
     public Long getPrice() {
