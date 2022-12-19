@@ -1,8 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.dtos.OrderProductDto;
+import com.junhyeong.shoppingmall.dtos.CreateOrderProductDto;
 import com.junhyeong.shoppingmall.exceptions.OptionNotFound;
-import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Address;
@@ -42,14 +41,14 @@ public class CreateOrderService {
     public Order createOrder(UserName userName, PhoneNumber phoneNumber,
                              String receiver, Long payment,
                              Long totalPrice, Long deliveryFee,
-                             List<OrderProductDto> orderProductDtos,
+                             List<CreateOrderProductDto> orderProductDtos,
                              String deliveryRequest, Address address) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
 
         List<OrderProduct> orderProducts = new ArrayList<>();
 
-        for (OrderProductDto orderProductDto : orderProductDtos) {
+        for (CreateOrderProductDto orderProductDto : orderProductDtos) {
             Product product = productRepository.findById(orderProductDto.getProductId())
                     .orElseThrow(ProductNotFound::new);
             Option option = optionRepository.findById(orderProductDto.getOptionId())

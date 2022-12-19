@@ -1,5 +1,7 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.dtos.OrderProductDto;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -51,5 +53,10 @@ public class OrderProduct {
 
     public String productImage() {
         return productImage;
+    }
+
+    public OrderProductDto toOrderProduct() {
+        return new OrderProductDto(productId, productName, productPrice,
+                productOption, productQuantity, productImage);
     }
 }

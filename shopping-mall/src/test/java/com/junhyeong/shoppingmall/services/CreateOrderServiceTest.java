@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.dtos.OrderProductDto;
+import com.junhyeong.shoppingmall.dtos.CreateOrderProductDto;
 import com.junhyeong.shoppingmall.models.Address;
 import com.junhyeong.shoppingmall.models.Option;
 import com.junhyeong.shoppingmall.models.Order;
@@ -20,10 +20,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class CreateOrderServiceTest {
@@ -64,8 +62,8 @@ class CreateOrderServiceTest {
         given(orderRepository.save(order))
                 .willReturn(order);
 
-        List<OrderProductDto> orderProductDtos = new ArrayList<>();
-        orderProductDtos.add(new OrderProductDto(productId, optionId, 2L));
+        List<CreateOrderProductDto> orderProductDtos = new ArrayList<>();
+        orderProductDtos.add(new CreateOrderProductDto(productId, optionId, 2L));
 
         Address address = new Address(
                 order.address().zipCode(),

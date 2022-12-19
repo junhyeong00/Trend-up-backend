@@ -1,5 +1,7 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.dtos.OrderDto;
+import com.junhyeong.shoppingmall.dtos.OrderProductDto;
 import com.junhyeong.shoppingmall.dtos.OrderResultDto;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -38,7 +40,7 @@ public class Order {
 
     @ElementCollection
     @CollectionTable(name = "order_product")
-    private List<OrderProduct> OrderProducts = new ArrayList<>();
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     @Embedded
     private Address address;
@@ -51,7 +53,7 @@ public class Order {
 
     public Order(Long userId, PhoneNumber phoneNumber,
                  String receiver, Long payment, Long totalPrice,
-                 Long deliveryFee, String deliveryRequest, List<OrderProduct> OrderProducts,
+                 Long deliveryFee, String deliveryRequest, List<OrderProduct> orderProducts,
                  Address address) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
@@ -60,7 +62,7 @@ public class Order {
         this.totalPrice = totalPrice;
         this.deliveryFee = deliveryFee;
         this.deliveryRequest = deliveryRequest;
-        this.OrderProducts = OrderProducts;
+        this.orderProducts = orderProducts;
         this.address = address;
     }
 
@@ -76,7 +78,7 @@ public class Order {
         this.totalPrice = totalPrice;
         this.deliveryFee = deliveryFee;
         this.deliveryRequest = deliveryRequest;
-        OrderProducts = orderProducts;
+        this.orderProducts = orderProducts;
         this.address = address;
     }
 
@@ -90,6 +92,8 @@ public class Order {
         return new Order(orderId, 1L, phoneNumber, "배준형", 20000L, 17000L, 3000L,
                 "", orderProducts,  address);
     }
+
+//    public static List<Order> fake()
 
     public OrderResultDto toOrderResultDto() {
         return new OrderResultDto(id, receiver, phoneNumber.value(),
@@ -130,7 +134,7 @@ public class Order {
     }
 
     public List<OrderProduct> orderProducts() {
-        return OrderProducts;
+        return orderProducts;
     }
 
     public Address address() {
@@ -139,5 +143,13 @@ public class Order {
 
     public LocalDateTime createAt() {
         return createAt;
+    }
+
+    public OrderDto toDto() {
+        List<OrderProductDto> orderProductDtos = orderProducts.stream().map(OrderProduct::toOrderProduct).toList();
+        return new OrderDto(id, receiver, phoneNumber.value(),
+                payment, totalPrice,deliveryFee,
+                deliveryRequest, orderProductDtos,
+                address, createAt);
     }
 }

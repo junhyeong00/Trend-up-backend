@@ -33,9 +33,9 @@ class ProductControllerTest {
     @Test
     void products() throws Exception {
         List<Product> products = List.of(
-                new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 3, 500L, null),
-                new Product(2L, "남성 패션", "상품 2", "상품 설명 2", 4, 5000L, null),
-                new Product(2L, "남성 패션", "상품 3", "상품 설명 3", 4, 5000L, null)
+                new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null),
+                new Product(2L, "남성 패션", "상품 2", "상품 설명 2", 5000L, null),
+                new Product(2L, "남성 패션", "상품 3", "상품 설명 3", 5000L, null)
         );
 
         int page = 1;
@@ -56,7 +56,7 @@ class ProductControllerTest {
     @Test
     void product() throws Exception {
         Long productId = 1L;
-        Product product = new Product(productId, "남성 패션", "상품 1", "상품 설명 1", 3, 500L, null);
+        Product product = new Product(productId, "남성 패션", "상품 1", "상품 설명 1", 500L, null);
 
         given(productService.product(productId)).willReturn(product);
 

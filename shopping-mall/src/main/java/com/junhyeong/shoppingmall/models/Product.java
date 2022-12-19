@@ -19,8 +19,8 @@ public class Product {
     private String name;
 
     private String description;
-
-    private Integer productCount;
+//
+//    private Integer productCount;
 
     private Long price;
 
@@ -33,35 +33,32 @@ public class Product {
     }
 
     public Product(Long id, String category, String name,
-                   String description, Integer productCount, Long price,
+                   String description, Long price,
                    String image, LocalDateTime createAt) {
         this.id = id;
         this.category = category;
         this.name = name;
-
         this.description = description;
-        this.productCount = productCount;
         this.price = price;
         this.image = image;
         this.createAt = createAt;
     }
 
-    public Product(Long id, String category, String name, String description, Integer productCount, Long price, String image) {
+    public Product(Long id, String category, String name, String description, Long price, String image) {
         this.id = id;
         this.category = category;
         this.name = name;
         this.description = description;
-        this.productCount = productCount;
         this.price = price;
         this.image = image;
     }
 
     public static Product fake(Long id) {
-        return new Product(id, "남성패션", "가디건", "", 3, 10000L, "");
+        return new Product(id, "남성패션", "가디건", "",  10000L, "");
     }
 
     public ProductDto toDto() {
-        return new ProductDto(id, category, name, description, productCount, price, image);
+        return new ProductDto(id, category, name, description, price, image);
     }
 
     public Long id() {
@@ -78,10 +75,6 @@ public class Product {
 
     public String description() {
         return description;
-    }
-
-    public Integer productCount() {
-        return productCount;
     }
 
     public Long price() {
