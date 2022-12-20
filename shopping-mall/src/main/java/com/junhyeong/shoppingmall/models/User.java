@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.dtos.UserDto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -72,5 +73,9 @@ public class User {
 
     public boolean authenticate(String password, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(password, encodedPassword);
+    }
+
+    public UserDto toDto() {
+        return new UserDto(id, userName.value(), name, phoneNumber);
     }
 }

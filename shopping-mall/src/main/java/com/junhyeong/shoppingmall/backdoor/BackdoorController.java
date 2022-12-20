@@ -77,7 +77,7 @@ public class BackdoorController {
         jdbcTemplate.update("INSERT INTO " +
                         "person(id, user_name, password, name, phone_number, create_at)" +
                         "VALUES(1, ?, ?, ?, 01012345678, ?)",
-                "test123", passwordEncoder.encode("Password1234!"), "배준형", now);
+                "test123", passwordEncoder.encode("test123"), "배준형", now);
 
         return "OK";
     }
