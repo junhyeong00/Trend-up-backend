@@ -5,6 +5,7 @@ import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.services.CreateOrderService;
+import com.junhyeong.shoppingmall.services.GetOrderService;
 import com.junhyeong.shoppingmall.services.GetOrdersService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,9 @@ class OrderControllerTest {
     @MockBean
     private GetOrdersService getOrdersService;
 
+    @MockBean
+    private GetOrderService getOrderService;
+
     @SpyBean
     private JwtUtil jwtUtil;
 
@@ -55,7 +59,7 @@ class OrderControllerTest {
     @Test
     void createOrder() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any()))
+        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
                 .willReturn(Order.fake(orderId));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order")
@@ -80,13 +84,13 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isCreated());
 
-        verify(createOrderService).createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any());
+        verify(createOrderService).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void createOrderWithBlankReceiver() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any()))
+        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
                 .willThrow(new OrderFailed("받는 분 성함을 입력해주세요"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order")
@@ -111,13 +115,13 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isBadRequest());
 
-        verify(createOrderService, never()).createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any());
+        verify(createOrderService, never()).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void createOrderWithBlankPhoneNumber() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any()))
+        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
                 .willThrow(new OrderFailed("받는 분 번호를 입력해주세요"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order")
@@ -142,13 +146,13 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isBadRequest());
 
-        verify(createOrderService, never()).createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any());
+        verify(createOrderService, never()).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
     void createOrderWithBlankAddress() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any()))
+        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
                 .willThrow(new OrderFailed("주소를 입력해주세요"));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order")
@@ -173,7 +177,7 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isBadRequest());
 
-        verify(createOrderService, never()).createOrder(any(),any(),any(),any(),any(),any(),any(),any(),any());
+        verify(createOrderService, never()).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
     }
 
     @Test
@@ -187,12 +191,24 @@ class OrderControllerTest {
 
         Page<Order> pageableOrders
                 = new PageImpl<>(orders, PageRequest.of(page - 1, 2), orders.size());
-        given(getOrdersService.searchOrders(any(),any(),any(),any()))
+        given(getOrdersService.searchOrders(any(), any(), any(), any()))
                 .willReturn(pageableOrders);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/orders")
                         .header("Authorization", "Bearer " + token)
                         .param("page", "1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void orderDetail() throws Exception {
+        Long orderId = 1L;
+
+        given(getOrderService.orderDetail(orderId))
+                .willReturn(Order.fake(orderId));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders/1")
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
 }
