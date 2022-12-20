@@ -27,7 +27,8 @@ public class GetOrdersService {
         this.userRepository = userRepository;
     }
 
-    public Page<Order> searchOrders(UserName userName, Pageable pageable, LocalDateTime startDate, LocalDateTime endDate) {
+    public Page<Order> searchOrders(UserName userName, Pageable pageable,
+                                    LocalDateTime startDate, LocalDateTime endDate) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(()-> new UserNotFound());
 

@@ -11,6 +11,7 @@ import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.PhoneNumber;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.services.CreateOrderService;
+import com.junhyeong.shoppingmall.services.GetOrderService;
 import com.junhyeong.shoppingmall.services.GetOrdersService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +38,12 @@ import java.util.List;
 public class OrderController {
     private final CreateOrderService createOrderService;
     private final GetOrdersService getOrdersService;
+    private final GetOrderService getOrderService;
 
-    public OrderController(CreateOrderService createOrderService, GetOrdersService getOrdersService) {
+    public OrderController(CreateOrderService createOrderService, GetOrdersService getOrdersService, GetOrderService getOrderService) {
         this.createOrderService = createOrderService;
         this.getOrdersService = getOrdersService;
+        this.getOrderService = getOrderService;
     }
 
     @GetMapping("orders")
@@ -58,6 +62,15 @@ public class OrderController {
         List<OrderDto> orderDtos = orders.stream().map(Order::toDto).toList();
 
         return new OrdersDto(orderDtos, totalPageCount);
+    }
+
+    @GetMapping("orders/{id}")
+    public OrderDto orderDetail(
+            @RequestAttribute("userName") UserName userName,
+            @PathVariable("id") Long orderId
+    ) {
+        Order order = getOrderService.orderDetail(orderId);
+        return order.toDto();
     }
 
     @PostMapping("order")
