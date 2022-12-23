@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.models.Product;
-import com.junhyeong.shoppingmall.services.ProductService;
+import com.junhyeong.shoppingmall.services.GetProductService;
+import com.junhyeong.shoppingmall.services.GetProductsService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -28,7 +27,10 @@ class ProductControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductService productService;
+    private GetProductService getProductService;
+
+    @MockBean
+    private GetProductsService getProductsService;
 
     @Test
     void products() throws Exception {
@@ -43,14 +45,14 @@ class ProductControllerTest {
         Page<Product> pageableProducts
                 = new PageImpl<>(products, PageRequest.of(page - 1, 2), products.size());
 
-        given(productService.products(page))
+        given(getProductsService.products(page))
                 .willReturn(pageableProducts);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products")
                         .param("page", "1"))
                 .andExpect(status().isOk());
 
-        verify(productService).products(page);
+        verify(getProductsService).products(page);
     }
 
     @Test
@@ -58,11 +60,11 @@ class ProductControllerTest {
         Long productId = 1L;
         Product product = new Product(productId, "남성 패션", "상품 1", "상품 설명 1", 500L, null);
 
-        given(productService.product(productId)).willReturn(product);
+        given(getProductService.product(productId)).willReturn(product);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products/1"))
                 .andExpect(status().isOk());
 
-        verify(productService).product(productId);
+        verify(getProductService).product(productId);
     }
 }

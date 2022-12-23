@@ -3,6 +3,7 @@ package com.junhyeong.shoppingmall.models;
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
 import com.junhyeong.shoppingmall.dtos.OrderResultDto;
+import com.junhyeong.shoppingmall.enums.DeliveryStatus;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.CollectionTable;
@@ -38,6 +39,8 @@ public class Order {
 
     private String deliveryRequest;
 
+    private String deliveryStatus;
+
     @ElementCollection
     @CollectionTable(name = "order_product")
     private List<OrderProduct> orderProducts = new ArrayList<>();
@@ -64,6 +67,7 @@ public class Order {
         this.deliveryRequest = deliveryRequest;
         this.orderProducts = orderProducts;
         this.address = address;
+        this.deliveryStatus = DeliveryStatus.SHIPPED.value();
     }
 
     public Order(Long id, Long userId, PhoneNumber phoneNumber,
@@ -80,25 +84,44 @@ public class Order {
         this.deliveryRequest = deliveryRequest;
         this.orderProducts = orderProducts;
         this.address = address;
+        this.deliveryStatus = DeliveryStatus.SHIPPED.value();
+    }
+
+    public Order(Long id, Long userId, PhoneNumber phoneNumber,
+                 String receiver, Long payment, Long totalPrice,
+                 Long deliveryFee, String deliveryRequest,
+                 String deliveryStatus, List<OrderProduct> orderProducts,
+                 Address address, LocalDateTime createAt) {
+        this.id = id;
+        this.userId = userId;
+        this.phoneNumber = phoneNumber;
+        this.receiver = receiver;
+        this.payment = payment;
+        this.totalPrice = totalPrice;
+        this.deliveryFee = deliveryFee;
+        this.deliveryRequest = deliveryRequest;
+        this.deliveryStatus = deliveryStatus;
+        this.orderProducts = orderProducts;
+        this.address = address;
+        this.createAt = createAt;
     }
 
     public static Order fake(Long orderId) {
         Address address = new Address(123L, "인천", "102호");
         List<OrderProduct> orderProducts = new ArrayList<>();
-        OrderProduct orderProduct = new OrderProduct(1L, "가디건", 10000L, "반짝반짝",1L, null);
+        OrderProduct orderProduct = OrderProduct.fake(1L, 1L);
+//        OrderProduct orderProduct = new OrderProduct(1L, "가디건", 10000L, 1L, "두툼한",1L, null);
         PhoneNumber phoneNumber = new PhoneNumber("01012341234");
         orderProducts.add(orderProduct);
 
-        return new Order(orderId, 1L, phoneNumber, "배준형", 20000L, 17000L, 3000L,
+        return new Order(orderId, 1L, phoneNumber, "배준형", 23000L, 20000L, 3000L,
                 "", orderProducts,  address);
     }
-
-//    public static List<Order> fake()
 
     public OrderResultDto toOrderResultDto() {
         return new OrderResultDto(id, receiver, phoneNumber.value(),
                 address.zipCode(), address.roadAddress(), address.detailAddress(),
-                payment, totalPrice, deliveryFee);
+                payment, totalPrice, deliveryFee, deliveryStatus);
     }
 
     public Long id() {
@@ -145,11 +168,30 @@ public class Order {
         return createAt;
     }
 
-    public OrderDto toDto() {
-        List<OrderProductDto> orderProductDtos = orderProducts.stream().map(OrderProduct::toOrderProduct).toList();
+    public String getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public OrderDto toDto(List<OrderProductDto> orderProductDtos) {
         return new OrderDto(id, receiver, phoneNumber.value(),
                 payment, totalPrice,deliveryFee,
                 deliveryRequest, orderProductDtos,
-                address, createAt);
+                address, createAt, deliveryStatus);
+    }
+
+    public boolean isDelivered() {
+        return this.deliveryStatus.equals(DeliveryStatus.DELIVERED.value());
+    }
+
+    public void toDelivered() {
+        this.deliveryStatus = DeliveryStatus.DELIVERED.value();
+    }
+
+    public void toInTransit() {
+        this.deliveryStatus = DeliveryStatus.IN_TRANSIT.value();
+    }
+
+    public void toShipped() {
+        this.deliveryStatus = DeliveryStatus.SHIPPED.value();
     }
 }

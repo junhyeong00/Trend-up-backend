@@ -6,6 +6,7 @@ import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Option {
@@ -32,7 +33,7 @@ public class Option {
     }
 
     public static Option fake(Long optionId) {
-        return new Option(optionId, 1L, "반짝반짝", 10000L);
+        return new Option(optionId, 1L, "두툼한", 10000L);
     }
 
     public Long id() {

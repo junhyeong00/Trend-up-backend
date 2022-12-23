@@ -1,17 +1,31 @@
 package com.junhyeong.shoppingmall.dtos;
 
-public class OrderProductDto {
-    private Long productId;
-    private String productName;
-    private Long productPrice;
-    private Long optionId;
-    private String productOption;
-    private Long productQuantity;
-    private String productImage;
-    private boolean writable;
+public class ReviewRequestDto {
+    private Long orderId;
 
-    public OrderProductDto(Long productId, String productName, Long productPrice,
-                           Long optionId, String productOption, Long productQuantity, String productImage, boolean writable) {
+    private Long productId;
+
+    private String productName;
+
+    private Long productPrice;
+
+    private Long optionId;
+
+    private String productOption;
+
+    private Long productQuantity;
+
+    private String productImage;
+
+    private Double rating;
+
+    private String content;
+
+    public ReviewRequestDto(Long orderId, Long productId, String productName,
+                            Long productPrice, Long optionId, String productOption,
+                            Long productQuantity, String productImage, Double rating,
+                            String content) {
+        this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -19,7 +33,12 @@ public class OrderProductDto {
         this.productOption = productOption;
         this.productQuantity = productQuantity;
         this.productImage = productImage;
-        this.writable = writable;
+        this.rating = rating;
+        this.content = content;
+    }
+
+    public Long getOrderId() {
+        return orderId;
     }
 
     public Long getProductId() {
@@ -50,7 +69,11 @@ public class OrderProductDto {
         return productImage;
     }
 
-    public boolean isWritable() {
-        return writable;
+    public Double getRating() {
+        return rating;
+    }
+
+    public String getContent() {
+        return content;
     }
 }

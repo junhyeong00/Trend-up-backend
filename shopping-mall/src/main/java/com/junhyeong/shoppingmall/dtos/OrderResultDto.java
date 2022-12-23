@@ -10,10 +10,11 @@ public class OrderResultDto {
     private Long payment;
     private Long totalPrice;
     private Long deliveryFee;
+    private String deliveryStatus;
 
     public OrderResultDto(Long orderId, String receiver, String phoneNumber,
                           Long zipCode, String roadAddress, String detailAddress,
-                          Long payment, Long totalPrice, Long deliveryFee) {
+                          Long payment, Long totalPrice, Long deliveryFee, String deliveryStatus) {
         this.orderId = orderId;
         this.receiver = receiver;
         this.phoneNumber = phoneNumber;
@@ -23,6 +24,7 @@ public class OrderResultDto {
         this.payment = payment;
         this.totalPrice = totalPrice;
         this.deliveryFee = deliveryFee;
+        this.deliveryStatus = deliveryStatus;
     }
 
     public Long getOrderId() {
@@ -59,5 +61,9 @@ public class OrderResultDto {
 
     public Long getDeliveryFee() {
         return deliveryFee;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
     }
 }

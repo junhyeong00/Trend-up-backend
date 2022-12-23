@@ -3,7 +3,8 @@ package com.junhyeong.shoppingmall.controllers;
 import com.junhyeong.shoppingmall.dtos.ProductDto;
 import com.junhyeong.shoppingmall.dtos.ProductsDto;
 import com.junhyeong.shoppingmall.models.Product;
-import com.junhyeong.shoppingmall.services.ProductService;
+import com.junhyeong.shoppingmall.services.GetProductService;
+import com.junhyeong.shoppingmall.services.GetProductsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -18,17 +19,20 @@ import java.util.List;
 @RestController
 @RequestMapping("products")
 public class ProductController {
-    private ProductService productService;
+    private GetProductService getProductService;
+    private GetProductsService getProductsService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(GetProductService getProductService,
+                             GetProductsService getProductsService) {
+        this.getProductService = getProductService;
+        this.getProductsService = getProductsService;
     }
 
     @GetMapping
     public ProductsDto products(
             @RequestParam(required = false, defaultValue = "1") Integer page
     ) {
-        Page<Product> products = productService.products(page);
+        Page<Product> products = getProductsService.products(page);
 
         int totalPageCount = products.getTotalPages();
 
@@ -45,7 +49,7 @@ public class ProductController {
     public ProductDto product(
             @PathVariable("id") Long productId
     ) {
-        Product product = productService.product(productId);
+        Product product = getProductService.product(productId);
         return product.toDto();
     }
 }

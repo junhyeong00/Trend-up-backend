@@ -13,21 +13,21 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class ProductServiceTest {
+class GetProductsServiceTest {
     private ProductRepository productRepository;
-    private ProductService productService;
+    private GetProductsService getProductsService;
 
     @BeforeEach
     void setup() {
 
+
         productRepository = mock(ProductRepository.class);
-        productService = new ProductService(productRepository);
+        getProductsService = new GetProductsService(productRepository);
     }
 
     @Test
@@ -45,23 +45,10 @@ class ProductServiceTest {
 
         given(productRepository.findAll(any(Pageable.class))).willReturn(pageableProducts);
 
-        productService.products(page);
+        getProductsService.products(page);
 
         assertThat(pageableProducts).hasSize(products.size());
 
         verify(productRepository).findAll(any(Pageable.class));
-    }
-
-    @Test
-    void product() {
-        Product product = new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null);
-
-        given(productRepository.findById(product.id())).willReturn(Optional.of(product));
-
-        Product found = productService.product(product.id());
-
-        assertThat(found).isNotNull();
-
-        verify(productRepository).findById(product.id());
     }
 }

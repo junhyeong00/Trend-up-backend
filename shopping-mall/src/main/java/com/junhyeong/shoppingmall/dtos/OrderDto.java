@@ -2,11 +2,8 @@ package com.junhyeong.shoppingmall.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.junhyeong.shoppingmall.models.Address;
-import com.junhyeong.shoppingmall.models.PhoneNumber;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 
 public class OrderDto {
@@ -24,11 +21,12 @@ public class OrderDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createAt;
+    private String deliveryStatus;
 
     public OrderDto(Long id, String receiver, String phoneNumber,
                     Long payment, Long totalPrice, Long deliveryFee,
                     String deliveryRequest, List<OrderProductDto> orderProducts,
-                    Address address, LocalDateTime createAt) {
+                    Address address, LocalDateTime createAt, String deliveryStatus) {
         this.id = id;
         this.receiver = receiver;
         this.phoneNumber = phoneNumber;
@@ -41,6 +39,7 @@ public class OrderDto {
         this.roadAddress = address.roadAddress();
         this.detailAddress = address.detailAddress();
         this.createAt = createAt;
+        this.deliveryStatus = deliveryStatus;
     }
 
     public Long getId() {
@@ -89,5 +88,9 @@ public class OrderDto {
 
     public LocalDateTime getCreateAt() {
         return createAt;
+    }
+
+    public String getDeliveryStatus() {
+        return deliveryStatus;
     }
 }

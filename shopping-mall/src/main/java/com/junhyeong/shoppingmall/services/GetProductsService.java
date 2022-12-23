@@ -12,19 +12,15 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class ProductService {
+public class GetProductsService {
     private ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public GetProductsService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     public Page<Product> products(Integer page) {
         Pageable pageable = PageRequest.of(page -1, 8);
         return productRepository.findAll(pageable);
-    }
-
-    public Product product(Long productId) {
-        return productRepository.findById(productId).orElseThrow(() -> new ProductNotFound());
     }
 }

@@ -64,7 +64,7 @@ public class User {
     }
 
     public static User fake(UserName userName) {
-        return new User(userName, "배준형", "01012345678");
+        return new User(userName, "배준형", "01012341234");
     }
 
     public void changePassword(String password, PasswordEncoder passwordEncoder) {
