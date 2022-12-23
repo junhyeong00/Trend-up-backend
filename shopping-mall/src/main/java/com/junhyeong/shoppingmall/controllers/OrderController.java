@@ -59,7 +59,7 @@ public class OrderController {
 
         int totalPageCount = orders.getTotalPages();
 
-        List<OrderDto> orderDtos = orders.stream().map(Order::toDto).toList();
+        List<OrderDto> orderDtos = getOrdersService.toDto(orders);
 
         return new OrdersDto(orderDtos, totalPageCount);
     }
@@ -70,7 +70,9 @@ public class OrderController {
             @PathVariable("id") Long orderId
     ) {
         Order order = getOrderService.orderDetail(orderId);
-        return order.toDto();
+
+        OrderDto orderDto = getOrderService.toDto(order);
+        return orderDto;
     }
 
     @PostMapping("order")

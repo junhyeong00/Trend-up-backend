@@ -28,8 +28,8 @@ public class BackdoorController {
 
         jdbcTemplate.update("INSERT INTO " +
                         "product(id, category, name, description, price, image, create_at)" +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                1, "남성 패션", "가디건", "가볍다", 50000L, null, now);
+                        "VALUES(?, ?, ?, ?, ?, ?, ?)",
+                1, "남성 패션", "가디건", "가볍다", 50000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
@@ -43,8 +43,8 @@ public class BackdoorController {
 
         jdbcTemplate.update("INSERT INTO " +
                         "product(id, category, name, description, price, image, create_at)" +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                2, "남성 패션", "신발", "가볍다", 40000L, null, now);
+                        "VALUES(?, ?, ?, ?, ?, ?, ?)",
+                2, "남성 패션", "신발", "가볍다", 40000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
@@ -58,13 +58,14 @@ public class BackdoorController {
 
         jdbcTemplate.update("INSERT INTO " +
                         "product(id, category, name, description, price, image, create_at)" +
-                        "VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
-                3, "화장품/미용", "수분크림", "촉촉하다", 20000L, null, now);
+                        "VALUES(?, ?, ?, ?, ?, ?, ?)",
+                3, "화장품/미용", "수분크림", "촉촉하다", 20000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
                 "VALUES(5, '촉촉', 0, 3, 8)"
         );
+
         return "OK";
     }
 

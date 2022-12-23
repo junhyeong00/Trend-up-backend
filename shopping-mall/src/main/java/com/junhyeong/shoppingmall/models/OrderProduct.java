@@ -12,6 +12,8 @@ public class OrderProduct {
 
     private Long productPrice;
 
+    private Long optionId;
+
     private String productOption;
 
     private Long productQuantity;
@@ -21,14 +23,23 @@ public class OrderProduct {
     public OrderProduct() {
     }
 
-    public OrderProduct(Long productId, String productName, Long productPrice,
-                        String productOption, Long productQuantity, String productImage) {
+    public OrderProduct(Long productId, String productName,
+                        Long productPrice, Long optionId,
+                        String productOption, Long productQuantity,
+                        String productImage) {
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
+        this.optionId = optionId;
         this.productOption = productOption;
         this.productQuantity = productQuantity;
         this.productImage = productImage;
+    }
+
+    public static OrderProduct fake(Long productId, Long optionId) {
+        Product product = Product.fake(productId);
+        Option option = Option.fake(optionId);
+        return new OrderProduct(productId, product.name(), 10000L, optionId, option.name(), 1L, null);
     }
 
     public Long productId() {
@@ -43,6 +54,10 @@ public class OrderProduct {
         return productPrice;
     }
 
+    public Long optionId() {
+        return optionId;
+    }
+
     public Long productQuantity() {
         return productQuantity;
     }
@@ -55,8 +70,8 @@ public class OrderProduct {
         return productImage;
     }
 
-    public OrderProductDto toOrderProduct() {
-        return new OrderProductDto(productId, productName, productPrice,
-                productOption, productQuantity, productImage);
+    public OrderProductDto toOrderProductDto(boolean writable) {
+        return new OrderProductDto(productId, productName, productPrice, optionId,
+                productOption, productQuantity, productImage, writable);
     }
 }

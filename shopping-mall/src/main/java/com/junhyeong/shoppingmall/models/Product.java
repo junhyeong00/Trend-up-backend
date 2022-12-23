@@ -19,8 +19,6 @@ public class Product {
     private String name;
 
     private String description;
-//
-//    private Integer productCount;
 
     private Long price;
 

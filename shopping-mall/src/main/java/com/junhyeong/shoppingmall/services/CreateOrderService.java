@@ -57,7 +57,7 @@ public class CreateOrderService {
             Long productPrice = product.price() + option.optionPrice();
 
             OrderProduct orderProduct = new OrderProduct(
-                    product.id(), product.name(), productPrice, option.name(),
+                    product.id(), product.name(), productPrice, option.id(), option.name(),
                     orderProductDto.getQuantity(), product.image());
 
             orderProducts.add(orderProduct);
