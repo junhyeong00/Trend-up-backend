@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -95,5 +95,10 @@ public class Review {
 
     public ReviewResultDto toResultDto() {
         return new ReviewResultDto(id);
+    }
+
+    public ReviewDto toDto(UserName userName) {
+        return new ReviewDto(id, rating, content, image, orderProduct.productName(),
+                orderProduct.productOption(), userName, createAt);
     }
 }

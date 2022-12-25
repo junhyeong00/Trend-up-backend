@@ -3,12 +3,10 @@ package com.junhyeong.shoppingmall.services;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.OrderProduct;
-import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
-import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +62,7 @@ class CreateReviewServiceTest {
         OrderProduct orderProduct = OrderProduct.fake(productId, optionId);
 
         Review review = createReviewService.write(
-                userName, 5.0D, "부드럽고 따듯해요", orderId,  orderProduct);
+                userName, 5.0D, "부드럽고 따듯해요", orderId, "", orderProduct);
 
         assertThat(review).isNotNull();
 
@@ -92,7 +90,7 @@ class CreateReviewServiceTest {
         OrderProduct orderProduct = OrderProduct.fake(productId, optionId);
 
         assertThrows(ReviewWriteFailed.class, () -> {
-            createReviewService.write(userName, 5.0D, "부드럽고 따듯해요",  orderId, orderProduct);
+            createReviewService.write(userName, 5.0D, "부드럽고 따듯해요",  orderId, "", orderProduct);
         });
     }
 
@@ -119,7 +117,7 @@ class CreateReviewServiceTest {
                 .willThrow(new ReviewWriteFailed("이미 작성한 리뷰입니다"));
 
         assertThrows(ReviewWriteFailed.class, () -> {
-            createReviewService.write(userName, 5.0D, "부드럽고 따듯해요",  orderId, orderProduct);
+            createReviewService.write(userName, 5.0D, "부드럽고 따듯해요",  orderId, "", orderProduct);
         });
     }
 }
