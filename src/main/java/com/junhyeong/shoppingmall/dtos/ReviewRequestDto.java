@@ -21,10 +21,12 @@ public class ReviewRequestDto {
 
     private String content;
 
+    private String imageUrl;
+
     public ReviewRequestDto(Long orderId, Long productId, String productName,
                             Long productPrice, Long optionId, String productOption,
                             Long productQuantity, String productImage, Double rating,
-                            String content) {
+                            String content, String imageUrl) {
         this.orderId = orderId;
         this.productId = productId;
         this.productName = productName;
@@ -35,6 +37,7 @@ public class ReviewRequestDto {
         this.productImage = productImage;
         this.rating = rating;
         this.content = content;
+        this.imageUrl = imageUrl;
     }
 
     public Long getOrderId() {
@@ -75,5 +78,9 @@ public class ReviewRequestDto {
 
     public String getContent() {
         return content;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 }

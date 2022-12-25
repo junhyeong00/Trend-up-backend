@@ -34,7 +34,7 @@ public class CreateReviewService {
 
     public Review write(UserName userName, Double rating,
                         String content, Long orderId,
-                        OrderProduct orderProduct) {
+                        String imageUrl, OrderProduct orderProduct) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
 
@@ -57,7 +57,7 @@ public class CreateReviewService {
             throw new ReviewWriteFailed("이미 작성한 리뷰입니다");
         }
 
-        Review review = new Review(user.id(), orderId, orderProduct, rating, content, "");
+        Review review = new Review(user.id(), orderId, orderProduct, rating, content, imageUrl);
 
         reviewRepository.save(review);
         return review;
