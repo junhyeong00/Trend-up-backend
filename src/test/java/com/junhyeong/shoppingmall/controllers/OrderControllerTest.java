@@ -2,7 +2,6 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.services.CreateOrderService;
 import com.junhyeong.shoppingmall.services.GetOrderService;

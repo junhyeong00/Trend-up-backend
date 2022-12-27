@@ -2,13 +2,13 @@ package com.junhyeong.shoppingmall.dtos;
 
 import java.util.List;
 
-public class ReviewsDto {
+public class ProductReviewsDto {
     private List<ReviewDto> reviews;
     private int totalPageCount;
     private Long totalReviewCount;
     private Double totalRating;
 
-    public ReviewsDto(List<ReviewDto> reviews, int totalPageCount, Long totalReviewCount, double totalRating) {
+    public ProductReviewsDto(List<ReviewDto> reviews, int totalPageCount, Long totalReviewCount, double totalRating) {
         this.reviews = reviews;
         this.totalPageCount = totalPageCount;
         this.totalReviewCount = totalReviewCount;

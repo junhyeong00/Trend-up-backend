@@ -1,15 +1,11 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.Address;
 import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.OrderProduct;
-import com.junhyeong.shoppingmall.models.PhoneNumber;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
-import com.junhyeong.shoppingmall.specifications.OrderSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -18,9 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

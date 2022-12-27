@@ -29,6 +29,18 @@ public class ReviewDto {
         this.createAt = createAt;
     }
 
+    public ReviewDto(Long id, Double rating, String content, String image,
+                     String productName, String productOption,
+                     LocalDateTime createAt) {
+        this.id = id;
+        this.rating = rating;
+        this.content = content;
+        this.image = image;
+        this.productName = productName;
+        this.productOption = productOption;
+        this.createAt = createAt;
+    }
+
     public Long getId() {
         return id;
     }

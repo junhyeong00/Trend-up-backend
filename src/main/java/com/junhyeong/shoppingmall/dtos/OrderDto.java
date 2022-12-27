@@ -19,7 +19,7 @@ public class OrderDto {
     private String roadAddress;
     private String detailAddress;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createAt;
     private String deliveryStatus;
 
