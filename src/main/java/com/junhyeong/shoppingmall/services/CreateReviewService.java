@@ -1,6 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
+import com.junhyeong.shoppingmall.exceptions.ReviewNotFound;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Order;
@@ -16,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -54,6 +56,12 @@ public class CreateReviewService {
         spec = spec.and(ReviewSpecification.equalOptionId(orderProduct.optionId()));
 
         if (reviewRepository.exists(spec)) {
+            Optional<Review> review = reviewRepository.findOne(spec);
+
+            if (review.get().isDeleted()) {
+                throw new ReviewWriteFailed("삭제한 리뷰는 재등록이 불가능합니다");
+            }
+
             throw new ReviewWriteFailed("이미 작성한 리뷰입니다");
         }
 

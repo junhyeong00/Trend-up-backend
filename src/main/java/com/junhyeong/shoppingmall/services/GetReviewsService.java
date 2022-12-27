@@ -1,9 +1,11 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.dtos.MyReviewsDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.models.User;
+import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import com.junhyeong.shoppingmall.specifications.ReviewSpecification;
@@ -28,6 +30,8 @@ public class GetReviewsService {
 
     public Page<Review> reviews(Long productId, Pageable pageable) {
         Specification<Review> spec = Specification.where(ReviewSpecification.equalProductId(productId));
+        spec = spec.and(ReviewSpecification.isFalseDeletedStatus());
+
         return reviewRepository.findAll(spec ,pageable);
     }
 
@@ -46,5 +50,21 @@ public class GetReviewsService {
         return reviews.stream().
                 mapToDouble(review -> review.rating()).
                 reduce(0, (acc, rating) -> acc + rating) / totalReviewCount;
+    }
+
+    public MyReviewsDto myReviews(UserName userName, Pageable pageable) {
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(UserNotFound::new);
+
+        Specification<Review> spec = Specification.where(ReviewSpecification.equalUserId(user.id()));
+        spec = spec.and(ReviewSpecification.isFalseDeletedStatus());
+
+        Page<Review> reviews = reviewRepository.findAll(spec, pageable);
+
+        List<ReviewDto> reviewDtos = toDto(reviews);
+
+        int totalPageCount = reviews.getTotalPages();
+
+        return new MyReviewsDto(reviewDtos, totalPageCount);
     }
 }

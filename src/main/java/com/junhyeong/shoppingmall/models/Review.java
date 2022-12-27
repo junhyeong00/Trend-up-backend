@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +33,8 @@ public class Review {
     @CreationTimestamp
     private LocalDateTime createAt;
 
+    private Boolean isDeleted;
+
     public Review() {
     }
 
@@ -43,6 +46,7 @@ public class Review {
         this.rating = rating;
         this.content = content;
         this.image = image;
+        this.isDeleted = false;
     }
 
     public Review(Long id, Long userId, Long orderId,
@@ -54,6 +58,19 @@ public class Review {
         this.orderProduct = orderProduct;
         this.rating = rating;
         this.content = content;
+        this.isDeleted = false;
+    }
+
+    public Review(Long id, Long userId, Long orderId, OrderProduct orderProduct,
+                  Double rating, String content, LocalDateTime createAt) {
+        this.id = id;
+        this.userId = userId;
+        this.orderId = orderId;
+        this.orderProduct = orderProduct;
+        this.rating = rating;
+        this.content = content;
+        this.createAt = createAt;
+        this.isDeleted = false;
     }
 
     public static Review fake(Long reviewId) {
@@ -93,6 +110,10 @@ public class Review {
         return createAt;
     }
 
+    public Boolean isDeleted() {
+        return isDeleted;
+    }
+
     public ReviewResultDto toResultDto() {
         return new ReviewResultDto(id);
     }
@@ -100,5 +121,18 @@ public class Review {
     public ReviewDto toDto(UserName userName) {
         return new ReviewDto(id, rating, content, image, orderProduct.productName(),
                 orderProduct.productOption(), userName, createAt);
+    }
+
+    public ReviewDto toDto() {
+        return new ReviewDto(id, rating, content, image, orderProduct.productName(),
+                orderProduct.productOption(), createAt);
+    }
+
+    public void delete() {
+        this.isDeleted = true;
+    }
+
+    public DeleteReviewDto toDeleteDto() {
+        return new DeleteReviewDto(id);
     }
 }

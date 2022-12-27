@@ -50,4 +50,13 @@ public class ReviewSpecification {
             }
         };
     }
+
+    public static Specification<Review> isFalseDeletedStatus() {
+        return new Specification<Review>() {
+            @Override
+            public Predicate toPredicate(Root<Review> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.isFalse(root.get("isDeleted"));
+            }
+        };
+    }
 }

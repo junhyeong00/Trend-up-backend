@@ -2,7 +2,6 @@ package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
-import com.junhyeong.shoppingmall.enums.DeliveryStatus;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.Review;

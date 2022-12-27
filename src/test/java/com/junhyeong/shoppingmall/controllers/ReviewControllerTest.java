@@ -1,11 +1,14 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.OrderProduct;
 import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.models.UserName;
 import com.junhyeong.shoppingmall.services.CreateReviewService;
+import com.junhyeong.shoppingmall.services.DeleteReviewsService;
+import com.junhyeong.shoppingmall.services.GetReviewService;
 import com.junhyeong.shoppingmall.services.GetReviewsService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +21,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -42,6 +48,12 @@ class ReviewControllerTest {
 
     @MockBean
     private GetReviewsService getReviewsService;
+
+    @MockBean
+    private GetReviewService getReviewService;
+
+    @MockBean
+    private DeleteReviewsService deleteReviewsService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -123,14 +135,14 @@ class ReviewControllerTest {
         OrderProduct orderProduct = OrderProduct.fake(1L, 1L);
 
         List<Review> reviews = List.of(
-                new Review(1L, 1L, 1L, orderProduct, 5D, "부드럽고 따뜻해요"),
-                new Review(2L, 1L, 1L, orderProduct, 5D, "부드럽고 따뜻해요"),
-                new Review(3L, 1L, 1L, orderProduct, 5D, "부드럽고 따뜻해요")
+                new Review(1L, 1L, 1L, orderProduct, 5D, "부드럽고 따뜻해요", LocalDateTime.of(12, 3,1,0,0)),
+                new Review(2L, 1L, 1L, orderProduct, 5D, "부드럽고 따뜻해요", LocalDateTime.of(12, 2,1,0,0)),
+                new Review(3L, 1L, 1L, orderProduct, 5D, "부드럽고 따뜻해요", LocalDateTime.of(12, 1,1,0,0))
         );
 
         int page = 1;
 
-        Pageable pageable = PageRequest.of(page - 1, 8);
+        Pageable pageable = PageRequest.of(page - 1, 8, Sort.by("createAt").descending());
 
         Page<Review> pageableReview = new PageImpl<>(reviews, pageable, reviews.size());
 
@@ -141,5 +153,25 @@ class ReviewControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products/1/reviews"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void review() throws Exception {
+        Long reviewId = 1L;
+
+        given(getReviewService.review(reviewId))
+                .willReturn(Review.fake(reviewId).toDto());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/reviews/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void delete() throws Exception {
+        Long reviewId = 1L;
+        mockMvc.perform(MockMvcRequestBuilders.delete("/reviews/1"))
+                .andExpect(status().isOk());
+
+        verify(deleteReviewsService).delete(reviewId);
     }
 }
