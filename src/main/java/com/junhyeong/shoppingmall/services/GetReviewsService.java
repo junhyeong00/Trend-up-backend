@@ -32,7 +32,7 @@ public class GetReviewsService {
         Specification<Review> spec = Specification.where(ReviewSpecification.equalProductId(productId));
         spec = spec.and(ReviewSpecification.isFalseDeletedStatus());
 
-        return reviewRepository.findAll(spec ,pageable);
+        return reviewRepository.findAll(spec, pageable);
     }
 
     public List<ReviewDto> toDto(Page<Review> reviews) {
@@ -45,11 +45,12 @@ public class GetReviewsService {
 
     public double totalRating(Long productId, Long totalReviewCount) {
         Specification<Review> spec = Specification.where(ReviewSpecification.equalProductId(productId));
+        spec = spec.and(ReviewSpecification.isFalseDeletedStatus());
         List<Review> reviews = reviewRepository.findAll(spec);
 
         return reviews.stream().
-                mapToDouble(review -> review.rating()).
-                reduce(0, (acc, rating) -> acc + rating) / totalReviewCount;
+                mapToDouble(review ->review.rating()).
+        reduce(0, (acc, rating) -> acc + rating) / totalReviewCount;
     }
 
     public MyReviewsDto myReviews(UserName userName, Pageable pageable) {

@@ -135,4 +135,10 @@ public class Review {
     public DeleteReviewDto toDeleteDto() {
         return new DeleteReviewDto(id);
     }
+
+    public void update(double rating, String content, String image) {
+        this.rating = rating;
+        this.content = content;
+        this.image = image;
+    }
 }

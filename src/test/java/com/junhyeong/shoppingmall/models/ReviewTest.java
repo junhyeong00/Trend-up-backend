@@ -17,4 +17,14 @@ class ReviewTest {
 
         assertThat(review.isDeleted()).isTrue();
     }
+
+    @Test
+    void update() {
+        Long reviewId = 1L;
+        Review review = Review.fake(reviewId);
+
+        review.update(3D, "좋아요", null);
+
+        assertThat(review.rating()).isEqualTo(3D);
+    }
 }
