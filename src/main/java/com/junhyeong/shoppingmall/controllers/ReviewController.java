@@ -2,6 +2,7 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.MyReviewsDto;
+import com.junhyeong.shoppingmall.dtos.PatchReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewRequestDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
@@ -14,6 +15,7 @@ import com.junhyeong.shoppingmall.services.CreateReviewService;
 import com.junhyeong.shoppingmall.services.DeleteReviewsService;
 import com.junhyeong.shoppingmall.services.GetReviewService;
 import com.junhyeong.shoppingmall.services.GetReviewsService;
+import com.junhyeong.shoppingmall.services.PatchReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -37,15 +40,18 @@ public class ReviewController {
     private final GetReviewsService getReviewsService;
     private final GetReviewService getReviewService;
     private final DeleteReviewsService deleteReviewsService;
+    private final PatchReviewService patchReviewService;
+
 
     public ReviewController(CreateReviewService createReviewService,
                             GetReviewsService getReviewsService,
                             GetReviewService getReviewService,
-                            DeleteReviewsService deleteReviewsService) {
+                            DeleteReviewsService deleteReviewsService, PatchReviewService patchReviewService) {
         this.createReviewService = createReviewService;
         this.getReviewsService = getReviewsService;
         this.getReviewService = getReviewService;
         this.deleteReviewsService = deleteReviewsService;
+        this.patchReviewService = patchReviewService;
     }
 
     @GetMapping("products/{productId}/reviews")
@@ -114,6 +120,19 @@ public class ReviewController {
             @PathVariable("id") Long reviewId
     ) {
         return deleteReviewsService.delete(reviewId);
+    }
+
+    @PatchMapping("reviews/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void edit(
+            @RequestBody PatchReviewDto patchReviewDto,
+            @PathVariable("id") Long reviewId
+    ) {
+        patchReviewService.edit(
+                reviewId,
+                patchReviewDto.getRating(),
+                patchReviewDto.getContent(),
+                patchReviewDto.getImageUrl());
     }
 
     @ExceptionHandler(ReviewWriteFailed.class)

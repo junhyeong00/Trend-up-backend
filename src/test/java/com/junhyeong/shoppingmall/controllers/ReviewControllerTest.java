@@ -1,6 +1,5 @@
 package com.junhyeong.shoppingmall.controllers;
 
-import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.OrderProduct;
@@ -10,6 +9,7 @@ import com.junhyeong.shoppingmall.services.CreateReviewService;
 import com.junhyeong.shoppingmall.services.DeleteReviewsService;
 import com.junhyeong.shoppingmall.services.GetReviewService;
 import com.junhyeong.shoppingmall.services.GetReviewsService;
+import com.junhyeong.shoppingmall.services.PatchReviewService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -54,6 +53,9 @@ class ReviewControllerTest {
 
     @MockBean
     private DeleteReviewsService deleteReviewsService;
+
+    @MockBean
+    private PatchReviewService patchReviewService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -169,9 +171,23 @@ class ReviewControllerTest {
     @Test
     void delete() throws Exception {
         Long reviewId = 1L;
+
         mockMvc.perform(MockMvcRequestBuilders.delete("/reviews/1"))
                 .andExpect(status().isOk());
 
         verify(deleteReviewsService).delete(reviewId);
+    }
+
+    @Test
+    void edit() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.patch("/reviews/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"rating\":\"5\", " +
+                                "\"content\":\"부드럽고 따뜻해요\"" +
+                                "}"))
+                .andExpect(status().isNoContent());
+
+        verify(patchReviewService).edit(any(), any(), any(), any());
     }
 }
