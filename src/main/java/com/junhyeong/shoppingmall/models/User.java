@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,6 +28,9 @@ public class User {
 
     private String phoneNumber;
 
+    @Embedded
+    private Cart cart;
+
     @CreationTimestamp
     private LocalDateTime createAt;
 
@@ -39,12 +43,14 @@ public class User {
         this.userName = userName;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.cart = new Cart("{\"items\":[]}");
     }
 
     public User(UserName userName, String name, String phoneNumber) {
         this.userName = userName;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.cart = new Cart("{\"items\":[]}");
     }
 
     public Long id() {
@@ -63,6 +69,10 @@ public class User {
         return phoneNumber;
     }
 
+    public Cart cart() {
+        return cart;
+    }
+
     public static User fake(UserName userName) {
         return new User(userName, "배준형", "01012341234");
     }
@@ -77,5 +87,9 @@ public class User {
 
     public UserDto toDto() {
         return new UserDto(id, userName.value(), name, phoneNumber);
+    }
+
+    public void updateCart(Cart cart) {
+        this.cart = cart;
     }
 }
