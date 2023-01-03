@@ -25,11 +25,27 @@ public class BackdoorController {
 
         jdbcTemplate.execute("DELETE FROM product");
         jdbcTemplate.execute("DELETE FROM option");
+        jdbcTemplate.execute("DELETE FROM category");
 
         jdbcTemplate.update("INSERT INTO " +
-                        "product(id, category, name, description, price, image, create_at)" +
+                        "category(id, name)" +
+                        "VALUES(?, ?)",
+                1, "상의");
+
+        jdbcTemplate.update("INSERT INTO " +
+                        "category(id, name)" +
+                        "VALUES(?, ?)",
+                2, "하의");
+
+        jdbcTemplate.update("INSERT INTO " +
+                        "category(id, name)" +
+                        "VALUES(?, ?)",
+                3, "신발");
+
+        jdbcTemplate.update("INSERT INTO " +
+                        "product(id, category_id, name, description, price, image, create_at)" +
                         "VALUES(?, ?, ?, ?, ?, ?, ?)",
-                1, "남성 패션", "가디건", "가볍다", 50000L, "", now);
+                1, 1, "가디건", "가볍다", 50000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
@@ -42,9 +58,9 @@ public class BackdoorController {
         );
 
         jdbcTemplate.update("INSERT INTO " +
-                        "product(id, category, name, description, price, image, create_at)" +
+                        "product(id, category_id, name, description, price, image, create_at)" +
                         "VALUES(?, ?, ?, ?, ?, ?, ?)",
-                2, "남성 패션", "신발", "가볍다", 40000L, "", now);
+                2, 3, "신발", "가볍다", 40000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
@@ -57,13 +73,19 @@ public class BackdoorController {
         );
 
         jdbcTemplate.update("INSERT INTO " +
-                        "product(id, category, name, description, price, image, create_at)" +
+                        "product(id, category_id, name, description, price, image, create_at)" +
                         "VALUES(?, ?, ?, ?, ?, ?, ?)",
-                3, "화장품/미용", "수분크림", "촉촉하다", 20000L, "", now);
+                3, 2, "청바지", "파랗다", 20000L,
+                "http://res.cloudinary.com/dywsfe5du/image/upload/v1671960484/wsvymh09izmwpt73vz99.jpg", now);
 
         jdbcTemplate.execute("INSERT INTO " +
                 "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(5, '촉촉', 0, 3, 8)"
+                "VALUES(5, '사이즈 28', 0, 3, 8)"
+        );
+
+        jdbcTemplate.execute("INSERT INTO " +
+                "option(id, name, option_price, product_id, stock_quantity)" +
+                "VALUES(6, '사이즈 30', 0, 3, 8)"
         );
 
         return "OK";
@@ -80,6 +102,25 @@ public class BackdoorController {
                         "VALUES(1, ?, ?, ?, 01012345678, ?)",
                 "test123", passwordEncoder.encode("test123"), "배준형", now);
 
+        return "OK";
+    }
+
+    @GetMapping("setup-reviews")
+    public String setupReviews() {
+        LocalDateTime now = LocalDateTime.now();
+
+        jdbcTemplate.execute("DELETE FROM review");
+
+//        jdbcTemplate.update("INSERT INTO " +
+//                        "review(id, user_id, order_id, order_product, rating, content, image, create_at, isDeleted)" +
+//                        "VALUES(1, ?, ?, ?, 01012345678, ?)",
+//                "test123", passwordEncoder.encode("test123"), "배준형", now);
+        return "OK";
+    }
+
+    @GetMapping("setup-orders")
+    public String setupOrders() {
+        // TODO orders
         return "OK";
     }
 }

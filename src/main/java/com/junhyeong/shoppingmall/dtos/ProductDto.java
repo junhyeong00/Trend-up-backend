@@ -2,15 +2,15 @@ package com.junhyeong.shoppingmall.dtos;
 
 public class ProductDto {
     private Long id;
-    private String category;
+    private Long categoryId;
     private String name;
     private String description;
     private Long price;
     private String image;
 
-    public ProductDto(Long id, String category, String name, String description, Long price, String image) {
+    public ProductDto(Long id, Long category, String name, String description, Long price, String image) {
         this.id = id;
-        this.category = category;
+        this.categoryId = category;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -21,8 +21,8 @@ public class ProductDto {
         return id;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategory() {
+        return categoryId;
     }
 
     public String getName() {

@@ -19,8 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("products")
 public class ProductController {
-    private GetProductService getProductService;
-    private GetProductsService getProductsService;
+    private final GetProductService getProductService;
+    private final GetProductsService getProductsService;
 
     public ProductController(GetProductService getProductService,
                              GetProductsService getProductsService) {
@@ -30,9 +30,11 @@ public class ProductController {
 
     @GetMapping
     public ProductsDto products(
-            @RequestParam(required = false, defaultValue = "1") Integer page
+            @RequestParam(required = false, defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "0") Long categoryId,
+            @RequestParam(required = false) String keyword
     ) {
-        Page<Product> products = getProductsService.products(page);
+        Page<Product> products = getProductsService.products(page, categoryId, keyword);
 
         int totalPageCount = products.getTotalPages();
 
