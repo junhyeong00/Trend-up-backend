@@ -31,7 +31,9 @@ class GetProductServiceTest {
 
     @Test
     void product() {
-        Product product = new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null);
+        Long categoryId = 1L;
+
+        Product product = new Product(1L, categoryId, "상품 1", "상품 설명 1", 500L, null);
 
         given(productRepository.findById(product.id())).willReturn(Optional.of(product));
 

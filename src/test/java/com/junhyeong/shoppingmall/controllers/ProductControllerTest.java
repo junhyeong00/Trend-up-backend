@@ -34,10 +34,12 @@ class ProductControllerTest {
 
     @Test
     void products() throws Exception {
+        Long categoryId = 0L;
+
         List<Product> products = List.of(
-                new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null),
-                new Product(2L, "남성 패션", "상품 2", "상품 설명 2", 5000L, null),
-                new Product(2L, "남성 패션", "상품 3", "상품 설명 3", 5000L, null)
+                new Product(1L, categoryId, "상품 1", "상품 설명 1", 500L, null),
+                new Product(2L, categoryId, "상품 2", "상품 설명 2", 5000L, null),
+                new Product(2L, categoryId, "상품 3", "상품 설명 3", 5000L, null)
         );
 
         int page = 1;
@@ -45,20 +47,24 @@ class ProductControllerTest {
         Page<Product> pageableProducts
                 = new PageImpl<>(products, PageRequest.of(page - 1, 2), products.size());
 
-        given(getProductsService.products(page))
+        String keyword = null;
+
+        given(getProductsService.products(page, categoryId, keyword))
                 .willReturn(pageableProducts);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products")
                         .param("page", "1"))
                 .andExpect(status().isOk());
 
-        verify(getProductsService).products(page);
+        verify(getProductsService).products(page, categoryId, keyword);
     }
 
     @Test
     void product() throws Exception {
         Long productId = 1L;
-        Product product = new Product(productId, "남성 패션", "상품 1", "상품 설명 1", 500L, null);
+        Long categoryId = 1L;
+
+        Product product = new Product(productId, categoryId, "상품 1", "상품 설명 1", 500L, null);
 
         given(getProductService.product(productId)).willReturn(product);
 

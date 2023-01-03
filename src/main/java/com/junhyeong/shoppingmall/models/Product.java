@@ -14,7 +14,7 @@ public class Product {
     @GeneratedValue
     private Long id;
 
-    private String category;
+    private Long categoryId;
 
     private String name;
 
@@ -30,11 +30,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String category, String name,
+    public Product(Long id, Long categoryId, String name,
                    String description, Long price,
                    String image, LocalDateTime createAt) {
         this.id = id;
-        this.category = category;
+        this.categoryId = categoryId;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -42,9 +42,9 @@ public class Product {
         this.createAt = createAt;
     }
 
-    public Product(Long id, String category, String name, String description, Long price, String image) {
+    public Product(Long id, Long categoryId, String name, String description, Long price, String image) {
         this.id = id;
-        this.category = category;
+        this.categoryId = categoryId;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -52,19 +52,21 @@ public class Product {
     }
 
     public static Product fake(Long id) {
-        return new Product(id, "남성패션", "가디건", "",  10000L, "");
+        Long categoryId = 1L;
+        Category category = Category.fake(categoryId);
+        return new Product(id, category.id(), "가디건", "",  10000L, "");
     }
 
     public ProductDto toDto() {
-        return new ProductDto(id, category, name, description, price, image);
+        return new ProductDto(id, categoryId, name, description, price, image);
     }
 
     public Long id() {
         return id;
     }
 
-    public String category() {
-        return category;
+    public Long categoryId() {
+        return categoryId;
     }
 
     public String name() {

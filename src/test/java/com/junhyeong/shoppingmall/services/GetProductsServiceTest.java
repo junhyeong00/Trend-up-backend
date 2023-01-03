@@ -8,9 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,18 +24,18 @@ class GetProductsServiceTest {
 
     @BeforeEach
     void setup() {
-
-
         productRepository = mock(ProductRepository.class);
         getProductsService = new GetProductsService(productRepository);
     }
 
     @Test
     void products() {
+        Long categoryId = 1L;
+
         List<Product> products = List.of(
-                new Product(1L, "남성 패션", "상품 1", "상품 설명 1", 500L, null),
-                new Product(2L, "남성 패션", "상품 2", "상품 설명 2", 5000L, null),
-                new Product(2L, "남성 패션", "상품 3", "상품 설명 3", 5000L, null)
+                new Product(1L, categoryId, "상품 1", "상품 설명 1", 500L, null),
+                new Product(2L, categoryId, "상품 2", "상품 설명 2", 5000L, null),
+                new Product(2L, categoryId, "상품 3", "상품 설명 3", 5000L, null)
         );
 
         int page = 1;
@@ -43,12 +43,14 @@ class GetProductsServiceTest {
         Page<Product> pageableProducts
                 = new PageImpl<>(products, PageRequest.of(page - 1, 2), products.size());
 
-        given(productRepository.findAll(any(Pageable.class))).willReturn(pageableProducts);
+        given(productRepository.findAll(any(Specification.class), any(Pageable.class))).willReturn(pageableProducts);
 
-        getProductsService.products(page);
+        String keyword = null;
+
+        getProductsService.products(page, categoryId, keyword);
 
         assertThat(pageableProducts).hasSize(products.size());
 
-        verify(productRepository).findAll(any(Pageable.class));
+        verify(productRepository).findAll(any(Specification.class), any(Pageable.class));
     }
 }
