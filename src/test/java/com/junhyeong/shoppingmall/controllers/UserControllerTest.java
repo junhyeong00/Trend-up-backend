@@ -1,8 +1,8 @@
 package com.junhyeong.shoppingmall.controllers;
 
-import com.junhyeong.shoppingmall.models.Cart;
+import com.junhyeong.shoppingmall.models.vo.Cart;
 import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.GetCartService;
 import com.junhyeong.shoppingmall.services.GetUserService;
 import com.junhyeong.shoppingmall.services.PatchCartService;
@@ -18,7 +18,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

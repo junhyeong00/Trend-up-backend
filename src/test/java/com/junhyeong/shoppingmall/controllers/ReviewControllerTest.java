@@ -2,9 +2,9 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.OrderProduct;
+import com.junhyeong.shoppingmall.models.vo.OrderProduct;
 import com.junhyeong.shoppingmall.models.Review;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateReviewService;
 import com.junhyeong.shoppingmall.services.DeleteReviewsService;
 import com.junhyeong.shoppingmall.services.GetReviewService;

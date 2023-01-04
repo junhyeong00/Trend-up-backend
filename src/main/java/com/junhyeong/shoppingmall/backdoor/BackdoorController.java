@@ -123,4 +123,10 @@ public class BackdoorController {
         // TODO orders
         return "OK";
     }
+
+    @GetMapping("setup-inquiries")
+    public String setupInquiries() {
+        // TODO inquiries
+        return "OK";
+    }
 }

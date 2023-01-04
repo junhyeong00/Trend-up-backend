@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.vo;
 
 import javax.persistence.Embeddable;
 import java.util.Objects;

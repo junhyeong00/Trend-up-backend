@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.utils;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

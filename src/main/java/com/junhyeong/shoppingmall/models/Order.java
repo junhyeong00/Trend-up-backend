@@ -4,6 +4,9 @@ import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
 import com.junhyeong.shoppingmall.dtos.OrderResultDto;
 import com.junhyeong.shoppingmall.enums.DeliveryStatus;
+import com.junhyeong.shoppingmall.models.vo.Address;
+import com.junhyeong.shoppingmall.models.vo.OrderProduct;
+import com.junhyeong.shoppingmall.models.vo.PhoneNumber;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.CollectionTable;

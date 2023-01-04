@@ -2,7 +2,7 @@ package com.junhyeong.shoppingmall.interceptors;
 
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.junhyeong.shoppingmall.exceptions.AuthenticationError;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 
