@@ -3,6 +3,8 @@ package com.junhyeong.shoppingmall.models;
 import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
+import com.junhyeong.shoppingmall.models.vo.OrderProduct;
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Embedded;

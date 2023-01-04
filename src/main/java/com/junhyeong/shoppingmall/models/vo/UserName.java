@@ -1,18 +1,18 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public class PhoneNumber {
-    @Column(name = "phone_number")
+public class UserName {
+    @Column(name = "user_name")
     private String value;
 
-    public PhoneNumber() {
+    public UserName() {
     }
 
-    public PhoneNumber(String value) {
+    public UserName(String value) {
         this.value = value;
     }
 
@@ -22,13 +22,13 @@ public class PhoneNumber {
 
     @Override
     public String toString() {
-        return "PhoneNumber(" + value + ")";
+        return "UserName(" + value + ")";
     }
 
     @Override
     public boolean equals(Object other) {
         return other != null &&
-                other.getClass() == PhoneNumber.class &&
-                Objects.equals(this.value, ((PhoneNumber) other).value);
+                other.getClass() == UserName.class &&
+                Objects.equals(this.value, ((UserName) other).value);
     }
 }

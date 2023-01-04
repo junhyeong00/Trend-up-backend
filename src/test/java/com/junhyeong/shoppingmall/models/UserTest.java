@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

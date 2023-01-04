@@ -1,6 +1,8 @@
 package com.junhyeong.shoppingmall.models;
 
 import com.junhyeong.shoppingmall.dtos.UserDto;
+import com.junhyeong.shoppingmall.models.vo.Cart;
+import com.junhyeong.shoppingmall.models.vo.UserName;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -9,7 +11,6 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 

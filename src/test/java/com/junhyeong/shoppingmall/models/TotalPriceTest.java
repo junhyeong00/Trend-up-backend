@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.models;
 
+import com.junhyeong.shoppingmall.models.vo.TotalPrice;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TotalPriceTest {
     @Test
