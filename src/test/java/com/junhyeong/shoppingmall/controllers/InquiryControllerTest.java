@@ -1,8 +1,11 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
+import com.junhyeong.shoppingmall.services.GetInquiryService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,10 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -29,6 +40,9 @@ class InquiryControllerTest {
     @MockBean
     private CreateInquiryService createInquiryService;
 
+    @MockBean
+    private GetInquiryService getInquiryService;
+
     @SpyBean
     private JwtUtil jwtUtil;
 
@@ -43,7 +57,7 @@ class InquiryControllerTest {
 
     @Test
     void write() throws Exception {
-        given(createInquiryService.write(any(), any(),any(),any(),any()))
+        given(createInquiryService.write(any(), any(), any(), any(), any()))
                 .willReturn(new InquiryResultDto(1L));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
@@ -57,6 +71,16 @@ class InquiryControllerTest {
                                 "}"))
                 .andExpect(status().isCreated());
 
-        verify(createInquiryService).write(any(), any(),any(),any(),any());
+        verify(createInquiryService).write(any(), any(), any(), any(), any());
+    }
+
+    @Test
+    void inquiries() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/products/1/inquiries")
+                        .header("Authorization", "Bearer " + token)
+                )
+                .andExpect(status().isOk());
+
+        verify(getInquiryService).inquiries(any(), any(), any());
     }
 }
