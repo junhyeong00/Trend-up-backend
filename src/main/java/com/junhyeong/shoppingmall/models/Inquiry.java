@@ -98,7 +98,7 @@ public class Inquiry {
 
         if (isSecret && !isMine) {
                 String title = "비밀글입니다";
-                String content = "비공개 문의 내역은 작성자 본인만 확인하실 수 있습니다";
+                String content = "접근 권한이 없습니다";
 
             return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
         }
@@ -107,6 +107,10 @@ public class Inquiry {
     }
 
     public boolean checkMine(Long userId) {
+        return Objects.equals(this.userId, userId);
+    }
+
+    public boolean isWriter(Long userId) {
         return Objects.equals(this.userId, userId);
     }
 }

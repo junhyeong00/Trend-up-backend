@@ -5,6 +5,7 @@ import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
+import com.junhyeong.shoppingmall.services.DeleteInquiryService;
 import com.junhyeong.shoppingmall.services.GetInquiryService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,6 +44,9 @@ class InquiryControllerTest {
     @MockBean
     private GetInquiryService getInquiryService;
 
+    @MockBean
+    private DeleteInquiryService deleteInquiryService;
+
     @SpyBean
     private JwtUtil jwtUtil;
 
@@ -77,10 +81,19 @@ class InquiryControllerTest {
     @Test
     void inquiries() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/products/1/inquiries")
-                        .header("Authorization", "Bearer " + token)
-                )
+                        .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
         verify(getInquiryService).inquiries(any(), any(), any());
+    }
+
+    @Test
+    void delete() throws Exception {
+        Long inquiryId = 1L;
+        mockMvc.perform(MockMvcRequestBuilders.delete("/inquiries/1")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNoContent());
+
+        verify(deleteInquiryService).delete(userName, inquiryId);
     }
 }

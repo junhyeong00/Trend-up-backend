@@ -5,11 +5,13 @@ import com.junhyeong.shoppingmall.dtos.InquiryRequestDto;
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
+import com.junhyeong.shoppingmall.services.DeleteInquiryService;
 import com.junhyeong.shoppingmall.services.GetInquiryService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,11 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class InquiryController {
     private final CreateInquiryService createInquiryService;
     private final GetInquiryService getInquiryService;
+    private final DeleteInquiryService deleteInquiryService;
 
     public InquiryController(CreateInquiryService createInquiryService,
-                             GetInquiryService getInquiryService) {
+                             GetInquiryService getInquiryService,
+                             DeleteInquiryService deleteInquiryService) {
         this.createInquiryService = createInquiryService;
         this.getInquiryService = getInquiryService;
+        this.deleteInquiryService = deleteInquiryService;
     }
 
     @GetMapping("products/{productId}/inquiries")
@@ -51,5 +56,14 @@ public class InquiryController {
                 inquiryRequestDto.getContent(),
                 inquiryRequestDto.getIsSecret()
         );
+    }
+
+    @DeleteMapping("inquiries/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(
+            @RequestAttribute("userName") UserName userName,
+            @PathVariable("id") Long inquiryId
+            ) {
+            deleteInquiryService.delete(userName, inquiryId);
     }
 }
