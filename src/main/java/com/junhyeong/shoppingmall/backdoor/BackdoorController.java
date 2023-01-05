@@ -126,7 +126,14 @@ public class BackdoorController {
 
     @GetMapping("setup-inquiries")
     public String setupInquiries() {
-        // TODO inquiries
+        LocalDateTime now = LocalDateTime.now();
+
+        jdbcTemplate.execute("DELETE FROM inquiry");
+
+        jdbcTemplate.update("INSERT INTO " +
+                        "inquiry(id, user_id, product_id,  title, content, create_at)" +
+                        "VALUES(1, ?, ?, ?, ?, ?)",
+                1L, 1L, "재입고 문의", "재입고 언제 되나요?",now);
         return "OK";
     }
 }
