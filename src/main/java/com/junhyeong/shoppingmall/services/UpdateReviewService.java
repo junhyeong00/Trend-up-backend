@@ -9,10 +9,10 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class PatchReviewService {
+public class UpdateReviewService {
     private final ReviewRepository reviewRepository;
 
-    public PatchReviewService(ReviewRepository reviewRepository) {
+    public UpdateReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 

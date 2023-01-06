@@ -3,16 +3,19 @@ package com.junhyeong.shoppingmall.controllers;
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
 import com.junhyeong.shoppingmall.dtos.InquiryRequestDto;
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.dtos.UpdateInquiryDto;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
 import com.junhyeong.shoppingmall.services.DeleteInquiryService;
 import com.junhyeong.shoppingmall.services.GetInquiryService;
+import com.junhyeong.shoppingmall.services.UpdateInquiryService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -25,13 +28,16 @@ public class InquiryController {
     private final CreateInquiryService createInquiryService;
     private final GetInquiryService getInquiryService;
     private final DeleteInquiryService deleteInquiryService;
+    private final UpdateInquiryService updateInquiryService;
 
     public InquiryController(CreateInquiryService createInquiryService,
                              GetInquiryService getInquiryService,
-                             DeleteInquiryService deleteInquiryService) {
+                             DeleteInquiryService deleteInquiryService,
+                             UpdateInquiryService updateInquiryService) {
         this.createInquiryService = createInquiryService;
         this.getInquiryService = getInquiryService;
         this.deleteInquiryService = deleteInquiryService;
+        this.updateInquiryService = updateInquiryService;
     }
 
     @GetMapping("products/{productId}/inquiries")
@@ -65,5 +71,20 @@ public class InquiryController {
             @PathVariable("id") Long inquiryId
             ) {
             deleteInquiryService.delete(userName, inquiryId);
+    }
+
+    @PatchMapping("inquiries/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(
+            @RequestBody UpdateInquiryDto updateInquiryDto,
+            @RequestAttribute("userName") UserName userName,
+            @PathVariable("id") Long inquiryId
+    ) {
+        updateInquiryService.update(
+                userName,
+                inquiryId,
+                updateInquiryDto.getTitle(),
+                updateInquiryDto.getContent(),
+                updateInquiryDto.getIsSecret());
     }
 }

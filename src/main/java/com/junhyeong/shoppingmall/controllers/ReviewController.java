@@ -2,7 +2,7 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.MyReviewsDto;
-import com.junhyeong.shoppingmall.dtos.PatchReviewDto;
+import com.junhyeong.shoppingmall.dtos.UpdateReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewRequestDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
@@ -15,7 +15,7 @@ import com.junhyeong.shoppingmall.services.CreateReviewService;
 import com.junhyeong.shoppingmall.services.DeleteReviewsService;
 import com.junhyeong.shoppingmall.services.GetReviewService;
 import com.junhyeong.shoppingmall.services.GetReviewsService;
-import com.junhyeong.shoppingmall.services.PatchReviewService;
+import com.junhyeong.shoppingmall.services.UpdateReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,18 +40,18 @@ public class ReviewController {
     private final GetReviewsService getReviewsService;
     private final GetReviewService getReviewService;
     private final DeleteReviewsService deleteReviewsService;
-    private final PatchReviewService patchReviewService;
+    private final UpdateReviewService updateReviewService;
 
 
     public ReviewController(CreateReviewService createReviewService,
                             GetReviewsService getReviewsService,
                             GetReviewService getReviewService,
-                            DeleteReviewsService deleteReviewsService, PatchReviewService patchReviewService) {
+                            DeleteReviewsService deleteReviewsService, UpdateReviewService updateReviewService) {
         this.createReviewService = createReviewService;
         this.getReviewsService = getReviewsService;
         this.getReviewService = getReviewService;
         this.deleteReviewsService = deleteReviewsService;
-        this.patchReviewService = patchReviewService;
+        this.updateReviewService = updateReviewService;
     }
 
     @GetMapping("products/{productId}/reviews")
@@ -125,14 +125,14 @@ public class ReviewController {
     @PatchMapping("reviews/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void edit(
-            @RequestBody PatchReviewDto patchReviewDto,
+            @RequestBody UpdateReviewDto updateReviewDto,
             @PathVariable("id") Long reviewId
     ) {
-        patchReviewService.edit(
+        updateReviewService.edit(
                 reviewId,
-                patchReviewDto.getRating(),
-                patchReviewDto.getContent(),
-                patchReviewDto.getImageUrl());
+                updateReviewDto.getRating(),
+                updateReviewDto.getContent(),
+                updateReviewDto.getImageUrl());
     }
 
     @ExceptionHandler(ReviewWriteFailed.class)

@@ -16,20 +16,20 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class DeleteInquiryServiceTest {
+class UpdateInquiryServiceTest {
     private UserRepository userRepository;
     private InquiryRepository inquiryRepository;
-    private DeleteInquiryService deleteInquiryService;
+    private UpdateInquiryService updateInquiryService;
 
     @BeforeEach
     void setup() {
         userRepository = mock(UserRepository.class);
         inquiryRepository = mock(InquiryRepository.class);
-        deleteInquiryService = new DeleteInquiryService(userRepository, inquiryRepository);
+        updateInquiryService = new UpdateInquiryService(userRepository, inquiryRepository);
     }
 
     @Test
-    void delete() {
+    void update() {
         UserName userName = new UserName("test123");
 
         User user = User.fake(userName);
@@ -44,16 +44,14 @@ class DeleteInquiryServiceTest {
         given(userRepository.findByUserName(userName))
                 .willReturn(Optional.of(user));
 
-        deleteInquiryService.delete(userName, inquiryId);
+        updateInquiryService.update(userName, inquiryId, "색상 문의", "빨간색은 없나요?", false);
 
         verify(inquiryRepository).findById(inquiryId);
         verify(userRepository).findByUserName(userName);
-
-        verify(inquiryRepository).delete(inquiry);
     }
 
     @Test
-    void deleteFailed() {
+    void updateFailed() {
         UserName userName = new UserName("test123");
 
         User user = User.fake(userName);
@@ -62,7 +60,7 @@ class DeleteInquiryServiceTest {
 
         Long otherUserId = 2L;
 
-        Inquiry inquiry = Inquiry.fake(inquiryId,otherUserId);
+        Inquiry inquiry = Inquiry.fake(inquiryId, otherUserId);
 
         given(inquiryRepository.findById(inquiryId))
                 .willReturn(Optional.of(inquiry));
@@ -71,7 +69,7 @@ class DeleteInquiryServiceTest {
                 .willReturn(Optional.of(user));
 
         assertThrows(isNotWriter.class, () -> {
-            deleteInquiryService.delete(userName, inquiryId);
+            updateInquiryService.update(userName, inquiryId, "색상 문의", "빨간색은 없나요?", false);
         });
     }
 }

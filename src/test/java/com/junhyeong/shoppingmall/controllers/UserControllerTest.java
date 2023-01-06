@@ -5,7 +5,7 @@ import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.GetCartService;
 import com.junhyeong.shoppingmall.services.GetUserService;
-import com.junhyeong.shoppingmall.services.PatchCartService;
+import com.junhyeong.shoppingmall.services.UpdateCartService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class UserControllerTest {
     private GetCartService getCartService;
 
     @MockBean
-    private PatchCartService patchCartService;
+    private UpdateCartService updateCartService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -81,6 +81,6 @@ class UserControllerTest {
                         .content("{\"items\":\"items\"}"))
                 .andExpect(status().isNoContent());
 
-        verify(patchCartService).updateCart(userName, new Cart("items"));
+        verify(updateCartService).updateCart(userName, new Cart("items"));
     }
 }

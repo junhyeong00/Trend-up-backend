@@ -1,14 +1,14 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.CartDto;
-import com.junhyeong.shoppingmall.dtos.PatchCartDto;
+import com.junhyeong.shoppingmall.dtos.UpdateCartDto;
 import com.junhyeong.shoppingmall.dtos.UserDto;
 import com.junhyeong.shoppingmall.models.vo.Cart;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.GetCartService;
 import com.junhyeong.shoppingmall.services.GetUserService;
-import com.junhyeong.shoppingmall.services.PatchCartService;
+import com.junhyeong.shoppingmall.services.UpdateCartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final GetUserService getUserService;
     private final GetCartService getCartService;
-    private final PatchCartService patchCartService;
+    private final UpdateCartService updateCartService;
 
     public UserController(GetUserService getUserService,
                           GetCartService getCartService,
-                          PatchCartService patchCartService) {
+                          UpdateCartService updateCartService) {
         this.getUserService = getUserService;
         this.getCartService = getCartService;
-        this.patchCartService = patchCartService;
+        this.updateCartService = updateCartService;
     }
 
     @GetMapping("me")
@@ -52,10 +52,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCart(
             @RequestAttribute("userName") UserName userName,
-            @RequestBody PatchCartDto patchCartDto
+            @RequestBody UpdateCartDto updateCartDto
     ) {
-        Cart cart = new Cart(patchCartDto.getItems());
+        Cart cart = new Cart(updateCartDto.getItems());
 
-        patchCartService.updateCart(userName, cart);
+        updateCartService.updateCart(userName, cart);
     }
 }

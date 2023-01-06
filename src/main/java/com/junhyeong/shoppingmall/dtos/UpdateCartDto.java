@@ -1,12 +1,12 @@
 package com.junhyeong.shoppingmall.dtos;
 
-public class PatchCartDto {
+public class UpdateCartDto {
     private String items;
 
-    public PatchCartDto() {
+    public UpdateCartDto() {
     }
 
-    public PatchCartDto(String items) {
+    public UpdateCartDto(String items) {
         this.items = items;
     }
 

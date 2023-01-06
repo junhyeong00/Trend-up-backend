@@ -11,10 +11,10 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class PatchCartService {
+public class UpdateCartService {
     private final UserRepository userRepository;
 
-    public PatchCartService(UserRepository userRepository) {
+    public UpdateCartService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

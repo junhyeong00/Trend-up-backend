@@ -14,18 +14,18 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class DeleteInquiryService {
+public class UpdateInquiryService {
     private final UserRepository userRepository;
     private final InquiryRepository inquiryRepository;
 
-
-    public DeleteInquiryService(UserRepository userRepository,
+    public UpdateInquiryService(UserRepository userRepository,
                                 InquiryRepository inquiryRepository) {
         this.userRepository = userRepository;
         this.inquiryRepository = inquiryRepository;
     }
 
-    public void delete(UserName userName, Long inquiryId) {
+    public void update(UserName userName, Long inquiryId,
+                       String title, String content, Boolean isSecret) {
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(InquiryNotFound::new);
 
@@ -33,9 +33,9 @@ public class DeleteInquiryService {
                 .orElseThrow(UserNotFound::new);
 
         if (!inquiry.isWriter(user.id())) {
-         throw new isNotWriter();
+            throw new isNotWriter();
         }
 
-        inquiryRepository.delete(inquiry);
+        inquiry.update(title, content, isSecret);
     }
 }
