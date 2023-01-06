@@ -7,6 +7,7 @@ import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
 import com.junhyeong.shoppingmall.services.DeleteInquiryService;
 import com.junhyeong.shoppingmall.services.GetInquiryService;
+import com.junhyeong.shoppingmall.services.UpdateInquiryService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,6 +47,9 @@ class InquiryControllerTest {
 
     @MockBean
     private DeleteInquiryService deleteInquiryService;
+
+    @MockBean
+    private UpdateInquiryService updateInquiryService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -95,5 +99,20 @@ class InquiryControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(deleteInquiryService).delete(userName, inquiryId);
+    }
+
+    @Test
+    void update() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.patch("/inquiries/1")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isNoContent());
+
+        verify(updateInquiryService).update(any(), any(), any(), any(), any());
     }
 }

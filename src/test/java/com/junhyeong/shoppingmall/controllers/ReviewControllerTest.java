@@ -9,7 +9,7 @@ import com.junhyeong.shoppingmall.services.CreateReviewService;
 import com.junhyeong.shoppingmall.services.DeleteReviewsService;
 import com.junhyeong.shoppingmall.services.GetReviewService;
 import com.junhyeong.shoppingmall.services.GetReviewsService;
-import com.junhyeong.shoppingmall.services.PatchReviewService;
+import com.junhyeong.shoppingmall.services.UpdateReviewService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class ReviewControllerTest {
     private DeleteReviewsService deleteReviewsService;
 
     @MockBean
-    private PatchReviewService patchReviewService;
+    private UpdateReviewService updateReviewService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -188,6 +188,6 @@ class ReviewControllerTest {
                                 "}"))
                 .andExpect(status().isNoContent());
 
-        verify(patchReviewService).edit(any(), any(), any(), any());
+        verify(updateReviewService).edit(any(), any(), any(), any());
     }
 }

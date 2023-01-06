@@ -7,16 +7,15 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class PatchReviewServiceTest {
+class UpdateReviewServiceTest {
     @Test
     void edit() {
         ReviewRepository reviewRepository = mock(ReviewRepository.class);
-        PatchReviewService patchReviewService = new PatchReviewService(reviewRepository);
+        UpdateReviewService updateReviewService = new UpdateReviewService(reviewRepository);
 
         Long reviewId = 1L;
 
@@ -24,7 +23,7 @@ class PatchReviewServiceTest {
         given(reviewRepository.findById(reviewId))
                 .willReturn(Optional.of(review));
 
-        patchReviewService.edit(reviewId, 3D, "좋아요", null);
+        updateReviewService.edit(reviewId, 3D, "좋아요", null);
 
         assertThat(review.rating()).isEqualTo(3D);
 

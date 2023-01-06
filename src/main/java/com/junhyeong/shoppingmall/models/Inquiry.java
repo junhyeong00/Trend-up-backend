@@ -94,7 +94,7 @@ public class Inquiry {
     }
 
     public InquiryDto toDto(Long userId, UserName userName, String answerStatus) {
-        Boolean isMine = checkMine(userId);
+        Boolean isMine = isWriter(userId);
 
         if (isSecret && !isMine) {
                 String title = "비밀글입니다";
@@ -106,11 +106,13 @@ public class Inquiry {
         return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
     }
 
-    public boolean checkMine(Long userId) {
+    public boolean isWriter(Long userId) {
         return Objects.equals(this.userId, userId);
     }
 
-    public boolean isWriter(Long userId) {
-        return Objects.equals(this.userId, userId);
+    public void update(String title, String content, Boolean isSecret) {
+        this.title = title;
+        this.content = content;
+        this.isSecret = isSecret;
     }
 }

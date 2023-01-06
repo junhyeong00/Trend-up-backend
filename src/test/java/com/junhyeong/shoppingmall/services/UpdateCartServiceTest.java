@@ -12,18 +12,18 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class PatchCartServiceTest {
+class UpdateCartServiceTest {
     @Test
     void updateCart() {
         UserRepository userRepository = mock(UserRepository.class);
-        PatchCartService patchCartService = new PatchCartService(userRepository);
+        UpdateCartService updateCartService = new UpdateCartService(userRepository);
 
         UserName userName = new UserName("test123");
 
         given(userRepository.findByUserName(userName))
                 .willReturn(Optional.of(User.fake(userName)));
 
-        patchCartService.updateCart(userName, new Cart("items"));
+        updateCartService.updateCart(userName, new Cart("items"));
 
         verify(userRepository).findByUserName(userName);
     }

@@ -1,11 +1,11 @@
 package com.junhyeong.shoppingmall.dtos;
 
-public class PatchReviewDto {
+public class UpdateReviewDto {
     private Double rating;
     private String content;
     private String imageUrl;
 
-    public PatchReviewDto(Double rating, String content, String imageUrl) {
+    public UpdateReviewDto(Double rating, String content, String imageUrl) {
         this.rating = rating;
         this.content = content;
         this.imageUrl = imageUrl;
