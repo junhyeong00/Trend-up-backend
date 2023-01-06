@@ -4,6 +4,7 @@ import com.junhyeong.shoppingmall.exceptions.LoginFailed;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
@@ -22,12 +23,13 @@ class LoginServiceTest {
     private UserRepository userRepository;
 
     private PasswordEncoder passwordEncoder;
+    private JwtUtil jwtUtil;
 
     @BeforeEach
     void setUp() {
         userRepository = mock(UserRepository.class);
         passwordEncoder = new Argon2PasswordEncoder();
-        loginService = new LoginService(userRepository, passwordEncoder);
+        loginService = new LoginService(userRepository, passwordEncoder, jwtUtil);
     }
 
     @Test
