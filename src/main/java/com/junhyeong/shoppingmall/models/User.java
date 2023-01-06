@@ -55,6 +55,12 @@ public class User {
         this.cart = new Cart("{\"items\":[]}");
     }
 
+    public User(UserName userName, String name) {
+        this.userName = userName;
+        this.name = name;
+        this.cart = new Cart("{\"items\":[]}");
+    }
+
     public Long id() {
         return id;
     }
