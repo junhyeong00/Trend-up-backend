@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 @Service
 @Transactional
-public class KaKaoService {
+public class KaKaoLoginService {
     @Value("${kakao.api-key}")
     private String apiKey;
 

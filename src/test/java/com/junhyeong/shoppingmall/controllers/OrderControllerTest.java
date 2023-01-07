@@ -7,6 +7,7 @@ import com.junhyeong.shoppingmall.services.CreateOrderService;
 import com.junhyeong.shoppingmall.services.GetOrderService;
 import com.junhyeong.shoppingmall.services.GetOrdersService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
+import com.junhyeong.shoppingmall.utils.KaKaoPay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ class OrderControllerTest {
     @MockBean
     private GetOrderService getOrderService;
 
+    @MockBean
+    private KaKaoPay kaKaoPay;
+
     @SpyBean
     private JwtUtil jwtUtil;
 
@@ -59,7 +63,7 @@ class OrderControllerTest {
     void createOrder() throws Exception {
         Long orderId = 1L;
         given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .willReturn(Order.fake(orderId));
+                .willReturn("");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order")
                         .header("Authorization", "Bearer " + token)

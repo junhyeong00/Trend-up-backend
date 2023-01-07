@@ -12,6 +12,7 @@ import com.junhyeong.shoppingmall.repositories.OptionRepository;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.utils.KaKaoPay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,6 +31,7 @@ class CreateOrderServiceTest {
     private ProductRepository productRepository;
     private OptionRepository optionRepository;
     private CreateOrderService createOrderService;
+    private KaKaoPay kaKaoPay;
 
     @BeforeEach
     void setup() {
@@ -37,8 +39,9 @@ class CreateOrderServiceTest {
         userRepository = mock(UserRepository.class);
         productRepository = mock(ProductRepository.class);
         optionRepository = mock(OptionRepository.class);
+        kaKaoPay = new KaKaoPay();
         createOrderService = new CreateOrderService(
-                orderRepository, userRepository, productRepository, optionRepository);
+                orderRepository, userRepository, productRepository, optionRepository, kaKaoPay);
     }
 
     @Test
@@ -70,16 +73,15 @@ class CreateOrderServiceTest {
                 order.address().roadAddress(),
                 order.address().detailAddress());
 
-        Order found = createOrderService.createOrder(
+        String kakao = createOrderService.createOrder(
                 userName, new PhoneNumber("01012341234"), "배준형", order.payment()
                 , order.totalPrice(), order.deliveryFee(), orderProductDtos,
                 order.deliveryRequest(), address);
 
-        assertThat(found).isNotNull();
+        assertThat(kakao).isNotBlank();
 
         verify(userRepository).findByUserName(userName);
         verify(productRepository).findById(productId);
         verify(optionRepository).findById(optionId);
-        verify(orderRepository).save(found);
     }
 }
