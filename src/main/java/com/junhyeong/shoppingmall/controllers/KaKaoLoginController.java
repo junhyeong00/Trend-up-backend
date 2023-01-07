@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.LoginResultDto;
-import com.junhyeong.shoppingmall.services.KaKaoService;
+import com.junhyeong.shoppingmall.services.KaKaoLoginService;
 import com.junhyeong.shoppingmall.services.LoginService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,19 +11,19 @@ import java.util.HashMap;
 
 @RestController
 public class KaKaoLoginController {
-    private final KaKaoService kakaoService;
+    private final KaKaoLoginService kakaoLoginService;
     private final LoginService loginService;
 
-    public KaKaoLoginController(KaKaoService kakaoService, LoginService loginService) {
-        this.kakaoService = kakaoService;
+    public KaKaoLoginController(KaKaoLoginService kakaoLoginService, LoginService loginService) {
+        this.kakaoLoginService = kakaoLoginService;
         this.loginService = loginService;
     }
 
     @GetMapping("/auth/token")
     private LoginResultDto kaKaoLogin(@RequestParam("code") String code) {
-        String accessToken = kakaoService.getAccessToken(code);
+        String accessToken = kakaoLoginService.getAccessToken(code);
 
-        HashMap<String, Object> userInfo = kakaoService.getUser(accessToken);
+        HashMap<String, Object> userInfo = kakaoLoginService.getUser(accessToken);
 
         return loginService.kaKaoLogin(userInfo);
     }

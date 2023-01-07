@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.KakaoPayApprovalDto;
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderErrorDto;
 import com.junhyeong.shoppingmall.dtos.OrderRequestDto;
-import com.junhyeong.shoppingmall.dtos.OrderResultDto;
 import com.junhyeong.shoppingmall.dtos.OrdersDto;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.models.vo.Address;
@@ -13,6 +13,7 @@ import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateOrderService;
 import com.junhyeong.shoppingmall.services.GetOrderService;
 import com.junhyeong.shoppingmall.services.GetOrdersService;
+import com.junhyeong.shoppingmall.utils.KaKaoPay;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,11 +40,13 @@ public class OrderController {
     private final CreateOrderService createOrderService;
     private final GetOrdersService getOrdersService;
     private final GetOrderService getOrderService;
+    private final KaKaoPay kaKaoPay;
 
-    public OrderController(CreateOrderService createOrderService, GetOrdersService getOrdersService, GetOrderService getOrderService) {
+    public OrderController(CreateOrderService createOrderService, GetOrdersService getOrdersService, GetOrderService getOrderService, KaKaoPay kaKaoPay) {
         this.createOrderService = createOrderService;
         this.getOrdersService = getOrdersService;
         this.getOrderService = getOrderService;
+        this.kaKaoPay = kaKaoPay;
     }
 
     @GetMapping("orders")
@@ -78,7 +81,7 @@ public class OrderController {
 
     @PostMapping("order")
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderResultDto createOrder(
+    public String createOrder(
             @RequestAttribute("userName") UserName userName,
             @Validated @RequestBody OrderRequestDto orderRequestDto, BindingResult bindingResult
     ) {
@@ -97,7 +100,7 @@ public class OrderController {
 
         PhoneNumber phoneNumber = new PhoneNumber(orderRequestDto.getPhoneNumber());
 
-        Order order = createOrderService.createOrder(
+        return createOrderService.createOrder(
                 userName,
                 phoneNumber,
                 orderRequestDto.getReceiver(),
@@ -109,7 +112,14 @@ public class OrderController {
                 address
         );
 
-        return order.toOrderResultDto();
+    }
+
+    @GetMapping("/kakaoPaySuccess")
+    public KakaoPayApprovalDto orderResult(
+            @RequestParam("pg_token") String pgToken
+    ) {
+
+        return kaKaoPay.kakaoPayInfo(pgToken).toDto();
     }
 
     @ExceptionHandler(OrderFailed.class)
