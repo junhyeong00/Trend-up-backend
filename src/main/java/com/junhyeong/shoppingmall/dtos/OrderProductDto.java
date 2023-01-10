@@ -22,6 +22,17 @@ public class OrderProductDto {
         this.writable = writable;
     }
 
+    public OrderProductDto(Long productId, String productName, Long productPrice,
+                           Long optionId, String productOption, Long productQuantity, String productImage) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.optionId = optionId;
+        this.productOption = productOption;
+        this.productQuantity = productQuantity;
+        this.productImage = productImage;
+    }
+
     public Long getProductId() {
         return productId;
     }
