@@ -26,14 +26,14 @@ class OrderTest {
 
         order.toInTransit();
 
-        assertThat(order.getDeliveryStatus()).isEqualTo(DeliveryStatus.IN_TRANSIT.value());
+        assertThat(order.deliveryStatus()).isEqualTo(DeliveryStatus.IN_TRANSIT.value());
 
         order.toDelivered();
 
-        assertThat(order.getDeliveryStatus()).isEqualTo(DeliveryStatus.DELIVERED.value());
+        assertThat(order.deliveryStatus()).isEqualTo(DeliveryStatus.DELIVERED.value());
 
         order.toShipped();
 
-        assertThat(order.getDeliveryStatus()).isEqualTo(DeliveryStatus.SHIPPED.value());
+        assertThat(order.deliveryStatus()).isEqualTo(DeliveryStatus.SHIPPED.value());
     }
 }
