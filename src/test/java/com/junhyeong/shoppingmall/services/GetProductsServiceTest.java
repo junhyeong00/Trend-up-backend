@@ -1,6 +1,8 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.models.Category;
 import com.junhyeong.shoppingmall.models.Product;
+import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -21,11 +24,13 @@ import static org.mockito.Mockito.verify;
 class GetProductsServiceTest {
     private ProductRepository productRepository;
     private GetProductsService getProductsService;
+    private CategoryRepository categoryRepository;
 
     @BeforeEach
     void setup() {
         productRepository = mock(ProductRepository.class);
-        getProductsService = new GetProductsService(productRepository);
+        categoryRepository = mock(CategoryRepository.class);
+        getProductsService = new GetProductsService(productRepository, categoryRepository);
     }
 
     @Test
@@ -44,6 +49,8 @@ class GetProductsServiceTest {
                 = new PageImpl<>(products, PageRequest.of(page - 1, 2), products.size());
 
         given(productRepository.findAll(any(Specification.class), any(Pageable.class))).willReturn(pageableProducts);
+
+        given(categoryRepository.findById(categoryId)).willReturn(Optional.of(Category.fake(categoryId)));
 
         String keyword = null;
 

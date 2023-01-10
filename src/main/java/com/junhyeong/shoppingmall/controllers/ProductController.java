@@ -34,24 +34,13 @@ public class ProductController {
             @RequestParam(defaultValue = "0") Long categoryId,
             @RequestParam(required = false) String keyword
     ) {
-        Page<Product> products = getProductsService.products(page, categoryId, keyword);
-
-        int totalPageCount = products.getTotalPages();
-
-        List<ProductDto> productDtos = products.stream()
-                .map(Product::toDto).toList();
-
-        Page<ProductDto> pageableProductDtos
-                =new PageImpl<>(productDtos, PageRequest.of(page - 1, 8), productDtos.size());
-
-        return new ProductsDto(pageableProductDtos, totalPageCount);
+        return getProductsService.products(page, categoryId, keyword);
     }
 
     @GetMapping("{id}")
     public ProductDto product(
             @PathVariable("id") Long productId
     ) {
-        Product product = getProductService.product(productId);
-        return product.toDto();
+        return getProductService.product(productId);
     }
 }

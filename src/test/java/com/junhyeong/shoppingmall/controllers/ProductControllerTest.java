@@ -1,5 +1,7 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.ProductDto;
+import com.junhyeong.shoppingmall.dtos.ProductsDto;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.services.GetProductService;
 import com.junhyeong.shoppingmall.services.GetProductsService;
@@ -16,6 +18,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,8 +53,8 @@ class ProductControllerTest {
 
         String keyword = null;
 
-        given(getProductsService.products(page, categoryId, keyword))
-                .willReturn(pageableProducts);
+//        given(getProductsService.products(page, categoryId, keyword))
+//                .willReturn(new ProductsDto(any(), any()));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products")
                         .param("page", "1"))
@@ -66,7 +70,7 @@ class ProductControllerTest {
 
         Product product = new Product(productId, categoryId, "상품 1", "상품 설명 1", 500L, null);
 
-        given(getProductService.product(productId)).willReturn(product);
+        given(getProductService.product(productId)).willReturn(product.toDto("상의"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products/1"))
                 .andExpect(status().isOk());

@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.vo;
 
 import java.util.Objects;
 
