@@ -171,7 +171,7 @@ public class Order {
         return createAt;
     }
 
-    public String getDeliveryStatus() {
+    public String deliveryStatus() {
         return deliveryStatus;
     }
 
