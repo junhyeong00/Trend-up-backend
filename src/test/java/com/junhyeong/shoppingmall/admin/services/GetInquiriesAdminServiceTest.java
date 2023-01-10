@@ -1,11 +1,14 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.admin.services;
 
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
 import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
+import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,18 +20,27 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-class GetInquiryServiceTest {
+class GetInquiriesAdminServiceTest {
+    private InquiryRepository inquiryRepository;
+    private UserRepository userRepository;
+    private ProductRepository productRepository;
+    private GetInquiriesAdminService getInquiriesAdminService;
+
+    @BeforeEach
+    void setup() {
+        inquiryRepository = mock(InquiryRepository.class);
+        userRepository = mock(UserRepository.class);
+        productRepository = mock(ProductRepository.class);
+        getInquiriesAdminService = new GetInquiriesAdminService(inquiryRepository, userRepository, productRepository);
+    }
+
     @Test
     void inquiries() {
-        UserRepository userRepository = mock(UserRepository.class);
-        InquiryRepository inquiryRepository = mock(InquiryRepository.class);
-        GetInquiryService getInquiryService = new GetInquiryService(userRepository, inquiryRepository);
-
         Long productId = 1L;
         Long userId = 1L;
 
@@ -44,22 +56,21 @@ class GetInquiryServiceTest {
 
         Page<Inquiry> pageableInquiries = new PageImpl<>(inquiries, pageable, inquiries.size());
 
-        UserName userName = new UserName("test123");
+        given(inquiryRepository.findAll(pageable))
+                .willReturn(pageableInquiries);
 
-        given(userRepository.findByUserName(userName))
-                .willReturn(Optional.of(User.fake(userName)));
+        UserName userName = new UserName("test123");
 
         given(userRepository.findById(userId))
                 .willReturn(Optional.of(User.fake(userName)));
 
-        given(inquiryRepository.findAllByProductId(productId, pageable))
-                .willReturn(pageableInquiries);
+        given(productRepository.findById(productId))
+                .willReturn(Optional.of(Product.fake(productId)));
 
-        InquiriesDto inquiriesDto = getInquiryService.inquiries(productId, userName, pageable);
+        InquiriesDto inquiriesDto = getInquiriesAdminService.inquiries(pageable);
 
         assertThat(inquiriesDto).isNotNull();
 
-        verify(userRepository).findByUserName(userName);
-        verify(inquiryRepository).findAllByProductId(productId, pageable);
+        verify(inquiryRepository).findAll(pageable);
     }
 }
