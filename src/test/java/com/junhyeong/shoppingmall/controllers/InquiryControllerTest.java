@@ -1,12 +1,10 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
-import com.junhyeong.shoppingmall.models.Inquiry;
-import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
 import com.junhyeong.shoppingmall.services.DeleteInquiryService;
-import com.junhyeong.shoppingmall.services.GetInquiryService;
+import com.junhyeong.shoppingmall.services.GetInquiresService;
 import com.junhyeong.shoppingmall.services.UpdateInquiryService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,18 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -43,7 +33,7 @@ class InquiryControllerTest {
     private CreateInquiryService createInquiryService;
 
     @MockBean
-    private GetInquiryService getInquiryService;
+    private GetInquiresService getInquiresService;
 
     @MockBean
     private DeleteInquiryService deleteInquiryService;
@@ -88,7 +78,7 @@ class InquiryControllerTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
-        verify(getInquiryService).inquiries(any(), any(), any());
+        verify(getInquiresService).inquiries(any(), any(), any());
     }
 
     @Test

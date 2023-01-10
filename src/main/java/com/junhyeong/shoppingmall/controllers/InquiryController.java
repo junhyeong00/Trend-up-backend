@@ -7,7 +7,7 @@ import com.junhyeong.shoppingmall.dtos.UpdateInquiryDto;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.CreateInquiryService;
 import com.junhyeong.shoppingmall.services.DeleteInquiryService;
-import com.junhyeong.shoppingmall.services.GetInquiryService;
+import com.junhyeong.shoppingmall.services.GetInquiresService;
 import com.junhyeong.shoppingmall.services.UpdateInquiryService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,16 +26,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InquiryController {
     private final CreateInquiryService createInquiryService;
-    private final GetInquiryService getInquiryService;
+    private final GetInquiresService getInquiresService;
     private final DeleteInquiryService deleteInquiryService;
     private final UpdateInquiryService updateInquiryService;
 
     public InquiryController(CreateInquiryService createInquiryService,
-                             GetInquiryService getInquiryService,
+                             GetInquiresService getInquiresService,
                              DeleteInquiryService deleteInquiryService,
                              UpdateInquiryService updateInquiryService) {
         this.createInquiryService = createInquiryService;
-        this.getInquiryService = getInquiryService;
+        this.getInquiresService = getInquiresService;
         this.deleteInquiryService = deleteInquiryService;
         this.updateInquiryService = updateInquiryService;
     }
@@ -46,7 +46,7 @@ public class InquiryController {
             @RequestAttribute("userName") UserName userName,
             @PageableDefault(size = 8, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return getInquiryService.inquiries(productId, userName, pageable);
+        return getInquiresService.inquiries(productId, userName, pageable);
     }
 
     @PostMapping("inquiry")

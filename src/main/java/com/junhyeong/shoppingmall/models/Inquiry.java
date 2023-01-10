@@ -115,4 +115,8 @@ public class Inquiry {
         this.content = content;
         this.isSecret = isSecret;
     }
+
+    public InquiryDto toAdminDto(UserName userName, String answerStatus, String productName) {
+        return new InquiryDto(this.id, userName.value(), productName, title, content, answerStatus, createAt, isSecret);
+    }
 }
