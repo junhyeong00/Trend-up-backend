@@ -48,13 +48,13 @@ public class BackdoorController {
                 1, 1, "가디건", "가볍다", 50000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
-                "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(1, '기본', 0, 1, 4)"
+                "option(id, name, option_price, product_id)" +
+                "VALUES(1, '기본', 0, 1)"
         );
 
         jdbcTemplate.execute("INSERT INTO " +
-                "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(2, '두툼한 가디건', 1000, 1, 3)"
+                "option(id, name, option_price, product_id)" +
+                "VALUES(2, '두툼한 가디건', 1000, 1)"
         );
 
         jdbcTemplate.update("INSERT INTO " +
@@ -63,13 +63,13 @@ public class BackdoorController {
                 2, 3, "신발", "가볍다", 40000L, "", now);
 
         jdbcTemplate.execute("INSERT INTO " +
-                "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(3, '사이즈 250', 0, 2, 3)"
+                "option(id, name, option_price, product_id)" +
+                "VALUES(3, '사이즈 250', 0, 2)"
         );
 
         jdbcTemplate.execute("INSERT INTO " +
-                "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(4, '사이즈 260', 0, 2, 4)"
+                "option(id, name, option_price, product_id)" +
+                "VALUES(4, '사이즈 260', 0, 2)"
         );
 
         jdbcTemplate.update("INSERT INTO " +
@@ -79,13 +79,13 @@ public class BackdoorController {
                 "http://res.cloudinary.com/dywsfe5du/image/upload/v1671960484/wsvymh09izmwpt73vz99.jpg", now);
 
         jdbcTemplate.execute("INSERT INTO " +
-                "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(5, '사이즈 28', 0, 3, 8)"
+                "option(id, name, option_price, product_id)" +
+                "VALUES(5, '사이즈 28', 0, 3)"
         );
 
         jdbcTemplate.execute("INSERT INTO " +
-                "option(id, name, option_price, product_id, stock_quantity)" +
-                "VALUES(6, '사이즈 30', 0, 3, 8)"
+                "option(id, name, option_price, product_id)" +
+                "VALUES(6, '사이즈 30', 0, 3)"
         );
 
         return "OK";

@@ -1,15 +1,13 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.dtos.ProductDto;
+import com.junhyeong.shoppingmall.models.Category;
 import com.junhyeong.shoppingmall.models.Product;
+import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,12 +19,13 @@ import static org.mockito.Mockito.verify;
 class GetProductServiceTest {
     private ProductRepository productRepository;
     private GetProductService getProductService;
+    private CategoryRepository categoryRepository;
 
     @BeforeEach
     void setup() {
-
         productRepository = mock(ProductRepository.class);
-        getProductService = new GetProductService(productRepository);
+        categoryRepository = mock(CategoryRepository.class);
+        getProductService = new GetProductService(productRepository, categoryRepository);
     }
 
     @Test
@@ -37,7 +36,9 @@ class GetProductServiceTest {
 
         given(productRepository.findById(product.id())).willReturn(Optional.of(product));
 
-        Product found = getProductService.product(product.id());
+        given(categoryRepository.findById(categoryId)).willReturn(Optional.of(Category.fake(categoryId)));
+
+        ProductDto found = getProductService.product(product.id());
 
         assertThat(found).isNotNull();
 

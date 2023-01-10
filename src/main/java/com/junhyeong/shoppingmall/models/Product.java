@@ -1,6 +1,7 @@
 package com.junhyeong.shoppingmall.models;
 
 import com.junhyeong.shoppingmall.dtos.ProductDto;
+import com.junhyeong.shoppingmall.dtos.ProductResultDto;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;
@@ -51,14 +52,22 @@ public class Product {
         this.image = image;
     }
 
+    public Product(Long categoryId, String name, String description, Long price, String image) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+    }
+
     public static Product fake(Long id) {
         Long categoryId = 1L;
         Category category = Category.fake(categoryId);
-        return new Product(id, category.id(), "가디건", "",  10000L, "");
+        return new Product(id, category.id(), "가디건", "부드럽다",  10000L, "");
     }
 
-    public ProductDto toDto() {
-        return new ProductDto(id, categoryId, name, description, price, image);
+    public ProductDto toDto(String categoryName) {
+        return new ProductDto(id, categoryId, categoryName, name, description, price, image, createAt);
     }
 
     public Long id() {
@@ -87,5 +96,9 @@ public class Product {
 
     public LocalDateTime createAt() {
         return createAt;
+    }
+
+    public ProductResultDto toResultDto() {
+        return new ProductResultDto(id);
     }
 }

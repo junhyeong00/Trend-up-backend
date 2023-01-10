@@ -19,14 +19,20 @@ public class Option {
     private String name;
 
     private Long optionPrice;
-
-    private Long stockQuantity;
+        // TODO 재고처리 필요
+//    private Long stockQuantity;
 
     public Option() {
     }
 
     public Option(Long id, Long productId, String name, Long optionPrice) {
         this.id = id;
+        this.productId = productId;
+        this.name = name;
+        this.optionPrice = optionPrice;
+    }
+
+    public Option(Long productId, String name, Long optionPrice) {
         this.productId = productId;
         this.name = name;
         this.optionPrice = optionPrice;
@@ -52,17 +58,17 @@ public class Option {
         return optionPrice;
     }
 
-    public Long stockQuantity() {
-        return stockQuantity;
-    }
-
-    public void reduceStock(Long orderQuantity) {
-      if (this.stockQuantity < orderQuantity) {
-          throw new OrderFailed("재고 부족");
-      }
-
-      this.stockQuantity -= orderQuantity;
-    }
+//    public Long stockQuantity() {
+//        return stockQuantity;
+//    }
+//
+//    public void reduceStock(Long orderQuantity) {
+//      if (this.stockQuantity < orderQuantity) {
+//          throw new OrderFailed("재고 부족");
+//      }
+//
+//      this.stockQuantity -= orderQuantity;
+//    }
 
     public OptionDto toDto() {
         return new OptionDto(id, productId, name, optionPrice);
