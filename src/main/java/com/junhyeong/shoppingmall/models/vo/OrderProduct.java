@@ -76,4 +76,9 @@ public class OrderProduct {
         return new OrderProductDto(productId, productName, productPrice, optionId,
                 productOption, productQuantity, productImage, writable);
     }
+
+    public OrderProductDto toOrderProductDto() {
+        return new OrderProductDto(productId, productName, productPrice, optionId,
+                productOption, productQuantity, productImage);
+    }
 }
