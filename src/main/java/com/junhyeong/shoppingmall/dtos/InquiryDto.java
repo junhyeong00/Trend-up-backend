@@ -10,11 +10,14 @@ public class InquiryDto {
     private String productName;
     private String title;
     private String content;
-    private boolean answerStatus;
+    private Boolean answerStatus;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createAt;
     private Boolean isSecret;
     private Boolean isMine;
+    private String comment;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime answerCreateAt;
 
     public InquiryDto(Long id, String userName, String title, String content, boolean answerStatus,
                       LocalDateTime createAt, Boolean isSecret, Boolean isMine) {
@@ -40,6 +43,21 @@ public class InquiryDto {
         this.isSecret = isSecret;
     }
 
+    public InquiryDto(Long id, String userName, String title, String content, boolean answerStatus,
+                      LocalDateTime createAt, Boolean isSecret, Boolean isMine, String comment,
+                      LocalDateTime answerCreateAt) {
+        this.id = id;
+        this.userName = userName;
+        this.title = title;
+        this.content = content;
+        this.answerStatus = answerStatus;
+        this.createAt = createAt;
+        this.isSecret = isSecret;
+        this.isMine = isMine;
+        this.comment = comment;
+        this.answerCreateAt = answerCreateAt;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,10 +78,6 @@ public class InquiryDto {
         return content;
     }
 
-    public boolean getAnswerStatus() {
-        return answerStatus;
-    }
-
     public LocalDateTime getCreateAt() {
         return createAt;
     }
@@ -74,5 +88,17 @@ public class InquiryDto {
 
     public Boolean getIsMine() {
         return isMine;
+    }
+
+    public boolean isAnswerStatus() {
+        return answerStatus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public LocalDateTime getAnswerCreateAt() {
+        return answerCreateAt;
     }
 }
