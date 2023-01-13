@@ -93,7 +93,7 @@ public class Inquiry {
         return new InquiryResultDto(id);
     }
 
-    public InquiryDto toDto(Long userId, UserName userName, String answerStatus) {
+    public InquiryDto toDto(Long userId, UserName userName, boolean answerStatus) {
         Boolean isMine = isWriter(userId);
 
         if (isSecret && !isMine) {
@@ -116,7 +116,7 @@ public class Inquiry {
         this.isSecret = isSecret;
     }
 
-    public InquiryDto toAdminDto(UserName userName, String answerStatus, String productName) {
+    public InquiryDto toAdminDto(UserName userName, boolean answerStatus, String productName) {
         return new InquiryDto(this.id, userName.value(), productName, title, content, answerStatus, createAt, isSecret);
     }
 }

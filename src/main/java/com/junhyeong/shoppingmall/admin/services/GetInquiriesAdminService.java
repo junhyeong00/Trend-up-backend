@@ -7,6 +7,7 @@ import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
+import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
@@ -23,12 +24,14 @@ public class GetInquiriesAdminService {
     private final InquiryRepository inquiryRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final AnswerRepository answerRepository;
 
     public GetInquiriesAdminService(InquiryRepository inquiryRepository, UserRepository userRepository,
-                                    ProductRepository productRepository) {
+                                    ProductRepository productRepository, AnswerRepository answerRepository) {
         this.inquiryRepository = inquiryRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
+        this.answerRepository = answerRepository;
     }
 
     public InquiriesDto inquiries(Pageable pageable) {
@@ -45,9 +48,13 @@ public class GetInquiriesAdminService {
         List<InquiryDto> inquiryDtos = inquiries.stream().map(inquiry -> {
             User writer = userRepository.findById(inquiry.userId())
                     .orElseThrow(UserNotFound::new);
+
             Product product = productRepository.findById(inquiry.productId())
                     .orElseThrow(ProductNotFound::new);
-            return inquiry.toAdminDto(writer.userName(), "미답변", product.name());
+
+            boolean answerStatus = answerRepository.existsByInquiryId(inquiry.id());
+
+            return inquiry.toAdminDto(writer.userName(), answerStatus, product.name());
         }).toList();
         return inquiryDtos;
     }
