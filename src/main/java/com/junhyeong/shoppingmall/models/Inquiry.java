@@ -93,12 +93,27 @@ public class Inquiry {
         return new InquiryResultDto(id);
     }
 
-    public InquiryDto toDto(Long userId, UserName userName, boolean answerStatus) {
+    public InquiryDto toDto(Long userId, UserName userName, boolean answerStatus,
+                            String comment, LocalDateTime answerCreateAt) {
         Boolean isMine = isWriter(userId);
 
         if (isSecret && !isMine) {
                 String title = "비밀글입니다";
                 String content = "접근 권한이 없습니다";
+
+            return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
+        }
+
+        return new InquiryDto(this.id, userName.value(), title, content, answerStatus,
+                createAt, isSecret, isMine, comment, answerCreateAt);
+    }
+
+    public InquiryDto toDto(Long userId, UserName userName, boolean answerStatus) {
+        Boolean isMine = isWriter(userId);
+
+        if (isSecret && !isMine) {
+            String title = "비밀글입니다";
+            String content = "접근 권한이 없습니다";
 
             return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
         }

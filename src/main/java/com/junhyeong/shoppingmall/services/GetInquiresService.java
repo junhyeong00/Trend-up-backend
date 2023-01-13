@@ -3,6 +3,7 @@ package com.junhyeong.shoppingmall.services;
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
+import com.junhyeong.shoppingmall.models.Answer;
 import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
@@ -40,6 +41,8 @@ public class GetInquiresService {
 
         List<InquiryDto> inquiryDtos = toDto(user, inquiries);
 
+
+
         return new InquiriesDto(inquiryDtos, totalPageCount);
     }
 
@@ -49,6 +52,12 @@ public class GetInquiresService {
                     .orElseThrow(UserNotFound::new);
 
             boolean answerStatus = answerRepository.existsByInquiryId(inquiry.id());
+
+            if (answerStatus) {
+                Answer answer = answerRepository.findByInquiryId(inquiry.id());
+
+                return inquiry.toDto(user.id(), writer.userName(), answerStatus, answer.comment(), answer.createdAt());
+            }
 
             return inquiry.toDto(user.id(), writer.userName(), answerStatus);
         }).toList();
