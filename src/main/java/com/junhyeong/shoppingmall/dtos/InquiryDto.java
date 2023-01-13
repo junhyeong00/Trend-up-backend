@@ -10,13 +10,13 @@ public class InquiryDto {
     private String productName;
     private String title;
     private String content;
-    private String answerStatus;
+    private boolean answerStatus;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createAt;
     private Boolean isSecret;
     private Boolean isMine;
 
-    public InquiryDto(Long id, String userName, String title, String content, String answerStatus,
+    public InquiryDto(Long id, String userName, String title, String content, boolean answerStatus,
                       LocalDateTime createAt, Boolean isSecret, Boolean isMine) {
         this.id = id;
         this.userName = userName;
@@ -29,7 +29,7 @@ public class InquiryDto {
     }
 
     public InquiryDto(Long id, String userName, String productName, String title, String content,
-                      String answerStatus, LocalDateTime createAt, Boolean isSecret) {
+                      boolean answerStatus, LocalDateTime createAt, Boolean isSecret) {
         this.id = id;
         this.userName = userName;
         this.productName = productName;
@@ -60,7 +60,7 @@ public class InquiryDto {
         return content;
     }
 
-    public String getAnswerStatus() {
+    public boolean getAnswerStatus() {
         return answerStatus;
     }
 

@@ -5,6 +5,7 @@ import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
@@ -29,6 +30,7 @@ class GetInquiriesAdminServiceTest {
     private InquiryRepository inquiryRepository;
     private UserRepository userRepository;
     private ProductRepository productRepository;
+    private AnswerRepository answerRepository;
     private GetInquiriesAdminService getInquiriesAdminService;
 
     @BeforeEach
@@ -36,7 +38,9 @@ class GetInquiriesAdminServiceTest {
         inquiryRepository = mock(InquiryRepository.class);
         userRepository = mock(UserRepository.class);
         productRepository = mock(ProductRepository.class);
-        getInquiriesAdminService = new GetInquiriesAdminService(inquiryRepository, userRepository, productRepository);
+        answerRepository = mock(AnswerRepository.class);
+        getInquiriesAdminService = new GetInquiriesAdminService(
+                inquiryRepository, userRepository, productRepository, answerRepository);
     }
 
     @Test

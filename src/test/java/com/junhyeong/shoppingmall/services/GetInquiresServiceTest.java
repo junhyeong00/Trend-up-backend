@@ -4,6 +4,7 @@ import com.junhyeong.shoppingmall.dtos.InquiriesDto;
 import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,8 @@ class GetInquiresServiceTest {
     void inquiries() {
         UserRepository userRepository = mock(UserRepository.class);
         InquiryRepository inquiryRepository = mock(InquiryRepository.class);
-        GetInquiresService getInquiresService = new GetInquiresService(userRepository, inquiryRepository);
+        AnswerRepository answerRepository = mock(AnswerRepository.class);
+        GetInquiresService getInquiresService = new GetInquiresService(userRepository, inquiryRepository, answerRepository);
 
         Long productId = 1L;
         Long userId = 1L;

@@ -6,6 +6,7 @@ import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.data.domain.Page;
@@ -20,11 +21,13 @@ import java.util.List;
 public class GetInquiresService {
     private final UserRepository userRepository;
     private final InquiryRepository inquiryRepository;
+    private final AnswerRepository answerRepository;
 
     public GetInquiresService(UserRepository userRepository,
-                              InquiryRepository inquiryRepository) {
+                              InquiryRepository inquiryRepository, AnswerRepository answerRepository) {
         this.userRepository = userRepository;
         this.inquiryRepository = inquiryRepository;
+        this.answerRepository = answerRepository;
     }
 
     public InquiriesDto inquiries(Long productId, UserName userName, Pageable pageable) {
@@ -44,7 +47,10 @@ public class GetInquiresService {
         List<InquiryDto> inquiryDtos = inquiries.stream().map(inquiry -> {
             User writer = userRepository.findById(inquiry.userId())
                     .orElseThrow(UserNotFound::new);
-            return inquiry.toDto(user.id(), writer.userName(), "미답변");
+
+            boolean answerStatus = answerRepository.existsByInquiryId(inquiry.id());
+
+            return inquiry.toDto(user.id(), writer.userName(), answerStatus);
         }).toList();
         return inquiryDtos;
     }
