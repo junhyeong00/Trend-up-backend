@@ -1,6 +1,8 @@
 package com.junhyeong.shoppingmall.admin.controllers;
 
+import com.junhyeong.shoppingmall.admin.services.GetDeliveryInformationService;
 import com.junhyeong.shoppingmall.admin.services.GetOrdersAdminService;
+import com.junhyeong.shoppingmall.admin.services.GetSalesService;
 import com.junhyeong.shoppingmall.admin.services.UpdateDeliveryStatusService;
 import com.junhyeong.shoppingmall.models.Order;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,12 @@ class AdminOrderControllerTest {
     @MockBean
     private UpdateDeliveryStatusService updateDeliveryStatusService;
 
+    @MockBean
+    private GetSalesService getSalesService;
+
+    @MockBean
+    private GetDeliveryInformationService getDeliveryInformationService;
+
     @Test
     void orders() throws Exception {
         Long orderId = 1L;
@@ -63,5 +71,21 @@ class AdminOrderControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(updateDeliveryStatusService).changeDeliveryStatus(any(), any());
+    }
+
+    @Test
+    void sales() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin-orders/sales"))
+                .andExpect(status().isOk());
+
+        verify(getSalesService).sales();
+    }
+
+    @Test
+    void deliveryInformation() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin-orders/delivery"))
+                .andExpect(status().isOk());
+
+        verify(getDeliveryInformationService).deliveryInformation();
     }
 }
