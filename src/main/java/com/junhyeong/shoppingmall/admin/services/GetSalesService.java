@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,11 +24,30 @@ public class GetSalesService {
     }
 
     public SalesDto sales() {
-        List<CoordinateDto> sales = new ArrayList<>();
-
         LocalDateTime date = LocalDateTime.now().minusMonths(1);
 
-        Long monthlySales = 0L;
+        List<CoordinateDto> sales = calcCoordinateDtos(date);
+
+        Long monthlySales = calcMonthlySales();
+
+        Long totalSales = calcTotalSales();
+
+        return new SalesDto(sales, totalSales, monthlySales);
+    }
+
+    private Long calcMonthlySales() {
+        LocalDateTime date = LocalDateTime.now().minusMonths(1);
+
+        Specification<Order> spec = Specification.where(OrderSpecification
+                .betweenCreatedDatetime(date, LocalDateTime.now()));
+
+        Long monthlySales = orderRepository.findAll(spec).stream().mapToLong(Order::payment)
+                .reduce(0L, Long::sum);
+        return monthlySales;
+    }
+
+    private List<CoordinateDto> calcCoordinateDtos(LocalDateTime date) {
+        List<CoordinateDto> sales = new ArrayList<>();
 
         while (date.isBefore(LocalDateTime.now())) {
             Specification<Order> spec = Specification.where(OrderSpecification
@@ -40,17 +58,13 @@ public class GetSalesService {
             Long amount = orders.stream().mapToLong(Order::payment)
                     .reduce(0L, Long::sum);
 
-            monthlySales += amount;
-
             CoordinateDto coordinateDto = new CoordinateDto(date.format(DateTimeFormatter.ofPattern("MM-dd")), amount);
             sales.add(coordinateDto);
 
             date = date.plusDays(1);
         }
 
-        Long totalSales = calcTotalSales();
-
-        return new SalesDto(sales, totalSales, monthlySales);
+        return sales;
     }
 
     private long calcTotalSales() {
