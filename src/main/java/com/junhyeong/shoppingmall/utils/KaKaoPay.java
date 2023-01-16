@@ -55,7 +55,7 @@ public class KaKaoPay {
         params.add("item_name", productName);
         params.add("quantity", String.valueOf(quantity));
         params.add("total_amount", String.valueOf(orderPayment));
-        params.add("tax_free_amount", "10000");
+        params.add("tax_free_amount", "1000");
         params.add("approval_url", "http://localhost:8080/order/success");
         params.add("cancel_url", "http://localhost:8080/order/cancel");
         params.add("fail_url", "http://localhost:8080/order/fail");

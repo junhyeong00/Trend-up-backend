@@ -112,11 +112,10 @@ public class OrderController {
         );
     }
 
-    @GetMapping("/kakaoPaySuccess")
+    @GetMapping("orders/kakaoPaySuccess")
     public KakaoPayApprovalDto orderResult(
             @RequestParam("pg_token") String pgToken
     ) {
-
         return kaKaoPay.kakaoPayInfo(pgToken).toDto();
     }
 

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -47,10 +48,10 @@ public class CreateOrderService {
     }
 
     public String createOrder(UserName userName, PhoneNumber phoneNumber,
-                             String receiver, Long payment,
-                             Long totalPrice, Long deliveryFee,
-                             List<CreateOrderProductDto> orderProductDtos,
-                             String deliveryRequest, Address address) {
+                              String receiver, Long payment,
+                              Long totalPrice, Long deliveryFee,
+                              List<CreateOrderProductDto> orderProductDtos,
+                              String deliveryRequest, Address address) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
 
@@ -84,7 +85,9 @@ public class CreateOrderService {
 //
 //        });
 
-        Order order = new Order(
+        Long orderId = Long.valueOf((time() + randomNumber()));
+
+        Order order = new Order(orderId,
                 user.id(), phoneNumber, receiver,
                 payment, totalPrice, deliveryFee,
                 deliveryRequest, orderProducts, address);
@@ -107,15 +110,33 @@ public class CreateOrderService {
 
         List<OrderProductDto> orderItemDtos = orderProducts.stream().map((orderProduct) -> orderProduct.toOrderProductDto(false)).toList();
 
-        String orderId = UUID.randomUUID().toString();
-
         return kaKaoPay.kakaoPayReady(
-                orderId,
+                orderId.toString(),
                 user.id(),
                 productName,
                 quantity,
                 payment,
                 orderItemDtos
         );
+    }
+
+    private String time() {
+        Date current = Calendar.getInstance().getTime();
+
+        SimpleDateFormat date = new SimpleDateFormat("yyMMdd");
+
+        return date.format(current);
+    }
+
+    private String randomNumber() {
+        Random random = new Random();
+
+        String randomNumber = "";
+
+        for (int i = 0; i < 6; i += 1) {
+            randomNumber += random.nextInt(9);
+        }
+
+        return randomNumber;
     }
 }
