@@ -21,7 +21,7 @@ public class UpdateDeliveryStatusService {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
 
         switch (deliveryStatus) {
-            case "배송완료" -> order.isDelivered();
+            case "배송완료" -> order.toDelivered();
             case "배송중" -> order.toInTransit();
             case "배송 준비중" -> order.toShipped();
         }

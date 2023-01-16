@@ -42,7 +42,8 @@ public class GetOrdersService {
         Specification<Order> spec = Specification.where(OrderSpecification.equalUserId(user.id()));
 
         if(startDate != null && endDate != null) {
-            spec = spec.and(OrderSpecification.betweenCreatedDatetime(startDate.plusHours(9), endDate.plusHours(33)));
+            spec = spec.and(OrderSpecification.betweenCreatedDatetime(
+                    startDate.plusDays(1).withHour(0), endDate.plusDays(1).withHour(23).withMinute(59)));
         }
 
 //        if(keyword != null) {

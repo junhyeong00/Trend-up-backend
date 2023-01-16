@@ -24,7 +24,6 @@ import java.util.List;
 @Table(name = "order_table")
 public class Order {
     @Id
-    @GeneratedValue
     private Long id;
 
     private Long userId;
@@ -55,22 +54,6 @@ public class Order {
     private LocalDateTime createAt;
 
     public Order() {
-    }
-
-    public Order(Long userId, PhoneNumber phoneNumber,
-                 String receiver, Long payment, Long totalPrice,
-                 Long deliveryFee, String deliveryRequest, List<OrderProduct> orderProducts,
-                 Address address) {
-        this.userId = userId;
-        this.phoneNumber = phoneNumber;
-        this.receiver = receiver;
-        this.payment = payment;
-        this.totalPrice = totalPrice;
-        this.deliveryFee = deliveryFee;
-        this.deliveryRequest = deliveryRequest;
-        this.orderProducts = orderProducts;
-        this.address = address;
-        this.deliveryStatus = DeliveryStatus.SHIPPED.value();
     }
 
     public Order(Long id, Long userId, PhoneNumber phoneNumber,

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin-orders")
+@RequestMapping("admin/orders")
 public class AdminOrderController {
     private final GetOrdersAdminService getOrdersAdminService;
     private final GetSalesService getSalesService;

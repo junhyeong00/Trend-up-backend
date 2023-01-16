@@ -32,13 +32,13 @@ public class GetSalesService {
         Long monthlySales = 0L;
 
         while (date.isBefore(LocalDateTime.now())) {
-            Specification<Order> spec = Specification
-                    .where(OrderSpecification.betweenCreatedDatetime(date, date.plusHours(23).plusMinutes(59)));
+            Specification<Order> spec = Specification.where(OrderSpecification
+                    .betweenCreatedDatetime(date.withHour(0).withMinute(0), date.withHour(23).withMinute(59)));
 
             List<Order> orders = orderRepository.findAll(spec);
 
             Long amount = orders.stream().mapToLong(Order::payment)
-                            .reduce(0L, Long::sum);
+                    .reduce(0L, Long::sum);
 
             monthlySales += amount;
 
