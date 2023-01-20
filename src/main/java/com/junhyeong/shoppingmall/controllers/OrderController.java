@@ -5,6 +5,7 @@ import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderErrorDto;
 import com.junhyeong.shoppingmall.dtos.OrderRequestDto;
 import com.junhyeong.shoppingmall.dtos.OrdersDto;
+import com.junhyeong.shoppingmall.enums.DeliveryStatus;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.models.vo.Address;
 import com.junhyeong.shoppingmall.models.Order;
@@ -57,14 +58,8 @@ public class OrderController {
 //            @RequestParam(defaultValue = "") String keyword,
             @PageableDefault(size = 8, page = 0, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
 
-            ) {
-        Page<Order> orders = getOrdersService.searchOrders(userName, pageable, startDate, endDate);
-
-        int totalPageCount = orders.getTotalPages();
-
-        List<OrderDto> orderDtos = getOrdersService.toDto(orders);
-
-        return new OrdersDto(orderDtos, totalPageCount);
+    ) {
+        return getOrdersService.searchOrders(userName, pageable, startDate, endDate);
     }
 
     @GetMapping("orders/{id}")

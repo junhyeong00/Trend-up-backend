@@ -32,16 +32,22 @@ public class GetInquiresService {
     }
 
     public InquiriesDto inquiries(Long productId, UserName userName, Pageable pageable) {
-        User user = userRepository.findByUserName(userName)
-                .orElseThrow(UserNotFound::new);
+
 
         Page<Inquiry> inquiries = inquiryRepository.findAllByProductId(productId, pageable);
 
         int totalPageCount = inquiries.getTotalPages();
 
-        List<InquiryDto> inquiryDtos = toDto(user, inquiries);
+        if (userName != null) {
+            User user = userRepository.findByUserName(userName)
+                    .orElseThrow(UserNotFound::new);
 
+            List<InquiryDto> inquiryDtos = toDto(user, inquiries);
 
+            return new InquiriesDto(inquiryDtos, totalPageCount);
+        }
+
+        List<InquiryDto> inquiryDtos = toDto(inquiries);
 
         return new InquiriesDto(inquiryDtos, totalPageCount);
     }
@@ -60,6 +66,24 @@ public class GetInquiresService {
             }
 
             return inquiry.toDto(user.id(), writer.userName(), answerStatus);
+        }).toList();
+        return inquiryDtos;
+    }
+
+    private List<InquiryDto> toDto(Page<Inquiry> inquiries) {
+        List<InquiryDto> inquiryDtos = inquiries.stream().map(inquiry -> {
+            User writer = userRepository.findById(inquiry.userId())
+                    .orElseThrow(UserNotFound::new);
+
+            boolean answerStatus = answerRepository.existsByInquiryId(inquiry.id());
+
+            if (answerStatus) {
+                Answer answer = answerRepository.findByInquiryId(inquiry.id());
+
+                return inquiry.toDto(null, writer.userName(), answerStatus, answer.comment(), answer.createdAt());
+            }
+
+            return inquiry.toDto(null, writer.userName(), answerStatus);
         }).toList();
         return inquiryDtos;
     }
