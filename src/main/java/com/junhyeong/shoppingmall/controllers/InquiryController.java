@@ -43,7 +43,7 @@ public class InquiryController {
     @GetMapping("products/{productId}/inquiries")
     public InquiriesDto inquiries(
             @PathVariable("productId") Long productId,
-            @RequestAttribute("userName") UserName userName,
+            @RequestAttribute(name = "userName", required = false) UserName userName,
             @PageableDefault(size = 8, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         return getInquiresService.inquiries(productId, userName, pageable);

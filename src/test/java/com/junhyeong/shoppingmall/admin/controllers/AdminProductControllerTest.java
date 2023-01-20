@@ -1,6 +1,8 @@
 package com.junhyeong.shoppingmall.admin.controllers;
 
 import com.junhyeong.shoppingmall.admin.services.CreateProductService;
+import com.junhyeong.shoppingmall.dtos.ProductResultDto;
+import com.junhyeong.shoppingmall.models.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -10,7 +12,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,6 +30,9 @@ class AdminProductControllerTest {
 
     @Test
     void createProduct() throws Exception {
+        given(createProductService.createProduct(any(), any(), any(), any(), any(), any()))
+                .willReturn(new ProductResultDto(1L));
+
         mockMvc.perform(MockMvcRequestBuilders.post("/product")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +

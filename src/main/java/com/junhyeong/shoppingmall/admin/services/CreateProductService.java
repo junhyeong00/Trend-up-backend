@@ -20,7 +20,6 @@ public class CreateProductService {
     private final CategoryRepository categoryRepository;
     private final OptionRepository optionRepository;
 
-
     public CreateProductService(ProductRepository productRepository,
                                 CategoryRepository categoryRepository,
                                 OptionRepository optionRepository) {

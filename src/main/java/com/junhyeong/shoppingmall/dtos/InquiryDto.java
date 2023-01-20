@@ -11,12 +11,12 @@ public class InquiryDto {
     private String title;
     private String content;
     private Boolean answerStatus;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private LocalDateTime createAt;
     private Boolean isSecret;
     private Boolean isMine;
     private String comment;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private LocalDateTime answerCreateAt;
 
     public InquiryDto(Long id, String userName, String title, String content, boolean answerStatus,

@@ -13,7 +13,7 @@ public class ReviewDto {
     private String productName;
     private String productOption;
     private String userName;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private LocalDateTime createAt;
 
     public ReviewDto(Long id, Double rating, String content, String image,

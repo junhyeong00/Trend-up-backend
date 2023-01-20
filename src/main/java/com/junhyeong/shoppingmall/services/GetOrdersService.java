@@ -2,6 +2,8 @@ package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
+import com.junhyeong.shoppingmall.dtos.OrdersDto;
+import com.junhyeong.shoppingmall.enums.DeliveryStatus;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.Review;
@@ -34,7 +36,7 @@ public class GetOrdersService {
         this.reviewRepository = reviewRepository;
     }
 
-    public Page<Order> searchOrders(UserName userName, Pageable pageable,
+    public OrdersDto searchOrders(UserName userName, Pageable pageable,
                                     LocalDateTime startDate, LocalDateTime endDate) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(()-> new UserNotFound());
@@ -50,7 +52,30 @@ public class GetOrdersService {
 //            spec = spec.and(OrderSpecification.likeProductName(keyword));
 //        }
 
-        return orderRepository.findAll(spec, pageable);
+        Page<Order> orders = orderRepository.findAll(spec, pageable);
+
+        int totalPageCount = orders.getTotalPages();
+
+        List<OrderDto> orderDtos = toDto(orders);
+
+        long shippedCount = calcShippedCount(user.id());
+        long inTransitCount = calcInTransitCount(user.id());
+
+        return new OrdersDto(orderDtos, totalPageCount, shippedCount, inTransitCount);
+    }
+
+    private long calcInTransitCount(Long userId) {
+        Specification<Order> spec = Specification.where(OrderSpecification.equalUserId(userId));
+        spec = spec.and(OrderSpecification.equalDeliveryStatus(DeliveryStatus.IN_TRANSIT.value()));
+        long inTransitCount = orderRepository.count(spec);
+        return inTransitCount;
+    }
+
+    private long calcShippedCount(Long userId) {
+        Specification<Order> spec = Specification.where(OrderSpecification.equalUserId(userId));
+        spec = spec.and(OrderSpecification.equalDeliveryStatus(DeliveryStatus.SHIPPED.value()));
+        long shippedCount = orderRepository.count(spec);
+        return shippedCount;
     }
 
     public List<OrderDto> toDto(Page<Order> orders) {

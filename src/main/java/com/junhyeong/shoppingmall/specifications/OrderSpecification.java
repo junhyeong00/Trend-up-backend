@@ -40,4 +40,14 @@ public class OrderSpecification {
             }
         };
     }
+
+    public static Specification<Order> equalDeliveryStatus(
+            String deliveryStatus) {
+        return new Specification<Order>() {
+            @Override
+            public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("deliveryStatus"), deliveryStatus);
+            }
+        };
+    }
 }

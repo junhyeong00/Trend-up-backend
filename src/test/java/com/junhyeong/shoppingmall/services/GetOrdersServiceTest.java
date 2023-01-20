@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.dtos.OrdersDto;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
@@ -62,9 +63,9 @@ class GetOrdersServiceTest {
         given(orderRepository.findAll(any(Specification.class), eq(pageable)))
                 .willReturn(pageableOrders);
 
-        Page<Order> found = getOrdersService.searchOrders(userName, pageable, null, null);
+        OrdersDto found = getOrdersService.searchOrders(userName, pageable, null, null);
 
-        assertThat(found).hasSize(1);
+        assertThat(found).isNotNull();
 
         verify(orderRepository).findAll(any(Specification.class), eq(pageable));
     }

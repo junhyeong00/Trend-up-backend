@@ -19,6 +19,9 @@ public class ProductRequestDto {
     @NotBlank
     private String imageUrl;
 
+    public ProductRequestDto() {
+    }
+
     public ProductRequestDto(String productName, Long categoryId, Long price,
                              List<CreateOptionDto> options, String description, String imageUrl) {
         this.productName = productName;
