@@ -66,6 +66,10 @@ public class Product {
         return new Product(id, category.id(), "가디건", "부드럽다",  10000L, "");
     }
 
+    public ProductDto toDto(String categoryName, double totalRating, Long totalReviewCount) {
+        return new ProductDto(id, categoryId, categoryName, name, description, price, image, createAt, totalRating, totalReviewCount);
+    }
+
     public ProductDto toDto(String categoryName) {
         return new ProductDto(id, categoryId, categoryName, name, description, price, image, createAt);
     }

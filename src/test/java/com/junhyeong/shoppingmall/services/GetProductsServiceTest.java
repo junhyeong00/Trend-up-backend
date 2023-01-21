@@ -4,6 +4,7 @@ import com.junhyeong.shoppingmall.models.Category;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
+import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -25,12 +26,14 @@ class GetProductsServiceTest {
     private ProductRepository productRepository;
     private GetProductsService getProductsService;
     private CategoryRepository categoryRepository;
+    private ReviewRepository reviewRepository;
 
     @BeforeEach
     void setup() {
         productRepository = mock(ProductRepository.class);
         categoryRepository = mock(CategoryRepository.class);
-        getProductsService = new GetProductsService(productRepository, categoryRepository);
+        reviewRepository = mock(ReviewRepository.class);
+        getProductsService = new GetProductsService(productRepository, categoryRepository, reviewRepository);
     }
 
     @Test

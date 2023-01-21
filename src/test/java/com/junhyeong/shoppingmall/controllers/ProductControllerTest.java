@@ -1,7 +1,5 @@
 package com.junhyeong.shoppingmall.controllers;
 
-import com.junhyeong.shoppingmall.dtos.ProductDto;
-import com.junhyeong.shoppingmall.dtos.ProductsDto;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.services.GetProductService;
 import com.junhyeong.shoppingmall.services.GetProductsService;
@@ -70,7 +68,7 @@ class ProductControllerTest {
 
         Product product = new Product(productId, categoryId, "상품 1", "상품 설명 1", 500L, null);
 
-        given(getProductService.product(productId)).willReturn(product.toDto("상의"));
+        given(getProductService.product(productId)).willReturn(product.toDto("상의", 5, 3L));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products/1"))
                 .andExpect(status().isOk());
