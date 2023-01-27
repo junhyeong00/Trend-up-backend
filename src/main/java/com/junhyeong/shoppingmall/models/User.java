@@ -94,7 +94,8 @@ public class User {
     }
 
     public UserDto toDto() {
-        return new UserDto(id, userName.value(), name, phoneNumber);
+        boolean isSnsUser = encodedPassword == null;
+        return new UserDto(id, userName.value(), name, phoneNumber, isSnsUser);
     }
 
     public void updateCart(Cart cart) {
