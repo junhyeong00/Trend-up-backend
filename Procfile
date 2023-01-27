@@ -1,1 +1,1 @@
-web: java -Dserver.port=80 -jar build/libs/shopping-mall-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -Dspring.profiles.active=production -jar build/libs/shopping-mall-0.0.1-SNAPSHOT.jar
