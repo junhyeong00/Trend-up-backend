@@ -56,9 +56,9 @@ public class KaKaoPay {
         params.add("quantity", String.valueOf(quantity));
         params.add("total_amount", String.valueOf(orderPayment));
         params.add("tax_free_amount", "1000");
-        params.add("approval_url", "http://localhost:8080/order/success");
-        params.add("cancel_url", "http://localhost:8080/order/cancel");
-        params.add("fail_url", "http://localhost:8080/order/fail");
+        params.add("approval_url", "https://trend-up.fly.dev/order/success");
+        params.add("cancel_url", "https://trend-up.fly.dev/order/cancel");
+        params.add("fail_url", "https://trend-up.fly.dev/order/fail");
 
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<>(params, headers);
 
