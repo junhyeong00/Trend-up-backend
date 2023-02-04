@@ -25,9 +25,6 @@ public class KaKaoLoginController {
 
         HashMap<String, Object> userInfo = kakaoLoginService.getUser(accessToken);
 
-        System.out.println("===");
-        System.out.println(userInfo);
-        System.out.println("===");
         return loginService.kaKaoLogin(userInfo);
     }
 }
