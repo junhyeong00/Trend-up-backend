@@ -1,6 +1,7 @@
 package com.junhyeong.shoppingmall.admin.controllers;
 
 import com.junhyeong.shoppingmall.admin.services.CreateProductService;
+import com.junhyeong.shoppingmall.admin.services.UpdateProductService;
 import com.junhyeong.shoppingmall.dtos.ProductResultDto;
 import com.junhyeong.shoppingmall.models.Product;
 import org.junit.jupiter.api.Test;
@@ -28,18 +29,22 @@ class AdminProductControllerTest {
     @MockBean
     private CreateProductService createProductService;
 
+    @MockBean
+    private UpdateProductService updateProductService;
+
     @Test
     void createProduct() throws Exception {
         given(createProductService.createProduct(any(), any(), any(), any(), any(), any()))
                 .willReturn(new ProductResultDto(1L));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/product")
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/product")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"productName\":\"가디건\"," +
                                 "\"categoryId\":\"1\"," +
                                 "\"price\":\"10000\"," +
-                                "\"description\":\"부드럽다\"" +
+                                "\"description\":\"부드럽다\"," +
+                                "\"imageUrl\":\"imageUrl\"" +
                                 "}"))
                 .andExpect(status().isCreated());
 

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class GetProductsService {
     }
 
     public ProductsDto products(Integer page, Long categoryId, String keyword) {
-        Pageable pageable = PageRequest.of(page -1, 8);
+        Pageable pageable = PageRequest.of(page -1, 8, Sort.by("createAt").descending().and(Sort.by("id").descending()));
 
         Specification<Product> spec = (root, query, builder) -> null;
 
