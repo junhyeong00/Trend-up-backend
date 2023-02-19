@@ -57,7 +57,7 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 <br>
 
 ## 아키텍쳐
-LAYERED ARCHITECTURE(계층형 아키텍처)
+Flux Architecture
 
 1. UI Layer
 2. Application Layer
