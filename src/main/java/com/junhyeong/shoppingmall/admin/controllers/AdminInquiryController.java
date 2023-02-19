@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("admin")
 public class AdminInquiryController {
     private final GetInquiriesAdminService getInquiriesAdminService;
 
@@ -16,7 +18,7 @@ public class AdminInquiryController {
         this.getInquiriesAdminService = getInquiriesAdminService;
     }
 
-    @GetMapping("admin-inquiries")
+    @GetMapping("inquiries")
     public InquiriesDto inquiries(
             @PageableDefault(size = 8, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {

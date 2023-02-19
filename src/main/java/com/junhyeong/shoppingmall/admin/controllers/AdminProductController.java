@@ -5,6 +5,7 @@ import com.junhyeong.shoppingmall.dtos.ProductRequestDto;
 import com.junhyeong.shoppingmall.dtos.ProductResultDto;
 import com.junhyeong.shoppingmall.admin.services.CreateProductService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ public class AdminProductController {
     @PostMapping("product")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResultDto createProduct(
-            @RequestBody ProductRequestDto productRequestDto
+            @Validated @RequestBody ProductRequestDto productRequestDto
     ) {
         return createProductService.createProduct(
                 productRequestDto.getProductName(),
@@ -39,18 +40,18 @@ public class AdminProductController {
         );
     }
 
-//    @PatchMapping("product")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public ProductResultDto updateProduct(
-//            @RequestBody ProductRequestDto productRequestDto
-//    ) {
-//        return updateProductService.updateProduct(
-//                productRequestDto.getProductName(),
-//                productRequestDto.getCategoryId(),
-//                productRequestDto.getDescription(),
-//                productRequestDto.getPrice(),
-//                productRequestDto.getImageUrl(),
-//                productRequestDto.getOptions()
-//        );
-//    }
+    @PatchMapping("product")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProductResultDto updateProduct(
+            @Validated @RequestBody ProductRequestDto productRequestDto
+    ) {
+        return updateProductService.updateProduct(
+                productRequestDto.getProductName(),
+                productRequestDto.getCategoryId(),
+                productRequestDto.getDescription(),
+                productRequestDto.getPrice(),
+                productRequestDto.getImageUrl(),
+                productRequestDto.getOptions()
+        );
+    }
 }
