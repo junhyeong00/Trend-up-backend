@@ -26,7 +26,7 @@ class AdminInquiryControllerTest {
 
     @Test
     void inquiries() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/admin-inquiries"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/inquiries"))
                 .andExpect(status().isOk());
 
         verify(getInquiriesAdminService).inquiries(any());

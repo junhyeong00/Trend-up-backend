@@ -98,10 +98,7 @@ public class Inquiry {
         Boolean isMine = isWriter(userId);
 
         if (isSecret && !isMine) {
-                String title = "비밀글입니다";
-                String content = "접근 권한이 없습니다";
-
-            return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
+            return changeToSecret(answerStatus, isMine);
         }
 
         return new InquiryDto(this.id, userName.value(), title, content, answerStatus,
@@ -112,13 +109,18 @@ public class Inquiry {
         Boolean isMine = isWriter(userId);
 
         if (isSecret && !isMine) {
-            String title = "비밀글입니다";
-            String content = "접근 권한이 없습니다";
-
-            return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
+            return changeToSecret(answerStatus, isMine);
         }
 
         return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
+    }
+
+    private InquiryDto changeToSecret(boolean answerStatus, Boolean isMine) {
+        String title = "비밀글입니다";
+        String content = "접근 권한이 없습니다";
+        String writer = "****";
+
+        return new InquiryDto(this.id, writer, title, content, answerStatus, createAt, isSecret, isMine);
     }
 
     public boolean isWriter(Long userId) {
