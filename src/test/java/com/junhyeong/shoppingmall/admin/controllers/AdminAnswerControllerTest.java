@@ -27,7 +27,7 @@ class AdminAnswerControllerTest {
 
     @Test
     void write() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/answer")
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/answer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"inquiryId\": \"1\"," +
@@ -42,7 +42,7 @@ class AdminAnswerControllerTest {
     void writeWithExistsAnswer() throws Exception {
         given(createAnswerService.write(any(),any())).willThrow(new AnswerWriteFailed());
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/answer")
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/answer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"inquiryId\": \"1\"," +
@@ -53,7 +53,7 @@ class AdminAnswerControllerTest {
 
     @Test
     void writeWithBlankComment() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/answer")
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/answer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"inquiryId\": \"1\"," +

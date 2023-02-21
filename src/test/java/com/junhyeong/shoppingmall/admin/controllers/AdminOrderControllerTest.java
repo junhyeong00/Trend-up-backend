@@ -56,14 +56,14 @@ class AdminOrderControllerTest {
         given(getOrdersAdminService.orders(any()))
                 .willReturn(pageableOrders);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/admin-orders")
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/orders")
                         .param("page", "1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void changeDeliveryStatus() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.patch("/admin-orders/1")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/admin/orders/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
                                 "\"deliveryStatus\": \"배송중\"" +
@@ -75,7 +75,7 @@ class AdminOrderControllerTest {
 
     @Test
     void sales() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/admin-orders/sales"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/orders/sales"))
                 .andExpect(status().isOk());
 
         verify(getSalesService).sales();
@@ -83,7 +83,7 @@ class AdminOrderControllerTest {
 
     @Test
     void deliveryInformation() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/admin-orders/delivery"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/admin/orders/delivery"))
                 .andExpect(status().isOk());
 
         verify(getDeliveryInformationService).deliveryInformation();

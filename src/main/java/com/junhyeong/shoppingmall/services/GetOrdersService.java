@@ -48,10 +48,6 @@ public class GetOrdersService {
                     startDate.plusDays(1).withHour(0), endDate.plusDays(1).withHour(23).withMinute(59)));
         }
 
-//        if(keyword != null) {
-//            spec = spec.and(OrderSpecification.likeProductName(keyword));
-//        }
-
         Page<Order> orders = orderRepository.findAll(spec, pageable);
 
         int totalPageCount = orders.getTotalPages();
