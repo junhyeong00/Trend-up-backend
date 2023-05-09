@@ -7,6 +7,7 @@ import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.inquiry.GetInquiresService;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

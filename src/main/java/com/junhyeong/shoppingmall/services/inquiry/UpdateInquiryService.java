@@ -1,6 +1,6 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.inquiry;
 
-import com.junhyeong.shoppingmall.exceptions.isNotWriter;
+import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
 import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Inquiry;
@@ -32,9 +32,7 @@ public class UpdateInquiryService {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
 
-        if (!inquiry.isWriter(user.id())) {
-            throw new isNotWriter();
-        }
+        inquiry.checkWriterAuthority(user.id());
 
         inquiry.update(title, content, isSecret);
     }

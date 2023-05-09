@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.user;
 
 import org.springframework.stereotype.Service;
 

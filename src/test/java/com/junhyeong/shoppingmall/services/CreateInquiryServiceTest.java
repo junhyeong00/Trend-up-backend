@@ -6,10 +6,9 @@ import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
-import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
-import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.inquiry.CreateInquiryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -3,6 +3,7 @@ package com.junhyeong.shoppingmall.services;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.user.GetUserService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

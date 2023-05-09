@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.login;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

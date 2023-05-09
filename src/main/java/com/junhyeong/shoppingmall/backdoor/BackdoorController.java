@@ -239,12 +239,6 @@ public class BackdoorController {
         return "OK";
     }
 
-    @GetMapping("setup-orders")
-    public String setupOrders() {
-        // TODO orders
-        return "OK";
-    }
-
     @GetMapping("setup-inquiries")
     public String setupInquiries() {
         LocalDateTime now = LocalDateTime.now();

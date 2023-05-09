@@ -5,6 +5,7 @@ import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
+import com.junhyeong.shoppingmall.services.product.GetProductsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;

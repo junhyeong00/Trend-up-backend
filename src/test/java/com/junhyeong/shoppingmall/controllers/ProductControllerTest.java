@@ -1,8 +1,8 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.models.Product;
-import com.junhyeong.shoppingmall.services.GetProductService;
-import com.junhyeong.shoppingmall.services.GetProductsService;
+import com.junhyeong.shoppingmall.services.product.GetProductService;
+import com.junhyeong.shoppingmall.services.product.GetProductsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

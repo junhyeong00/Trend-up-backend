@@ -1,11 +1,12 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.exceptions.isNotWriter;
+import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
 import com.junhyeong.shoppingmall.models.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.inquiry.UpdateInquiryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,7 +69,7 @@ class UpdateInquiryServiceTest {
         given(userRepository.findByUserName(userName))
                 .willReturn(Optional.of(user));
 
-        assertThrows(isNotWriter.class, () -> {
+        assertThrows(IsNotWriter.class, () -> {
             updateInquiryService.update(userName, inquiryId, "색상 문의", "빨간색은 없나요?", false);
         });
     }

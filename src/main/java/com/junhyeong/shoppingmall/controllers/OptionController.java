@@ -3,7 +3,7 @@ package com.junhyeong.shoppingmall.controllers;
 import com.junhyeong.shoppingmall.dtos.OptionDto;
 import com.junhyeong.shoppingmall.dtos.OptionsDto;
 import com.junhyeong.shoppingmall.models.Option;
-import com.junhyeong.shoppingmall.services.GetOptionsService;
+import com.junhyeong.shoppingmall.services.option.GetOptionsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

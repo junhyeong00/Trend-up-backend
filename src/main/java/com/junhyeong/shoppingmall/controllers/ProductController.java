@@ -2,19 +2,13 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.ProductDto;
 import com.junhyeong.shoppingmall.dtos.ProductsDto;
-import com.junhyeong.shoppingmall.models.Product;
-import com.junhyeong.shoppingmall.services.GetProductService;
-import com.junhyeong.shoppingmall.services.GetProductsService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import com.junhyeong.shoppingmall.services.product.GetProductService;
+import com.junhyeong.shoppingmall.services.product.GetProductsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("products")

@@ -1,8 +1,8 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.LoginResultDto;
-import com.junhyeong.shoppingmall.services.KaKaoLoginService;
-import com.junhyeong.shoppingmall.services.LoginService;
+import com.junhyeong.shoppingmall.services.login.KaKaoLoginService;
+import com.junhyeong.shoppingmall.services.login.LoginService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

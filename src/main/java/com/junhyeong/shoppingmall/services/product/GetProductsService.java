@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.product;
 
 import com.junhyeong.shoppingmall.dtos.ProductDto;
 import com.junhyeong.shoppingmall.dtos.ProductsDto;

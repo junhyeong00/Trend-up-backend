@@ -5,17 +5,15 @@ import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderErrorDto;
 import com.junhyeong.shoppingmall.dtos.OrderRequestDto;
 import com.junhyeong.shoppingmall.dtos.OrdersDto;
-import com.junhyeong.shoppingmall.enums.DeliveryStatus;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
-import com.junhyeong.shoppingmall.models.vo.Address;
 import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.vo.Address;
 import com.junhyeong.shoppingmall.models.vo.PhoneNumber;
 import com.junhyeong.shoppingmall.models.vo.UserName;
-import com.junhyeong.shoppingmall.services.CreateOrderService;
-import com.junhyeong.shoppingmall.services.GetOrderService;
-import com.junhyeong.shoppingmall.services.GetOrdersService;
+import com.junhyeong.shoppingmall.services.order.CreateOrderService;
+import com.junhyeong.shoppingmall.services.order.GetOrderService;
+import com.junhyeong.shoppingmall.services.order.GetOrdersService;
 import com.junhyeong.shoppingmall.utils.KaKaoPay;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -34,7 +32,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @RestController
 public class OrderController {

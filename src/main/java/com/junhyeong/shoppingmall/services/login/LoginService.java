@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.login;
 
 import com.junhyeong.shoppingmall.dtos.LoginResultDto;
 import com.junhyeong.shoppingmall.exceptions.LoginFailed;

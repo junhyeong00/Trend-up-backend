@@ -1,11 +1,14 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
+import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.vo.UserName;
-import com.junhyeong.shoppingmall.services.CreateInquiryService;
-import com.junhyeong.shoppingmall.services.DeleteInquiryService;
-import com.junhyeong.shoppingmall.services.GetInquiresService;
-import com.junhyeong.shoppingmall.services.UpdateInquiryService;
+import com.junhyeong.shoppingmall.services.inquiry.CreateInquiryService;
+import com.junhyeong.shoppingmall.services.inquiry.DeleteInquiryService;
+import com.junhyeong.shoppingmall.services.inquiry.GetInquiresService;
+import com.junhyeong.shoppingmall.services.inquiry.UpdateInquiryService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +23,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -84,7 +88,7 @@ class InquiryControllerTest {
     @Test
     void delete() throws Exception {
         Long inquiryId = 1L;
-        mockMvc.perform(MockMvcRequestBuilders.delete("/inquiries/1")
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/inquiries/%d", inquiryId))
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isNoContent());
 
@@ -92,8 +96,49 @@ class InquiryControllerTest {
     }
 
     @Test
+    void deleteWithInquiryNotFound() throws Exception {
+        Long inquiryId = 999L;
+
+        doAnswer(invocation -> {
+            throw new InquiryNotFound();
+        }).when(deleteInquiryService).delete(any(), any());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteWithUserNotFound() throws Exception {
+        Long inquiryId = 1L;
+
+        doAnswer(invocation -> {
+            throw new UserNotFound();
+        }).when(deleteInquiryService).delete(any(), any());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteWithIsNotWriter() throws Exception {
+        Long inquiryId = 1L;
+
+        doAnswer(invocation -> {
+            throw new IsNotWriter();
+        }).when(deleteInquiryService).delete(any(), any());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void update() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.patch("/inquiries/1")
+        Long inquiryId = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(String.format("/inquiries/%d", inquiryId))
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +

@@ -36,12 +36,6 @@ class BackdoorControllerTest {
     }
 
     @Test
-    void setupOrders() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/backdoor/setup-orders"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
     void setupInquiries() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/backdoor/setup-inquiries"))
                 .andExpect(status().isOk());

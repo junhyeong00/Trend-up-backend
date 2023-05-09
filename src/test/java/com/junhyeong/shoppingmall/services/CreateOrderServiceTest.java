@@ -12,6 +12,7 @@ import com.junhyeong.shoppingmall.repositories.OptionRepository;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.order.CreateOrderService;
 import com.junhyeong.shoppingmall.utils.KaKaoPay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

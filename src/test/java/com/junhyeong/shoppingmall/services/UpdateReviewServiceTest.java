@@ -2,6 +2,7 @@ package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
+import com.junhyeong.shoppingmall.services.review.UpdateReviewService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
