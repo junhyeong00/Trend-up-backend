@@ -1,6 +1,5 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.review;
 
-import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.exceptions.ReviewNotFound;
 import com.junhyeong.shoppingmall.models.Review;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
@@ -10,18 +9,17 @@ import javax.transaction.Transactional;
 
 @Service
 @Transactional
-public class DeleteReviewsService {
+public class UpdateReviewService {
     private final ReviewRepository reviewRepository;
 
-    public DeleteReviewsService(ReviewRepository reviewRepository) {
+    public UpdateReviewService(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
 
-    public DeleteReviewDto delete(Long reviewId) {
+    public void edit(Long reviewId, Double rating, String content, String imageUrl) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFound::new);
 
-        review.delete();
-        return review.toDeleteDto();
+        review.update(rating, content, imageUrl);
     }
 }

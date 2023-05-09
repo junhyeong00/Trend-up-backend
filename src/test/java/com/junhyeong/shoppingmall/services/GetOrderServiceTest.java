@@ -3,6 +3,7 @@ package com.junhyeong.shoppingmall.services;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
+import com.junhyeong.shoppingmall.services.order.GetOrderService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;

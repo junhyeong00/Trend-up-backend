@@ -6,7 +6,7 @@ import com.junhyeong.shoppingmall.dtos.LoginResultDto;
 import com.junhyeong.shoppingmall.exceptions.LoginFailed;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
-import com.junhyeong.shoppingmall.services.LoginService;
+import com.junhyeong.shoppingmall.services.login.LoginService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;

@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.review;
 
 import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;

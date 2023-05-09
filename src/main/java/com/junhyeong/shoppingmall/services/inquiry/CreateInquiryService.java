@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.inquiry;
 
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
 import com.junhyeong.shoppingmall.exceptions.ProductNotFound;

@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.cart;
 
 import com.junhyeong.shoppingmall.dtos.CartDto;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;

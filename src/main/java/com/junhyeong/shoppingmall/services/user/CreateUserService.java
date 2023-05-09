@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.user;
 
 import com.junhyeong.shoppingmall.exceptions.RegisterFailed;
 import com.junhyeong.shoppingmall.models.User;

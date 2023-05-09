@@ -3,9 +3,9 @@ package com.junhyeong.shoppingmall.controllers;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 import com.junhyeong.shoppingmall.models.Order;
 import com.junhyeong.shoppingmall.models.vo.UserName;
-import com.junhyeong.shoppingmall.services.CreateOrderService;
-import com.junhyeong.shoppingmall.services.GetOrderService;
-import com.junhyeong.shoppingmall.services.GetOrdersService;
+import com.junhyeong.shoppingmall.services.order.CreateOrderService;
+import com.junhyeong.shoppingmall.services.order.GetOrderService;
+import com.junhyeong.shoppingmall.services.order.GetOrdersService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import com.junhyeong.shoppingmall.utils.KaKaoPay;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,15 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;

@@ -3,12 +3,12 @@ package com.junhyeong.shoppingmall.services;
 import com.junhyeong.shoppingmall.dtos.CategoriesDto;
 import com.junhyeong.shoppingmall.models.Category;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
+import com.junhyeong.shoppingmall.services.category.GetCategoriesService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

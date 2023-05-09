@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.services;
+package com.junhyeong.shoppingmall.services.option;
 
 import com.junhyeong.shoppingmall.models.Option;
 import com.junhyeong.shoppingmall.repositories.OptionRepository;

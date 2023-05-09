@@ -2,6 +2,7 @@ package com.junhyeong.shoppingmall.models;
 
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -115,7 +116,11 @@ public class Inquiry {
         return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
     }
 
-    private InquiryDto changeToSecret(boolean answerStatus, Boolean isMine) {
+    public Boolean isWriter(Long userId) {
+        return Objects.equals(this.userId, userId);
+    }
+
+    public InquiryDto changeToSecret(boolean answerStatus, Boolean isMine) {
         String title = "비밀글입니다";
         String content = "접근 권한이 없습니다";
         String writer = "****";
@@ -123,8 +128,10 @@ public class Inquiry {
         return new InquiryDto(this.id, writer, title, content, answerStatus, createAt, isSecret, isMine);
     }
 
-    public boolean isWriter(Long userId) {
-        return Objects.equals(this.userId, userId);
+    public void checkWriterAuthority(Long userId) {
+        if (!Objects.equals(this.userId, userId)) {
+            throw new IsNotWriter();
+        }
     }
 
     public void update(String title, String content, Boolean isSecret) {
