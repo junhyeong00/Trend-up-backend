@@ -3,7 +3,7 @@ package com.junhyeong.shoppingmall.services;
 import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;

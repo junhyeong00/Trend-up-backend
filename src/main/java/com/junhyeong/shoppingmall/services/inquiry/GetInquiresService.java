@@ -4,7 +4,7 @@ import com.junhyeong.shoppingmall.dtos.InquiriesDto;
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.Answer;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.AnswerRepository;

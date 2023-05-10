@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.inquiry;
 
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
@@ -6,6 +6,7 @@ import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,9 +23,11 @@ public class Inquiry {
 
     private Long userId;
 
-    private String title;
+    @Embedded
+    private Title title;
 
-    private String content;
+    @Embedded
+    private Content content;
 
     private Boolean isSecret;
 
@@ -34,7 +37,7 @@ public class Inquiry {
     public Inquiry() {
     }
 
-    public Inquiry(Long id, Long productId, Long userId, String title, String content, Boolean isSecret) {
+    public Inquiry(Long id, Long productId, Long userId, Title title, Content content, Boolean isSecret) {
         this.id = id;
         this.productId = productId;
         this.userId = userId;
@@ -43,7 +46,7 @@ public class Inquiry {
         this.isSecret = isSecret;
     }
 
-    public Inquiry(Long productId, Long userId, String title, String content, Boolean isSecret) {
+    public Inquiry(Long productId, Long userId, Title title, Content content, Boolean isSecret) {
         this.productId = productId;
         this.userId = userId;
         this.title = title;
@@ -54,12 +57,14 @@ public class Inquiry {
     public static Inquiry fake(Long inquiryId) {
         Long productId = 1L;
         Long userId = 1L;
-        return new Inquiry(inquiryId, productId, userId, "재입고 질문", "재입고 언제 될까요?", false);
+        return new Inquiry(inquiryId, productId, userId,
+                new Title("재입고 질문"), new Content("재입고 언제 될까요?"), false);
     }
 
     public static Inquiry fake(Long inquiryId, Long userId) {
         Long productId = 1L;
-        return new Inquiry(inquiryId, productId, userId, "재입고 질문", "재입고 언제 될까요?", false);
+        return new Inquiry(inquiryId, productId, userId,
+                new Title("재입고 질문"), new Content("재입고 언제 될까요?"), false);
     }
 
     public Long id() {
@@ -74,11 +79,11 @@ public class Inquiry {
         return userId;
     }
 
-    public String title() {
+    public Title title() {
         return title;
     }
 
-    public String content() {
+    public Content content() {
         return content;
     }
 
@@ -102,7 +107,7 @@ public class Inquiry {
             return changeToSecret(answerStatus, isMine);
         }
 
-        return new InquiryDto(this.id, userName.value(), title, content, answerStatus,
+        return new InquiryDto(this.id, userName.value(), title.value(), content.value(), answerStatus,
                 createAt, isSecret, isMine, comment, answerCreateAt);
     }
 
@@ -113,7 +118,7 @@ public class Inquiry {
             return changeToSecret(answerStatus, isMine);
         }
 
-        return new InquiryDto(this.id, userName.value(), title, content, answerStatus, createAt, isSecret, isMine);
+        return new InquiryDto(this.id, userName.value(), title.value(), content.value(), answerStatus, createAt, isSecret, isMine);
     }
 
     public Boolean isWriter(Long userId) {
@@ -134,13 +139,14 @@ public class Inquiry {
         }
     }
 
-    public void update(String title, String content, Boolean isSecret) {
+    public void update(Title title, Content content, Boolean isSecret) {
         this.title = title;
         this.content = content;
         this.isSecret = isSecret;
     }
 
     public InquiryDto toAdminDto(UserName userName, boolean answerStatus, String productName) {
-        return new InquiryDto(this.id, userName.value(), productName, title, content, answerStatus, createAt, isSecret);
+        return new InquiryDto(this.id, userName.value(), productName,
+                title.value(), content.value(), answerStatus, createAt, isSecret);
     }
 }

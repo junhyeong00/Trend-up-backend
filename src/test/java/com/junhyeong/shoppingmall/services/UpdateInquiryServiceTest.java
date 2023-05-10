@@ -1,7 +1,10 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.dtos.UpdateInquiryRequest;
+import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
@@ -39,20 +42,22 @@ class UpdateInquiryServiceTest {
 
         Inquiry inquiry = Inquiry.fake(inquiryId, user.id());
 
+        UpdateInquiryRequest updateInquiryRequest = UpdateInquiryRequest.fake(inquiryId);
+
         given(inquiryRepository.findById(inquiryId))
                 .willReturn(Optional.of(inquiry));
 
         given(userRepository.findByUserName(userName))
                 .willReturn(Optional.of(user));
 
-        updateInquiryService.update(userName, inquiryId, "색상 문의", "빨간색은 없나요?", false);
+        updateInquiryService.update(userName, updateInquiryRequest);
 
         verify(inquiryRepository).findById(inquiryId);
         verify(userRepository).findByUserName(userName);
     }
 
     @Test
-    void updateFailed() {
+    void updateFailedWithIsNotWriter() {
         UserName userName = new UserName("test123");
 
         User user = User.fake(userName);
@@ -63,6 +68,8 @@ class UpdateInquiryServiceTest {
 
         Inquiry inquiry = Inquiry.fake(inquiryId, otherUserId);
 
+        UpdateInquiryRequest updateInquiryRequest = UpdateInquiryRequest.fake(inquiryId);
+
         given(inquiryRepository.findById(inquiryId))
                 .willReturn(Optional.of(inquiry));
 
@@ -70,7 +77,51 @@ class UpdateInquiryServiceTest {
                 .willReturn(Optional.of(user));
 
         assertThrows(IsNotWriter.class, () -> {
-            updateInquiryService.update(userName, inquiryId, "색상 문의", "빨간색은 없나요?", false);
+            updateInquiryService.update(userName, updateInquiryRequest);
+        });
+    }
+
+    @Test
+    void updateFailedWithInquiryNotFound() {
+        UserName userName = new UserName("test123");
+
+        User user = User.fake(userName);
+
+        Long inquiryId = 999L;
+
+        UpdateInquiryRequest updateInquiryRequest = UpdateInquiryRequest.fake(inquiryId);
+
+        given(inquiryRepository.findById(inquiryId))
+                .willThrow(InquiryNotFound.class);
+
+        given(userRepository.findByUserName(userName))
+                .willReturn(Optional.of(user));
+
+        assertThrows(InquiryNotFound.class, () -> {
+            updateInquiryService.update(userName, updateInquiryRequest);
+        });
+    }
+
+    @Test
+    void updateFailedWithWriterNotFound() {
+        UserName userName = new UserName("test123");
+
+        Long inquiryId = 1L;
+
+        Long invalidUserId = 999L;
+
+        Inquiry inquiry = Inquiry.fake(inquiryId, invalidUserId);
+
+        UpdateInquiryRequest updateInquiryRequest = UpdateInquiryRequest.fake(inquiryId);
+
+        given(inquiryRepository.findById(inquiryId))
+                .willReturn(Optional.of(inquiry));
+
+        given(userRepository.findByUserName(userName))
+                .willThrow(UserNotFound.class);
+
+        assertThrows(UserNotFound.class, () -> {
+            updateInquiryService.update(userName, updateInquiryRequest);
         });
     }
 }

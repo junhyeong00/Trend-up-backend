@@ -1,11 +1,13 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.UpdateInquiryRequest;
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
 import com.junhyeong.shoppingmall.dtos.InquiryRequestDto;
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
 import com.junhyeong.shoppingmall.dtos.UpdateInquiryDto;
 import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.exceptions.UpdateInquiryFailed;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.services.inquiry.CreateInquiryService;
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 public class InquiryController {
@@ -57,7 +61,7 @@ public class InquiryController {
     @ResponseStatus(HttpStatus.CREATED)
     public InquiryResultDto write(
             @RequestAttribute("userName") UserName userName,
-            @RequestBody InquiryRequestDto inquiryRequestDto
+            @Valid @RequestBody InquiryRequestDto inquiryRequestDto
     ) {
         return createInquiryService.write(
                 userName,
@@ -80,16 +84,21 @@ public class InquiryController {
     @PatchMapping("inquiries/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(
-            @RequestBody UpdateInquiryDto updateInquiryDto,
+            @Valid @RequestBody UpdateInquiryDto updateInquiryDto,
             @RequestAttribute("userName") UserName userName,
             @PathVariable("id") Long inquiryId
     ) {
-        updateInquiryService.update(
-                userName,
-                inquiryId,
-                updateInquiryDto.getTitle(),
-                updateInquiryDto.getContent(),
-                updateInquiryDto.getIsSecret());
+        try {
+            UpdateInquiryRequest updateInquiryRequest = UpdateInquiryRequest.of(updateInquiryDto, inquiryId);
+
+            updateInquiryService.update(userName, updateInquiryRequest);
+        } catch (InquiryNotFound | UserNotFound e) {
+            throw e;
+        } catch (IsNotWriter isNotWriter) {
+            throw new IsNotWriter();
+        } catch (Exception e) {
+            throw new UpdateInquiryFailed(e.getMessage());
+        }
     }
 
     @ExceptionHandler(InquiryNotFound.class)
@@ -107,6 +116,12 @@ public class InquiryController {
     @ExceptionHandler(IsNotWriter.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String isNotWriter(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UpdateInquiryFailed.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String updateInquiryFailed(Exception e) {
         return e.getMessage();
     }
 }

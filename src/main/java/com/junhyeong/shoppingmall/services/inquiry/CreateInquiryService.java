@@ -3,9 +3,11 @@ package com.junhyeong.shoppingmall.services.inquiry;
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
 import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Content;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
+import com.junhyeong.shoppingmall.models.inquiry.Title;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
@@ -36,7 +38,8 @@ public class CreateInquiryService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(ProductNotFound::new);
 
-        Inquiry inquiry = new Inquiry(product.id(), user.id(), title, content, isSecret);
+        Inquiry inquiry = new Inquiry(product.id(), user.id(),
+                new Title(title), new Content(content), isSecret);
 
         inquiryRepository.save(inquiry);
         return inquiry.toResultDto();

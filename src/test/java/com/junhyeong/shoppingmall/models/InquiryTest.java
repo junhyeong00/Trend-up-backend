@@ -2,6 +2,9 @@ package com.junhyeong.shoppingmall.models;
 
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.models.inquiry.Content;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Title;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,11 +42,11 @@ class InquiryTest {
         Long userId = 1L;
         Inquiry inquiry = Inquiry.fake(inquiryId, userId);
 
-        assertThat(inquiry.title()).isEqualTo("재입고 질문");
+        assertThat(inquiry.title()).isEqualTo(new Title("재입고 질문"));
 
-        inquiry.update("색상 문의", "빨간색은 없나요?" , false);
+        inquiry.update(new Title("색상 문의"), new Content("빨간색은 없나요?") , false);
 
-        assertThat(inquiry.title()).isEqualTo("색상 문의");
+        assertThat(inquiry.title()).isEqualTo(new Title("색상 문의"));
     }
 
 
