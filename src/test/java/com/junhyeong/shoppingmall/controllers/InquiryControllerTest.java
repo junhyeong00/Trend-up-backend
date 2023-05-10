@@ -148,6 +148,93 @@ class InquiryControllerTest {
                                 "}"))
                 .andExpect(status().isNoContent());
 
-        verify(updateInquiryService).update(any(), any(), any(), any(), any());
+        verify(updateInquiryService).update(any(), any());
+    }
+
+    @Test
+    void updateWithBlankTitle() throws Exception {
+        Long inquiryId = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"title\":\"\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateWithBlankContent() throws Exception {
+        Long inquiryId = 1L;
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateWithInquiryNotFound() throws Exception {
+        Long inquiryId = 999L;
+
+        doAnswer(invocation -> {
+            throw new InquiryNotFound();
+        }).when(updateInquiryService).update(any(), any());
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateWithWriterNotFound() throws Exception {
+        Long inquiryId = 1L;
+
+        doAnswer(invocation -> {
+            throw new UserNotFound();
+        }).when(updateInquiryService).update(any(), any());
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateWithIsNotWriter() throws Exception {
+        Long inquiryId = 1L;
+
+        doAnswer(invocation -> {
+            throw new IsNotWriter();
+        }).when(updateInquiryService).update(any(), any());
+
+        mockMvc.perform(MockMvcRequestBuilders.patch(String.format("/inquiries/%d", inquiryId))
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isUnauthorized());
     }
 }

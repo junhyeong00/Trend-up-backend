@@ -1,9 +1,11 @@
 package com.junhyeong.shoppingmall.admin.services;
 
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Content;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
+import com.junhyeong.shoppingmall.models.inquiry.Title;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
@@ -49,9 +51,9 @@ class GetInquiriesAdminServiceTest {
         Long userId = 1L;
 
         List<Inquiry> inquiries = List.of(
-                new Inquiry(1L, productId, userId, "재입고 질문", "재입고 언제 될까요?", false),
-                new Inquiry(2L, productId, userId, "재입고 질문", "재입고 언제 될까요?", true),
-                new Inquiry(3L, productId, userId, "재입고 질문", "재입고 언제 될까요?", false)
+                new Inquiry(1L, productId, userId, new Title("재입고 질문"), new Content("재입고 언제 될까요?"), false),
+                new Inquiry(2L, productId, userId, new Title("재입고 질문"), new Content("재입고 언제 될까요?"), true),
+                new Inquiry(3L, productId, userId, new Title("재입고 질문"), new Content("재입고 언제 될까요?"), false)
         );
 
         int page = 1;

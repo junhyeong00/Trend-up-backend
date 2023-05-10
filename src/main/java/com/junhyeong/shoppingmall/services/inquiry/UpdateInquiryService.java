@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.services.inquiry;
 
-import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.dtos.UpdateInquiryRequest;
 import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
 import com.junhyeong.shoppingmall.repositories.InquiryRepository;
@@ -24,9 +24,8 @@ public class UpdateInquiryService {
         this.inquiryRepository = inquiryRepository;
     }
 
-    public void update(UserName userName, Long inquiryId,
-                       String title, String content, Boolean isSecret) {
-        Inquiry inquiry = inquiryRepository.findById(inquiryId)
+    public void update(UserName userName, UpdateInquiryRequest updateInquiryRequest) {
+        Inquiry inquiry = inquiryRepository.findById(updateInquiryRequest.getInquiryId())
                 .orElseThrow(InquiryNotFound::new);
 
         User user = userRepository.findByUserName(userName)
@@ -34,6 +33,8 @@ public class UpdateInquiryService {
 
         inquiry.checkWriterAuthority(user.id());
 
-        inquiry.update(title, content, isSecret);
+        inquiry.update(updateInquiryRequest.getTitle(),
+                updateInquiryRequest.getContent(),
+                updateInquiryRequest.getSecret());
     }
 }

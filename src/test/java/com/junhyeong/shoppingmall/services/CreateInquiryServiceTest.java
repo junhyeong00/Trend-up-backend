@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
-import com.junhyeong.shoppingmall.models.Inquiry;
+import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.Product;
 import com.junhyeong.shoppingmall.models.User;
 import com.junhyeong.shoppingmall.models.vo.UserName;
