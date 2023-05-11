@@ -2,7 +2,7 @@ package com.junhyeong.shoppingmall.services.category;
 
 import com.junhyeong.shoppingmall.dtos.CategoriesDto;
 import com.junhyeong.shoppingmall.dtos.CategoryDto;
-import com.junhyeong.shoppingmall.models.Category;
+import com.junhyeong.shoppingmall.models.category.Category;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 

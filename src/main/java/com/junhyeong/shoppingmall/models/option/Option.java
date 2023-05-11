@@ -1,12 +1,10 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.option;
 
 import com.junhyeong.shoppingmall.dtos.OptionDto;
-import com.junhyeong.shoppingmall.exceptions.OrderFailed;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.List;
 
 @Entity
 public class Option {

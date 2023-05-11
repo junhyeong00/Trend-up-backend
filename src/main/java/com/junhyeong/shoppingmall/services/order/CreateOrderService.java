@@ -5,14 +5,14 @@ import com.junhyeong.shoppingmall.dtos.OrderProductDto;
 import com.junhyeong.shoppingmall.exceptions.OptionNotFound;
 import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.vo.Address;
-import com.junhyeong.shoppingmall.models.Option;
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.vo.OrderProduct;
-import com.junhyeong.shoppingmall.models.vo.PhoneNumber;
-import com.junhyeong.shoppingmall.models.Product;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.order.Address;
+import com.junhyeong.shoppingmall.models.option.Option;
+import com.junhyeong.shoppingmall.models.order.Order;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
+import com.junhyeong.shoppingmall.models.order.PhoneNumber;
+import com.junhyeong.shoppingmall.models.product.Product;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.OptionRepository;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
@@ -27,7 +27,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 @Transactional

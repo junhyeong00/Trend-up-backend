@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.repositories;
 
-import com.junhyeong.shoppingmall.models.Review;
+import com.junhyeong.shoppingmall.models.review.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

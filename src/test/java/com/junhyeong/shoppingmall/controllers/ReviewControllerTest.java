@@ -1,10 +1,10 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.vo.OrderProduct;
-import com.junhyeong.shoppingmall.models.Review;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.order.Order;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
+import com.junhyeong.shoppingmall.models.review.Review;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.services.review.CreateReviewService;
 import com.junhyeong.shoppingmall.services.review.DeleteReviewsService;
 import com.junhyeong.shoppingmall.services.review.GetReviewService;

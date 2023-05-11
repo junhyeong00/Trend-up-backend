@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.specifications;
 
-import com.junhyeong.shoppingmall.models.Product;
+import com.junhyeong.shoppingmall.models.product.Product;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

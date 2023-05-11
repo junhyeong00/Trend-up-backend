@@ -2,7 +2,7 @@ package com.junhyeong.shoppingmall.dtos;
 
 import javax.validation.constraints.NotBlank;
 
-public class InquiryRequestDto {
+public class CreateInquiryRequestDto {
     private Long productId;
 
     @NotBlank(message = "제목을 입력해주세요")
@@ -13,7 +13,7 @@ public class InquiryRequestDto {
 
     private Boolean isSecret;
 
-    public InquiryRequestDto(Long productId, String title, String content, Boolean isSecret) {
+    public CreateInquiryRequestDto(Long productId, String title, String content, Boolean isSecret) {
         this.productId = productId;
         this.title = title;
         this.content = content;

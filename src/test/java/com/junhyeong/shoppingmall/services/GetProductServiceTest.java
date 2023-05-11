@@ -1,8 +1,8 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.ProductDto;
-import com.junhyeong.shoppingmall.models.Category;
-import com.junhyeong.shoppingmall.models.Product;
+import com.junhyeong.shoppingmall.models.category.Category;
+import com.junhyeong.shoppingmall.models.product.Product;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.services.product.GetProductService;

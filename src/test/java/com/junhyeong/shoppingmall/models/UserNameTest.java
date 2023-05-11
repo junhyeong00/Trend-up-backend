@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

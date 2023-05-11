@@ -1,7 +1,8 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.product;
 
 import com.junhyeong.shoppingmall.dtos.ProductDto;
 import com.junhyeong.shoppingmall.dtos.ProductResultDto;
+import com.junhyeong.shoppingmall.models.category.Category;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Entity;

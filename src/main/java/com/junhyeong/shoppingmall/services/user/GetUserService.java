@@ -1,8 +1,8 @@
 package com.junhyeong.shoppingmall.services.user;
 
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 

@@ -4,7 +4,7 @@ import com.junhyeong.shoppingmall.admin.services.GetDeliveryInformationService;
 import com.junhyeong.shoppingmall.admin.services.GetOrdersAdminService;
 import com.junhyeong.shoppingmall.admin.services.GetSalesService;
 import com.junhyeong.shoppingmall.admin.services.UpdateDeliveryStatusService;
-import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.order.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

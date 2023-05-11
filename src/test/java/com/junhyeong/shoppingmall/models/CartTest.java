@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
-import com.junhyeong.shoppingmall.models.vo.Cart;
+import com.junhyeong.shoppingmall.models.cart.Cart;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

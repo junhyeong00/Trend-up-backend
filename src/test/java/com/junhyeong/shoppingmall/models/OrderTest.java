@@ -1,10 +1,10 @@
 package com.junhyeong.shoppingmall.models;
 
 import com.junhyeong.shoppingmall.enums.DeliveryStatus;
+import com.junhyeong.shoppingmall.models.order.Order;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
     @Test

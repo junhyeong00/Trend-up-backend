@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.admin.services;
 
-import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.order.Order;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

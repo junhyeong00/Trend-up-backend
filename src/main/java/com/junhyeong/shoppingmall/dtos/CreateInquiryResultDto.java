@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.dtos;
 
-public class InquiryResultDto {
+public class CreateInquiryResultDto {
     private Long inquiryId;
 
-    public InquiryResultDto(Long inquiryId) {
+    public CreateInquiryResultDto(Long inquiryId) {
         this.inquiryId = inquiryId;
     }
 

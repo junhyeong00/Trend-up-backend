@@ -2,8 +2,8 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.config.MockMvcEncoding;
 import com.junhyeong.shoppingmall.exceptions.LoginFailed;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.services.login.LoginService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;

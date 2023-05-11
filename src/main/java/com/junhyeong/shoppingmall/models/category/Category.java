@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.category;
 
 import com.junhyeong.shoppingmall.dtos.CategoryDto;
 

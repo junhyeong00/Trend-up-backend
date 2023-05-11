@@ -2,7 +2,7 @@ package com.junhyeong.shoppingmall.admin.services;
 
 import com.junhyeong.shoppingmall.dtos.AnswerResultDto;
 import com.junhyeong.shoppingmall.exceptions.AnswerWriteFailed;
-import com.junhyeong.shoppingmall.models.Answer;
+import com.junhyeong.shoppingmall.models.answer.Answer;
 import com.junhyeong.shoppingmall.repositories.AnswerRepository;
 import org.springframework.stereotype.Service;
 

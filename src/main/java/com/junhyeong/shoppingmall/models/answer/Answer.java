@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.answer;
 
 import com.junhyeong.shoppingmall.dtos.AnswerResultDto;
 import org.hibernate.annotations.CreationTimestamp;

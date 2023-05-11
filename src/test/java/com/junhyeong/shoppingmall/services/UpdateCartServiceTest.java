@@ -1,8 +1,8 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.vo.Cart;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.cart.Cart;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import com.junhyeong.shoppingmall.services.cart.UpdateCartService;
 import org.junit.jupiter.api.Test;
