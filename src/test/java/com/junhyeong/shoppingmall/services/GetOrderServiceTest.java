@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.order.Order;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.services.order.GetOrderService;

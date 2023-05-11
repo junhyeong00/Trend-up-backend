@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.repositories;
 
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

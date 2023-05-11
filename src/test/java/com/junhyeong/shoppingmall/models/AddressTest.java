@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
-import com.junhyeong.shoppingmall.models.vo.Address;
+import com.junhyeong.shoppingmall.models.order.Address;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

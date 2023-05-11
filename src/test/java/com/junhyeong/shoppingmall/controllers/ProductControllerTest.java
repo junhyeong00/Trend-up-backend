@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.controllers;
 
-import com.junhyeong.shoppingmall.models.Product;
+import com.junhyeong.shoppingmall.models.product.Product;
 import com.junhyeong.shoppingmall.services.product.GetProductService;
 import com.junhyeong.shoppingmall.services.product.GetProductsService;
 import org.junit.jupiter.api.Test;

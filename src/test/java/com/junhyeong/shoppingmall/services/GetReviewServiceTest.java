@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
-import com.junhyeong.shoppingmall.models.Review;
+import com.junhyeong.shoppingmall.models.review.Review;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.services.review.GetReviewService;
 import org.junit.jupiter.api.Test;

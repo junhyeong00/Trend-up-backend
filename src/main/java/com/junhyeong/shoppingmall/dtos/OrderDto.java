@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.junhyeong.shoppingmall.models.vo.Address;
+import com.junhyeong.shoppingmall.models.order.Address;
 
 import java.time.LocalDateTime;
 import java.util.List;

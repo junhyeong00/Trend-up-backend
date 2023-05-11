@@ -2,7 +2,7 @@ package com.junhyeong.shoppingmall.admin.services;
 
 import com.junhyeong.shoppingmall.dtos.CoordinateDto;
 import com.junhyeong.shoppingmall.dtos.SalesDto;
-import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.order.Order;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.specifications.OrderSpecification;
 import org.springframework.data.jpa.domain.Specification;

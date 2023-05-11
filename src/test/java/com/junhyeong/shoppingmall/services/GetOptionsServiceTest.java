@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.Option;
+import com.junhyeong.shoppingmall.models.option.Option;
 import com.junhyeong.shoppingmall.repositories.OptionRepository;
 import com.junhyeong.shoppingmall.services.option.GetOptionsService;
 import org.junit.jupiter.api.Test;

@@ -1,18 +1,18 @@
-package com.junhyeong.shoppingmall.models.vo;
+package com.junhyeong.shoppingmall.models.product;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
-public class StockQuantity {
-    @Column(name = "stock_quantity")
+public class TotalPrice {
+    @Column(name = "total_price")
     private Long value;
 
-    public StockQuantity() {
+    public TotalPrice() {
     }
 
-    public StockQuantity(Long value) {
+    public TotalPrice(Long value) {
         this.value = value;
     }
 
@@ -22,13 +22,13 @@ public class StockQuantity {
 
     @Override
     public String toString() {
-        return "StockQuantity(" + value + ")";
+        return "TotalPrice(" + value + ")";
     }
 
     @Override
     public boolean equals(Object other) {
         return other != null &&
-                other.getClass() == StockQuantity.class &&
-                Objects.equals(this.value, ((StockQuantity) other).value);
+                other.getClass() == TotalPrice.class &&
+                Objects.equals(this.value, ((TotalPrice) other).value);
     }
 }

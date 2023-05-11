@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models.vo;
+package com.junhyeong.shoppingmall.models.cart;
 
 import com.junhyeong.shoppingmall.dtos.CartDto;
 

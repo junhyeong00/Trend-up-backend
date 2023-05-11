@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models.vo;
+package com.junhyeong.shoppingmall.models.product;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

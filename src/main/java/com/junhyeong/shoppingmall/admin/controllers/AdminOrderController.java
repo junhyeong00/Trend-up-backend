@@ -9,7 +9,7 @@ import com.junhyeong.shoppingmall.dtos.DeliveryStatusDto;
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrdersDto;
 import com.junhyeong.shoppingmall.dtos.SalesDto;
-import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.order.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

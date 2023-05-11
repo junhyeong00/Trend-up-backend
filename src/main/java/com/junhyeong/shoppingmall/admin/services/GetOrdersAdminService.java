@@ -2,8 +2,8 @@ package com.junhyeong.shoppingmall.admin.services;
 
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.vo.OrderProduct;
+import com.junhyeong.shoppingmall.models.order.Order;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

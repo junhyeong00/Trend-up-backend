@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.exceptions.RegisterFailed;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.Cart;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.cart.Cart;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.services.user.CreateUserService;
 import com.junhyeong.shoppingmall.services.cart.GetCartService;
 import com.junhyeong.shoppingmall.services.user.GetUserService;

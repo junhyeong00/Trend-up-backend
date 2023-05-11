@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.CategoriesDto;
-import com.junhyeong.shoppingmall.models.Category;
+import com.junhyeong.shoppingmall.models.category.Category;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.services.category.GetCategoriesService;
 import org.junit.jupiter.api.Test;

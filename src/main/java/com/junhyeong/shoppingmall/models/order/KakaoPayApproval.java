@@ -1,6 +1,8 @@
-package com.junhyeong.shoppingmall.models.vo;
+package com.junhyeong.shoppingmall.models.order;
 
 import com.junhyeong.shoppingmall.dtos.KakaoPayApprovalDto;
+import com.junhyeong.shoppingmall.models.order.Amount;
+import com.junhyeong.shoppingmall.models.order.CardInfo;
 
 import java.time.LocalDateTime;
 

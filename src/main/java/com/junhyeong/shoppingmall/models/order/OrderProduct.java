@@ -1,8 +1,8 @@
-package com.junhyeong.shoppingmall.models.vo;
+package com.junhyeong.shoppingmall.models.order;
 
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
-import com.junhyeong.shoppingmall.models.Option;
-import com.junhyeong.shoppingmall.models.Product;
+import com.junhyeong.shoppingmall.models.option.Option;
+import com.junhyeong.shoppingmall.models.product.Product;
 
 import javax.persistence.Embeddable;
 

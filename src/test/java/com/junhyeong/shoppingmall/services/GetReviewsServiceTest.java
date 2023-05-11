@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.vo.OrderProduct;
-import com.junhyeong.shoppingmall.models.Review;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
+import com.junhyeong.shoppingmall.models.review.Review;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import com.junhyeong.shoppingmall.services.review.GetReviewsService;

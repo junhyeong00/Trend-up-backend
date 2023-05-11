@@ -1,10 +1,11 @@
 package com.junhyeong.shoppingmall.controllers;
 
-import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.dtos.CreateInquiryResultDto;
 import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.services.inquiry.CreateInquiryService;
 import com.junhyeong.shoppingmall.services.inquiry.DeleteInquiryService;
 import com.junhyeong.shoppingmall.services.inquiry.GetInquiresService;
@@ -59,8 +60,8 @@ class InquiryControllerTest {
 
     @Test
     void write() throws Exception {
-        given(createInquiryService.write(any(), any(), any(), any(), any()))
-                .willReturn(new InquiryResultDto(1L));
+        given(createInquiryService.write(any(), any()))
+                .willReturn(new CreateInquiryResultDto(1L));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
                         .header("Authorization", "Bearer " + token)
@@ -73,7 +74,69 @@ class InquiryControllerTest {
                                 "}"))
                 .andExpect(status().isCreated());
 
-        verify(createInquiryService).write(any(), any(), any(), any(), any());
+        verify(createInquiryService).write(any(), any());
+    }
+
+    @Test
+    void writeWithBlankTitle() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"productId\":\"1\", " +
+                                "\"title\":\"\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void writeWithBlankContent() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"productId\":\"1\", " +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void writeWithProductNotFound() throws Exception {
+        given(createInquiryService.write(any(), any()))
+                .willThrow(ProductNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"productId\":\"1\", " +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void writeWithUserNotFound() throws Exception {
+        given(createInquiryService.write(any(), any()))
+                .willThrow(UserNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"productId\":\"1\", " +
+                                "\"title\":\"재입고 질문\", " +
+                                "\"content\":\"재입고 언제 될까요?\", " +
+                                "\"isSecret\":\"false\"" +
+                                "}"))
+                .andExpect(status().isNotFound());
     }
 
     @Test

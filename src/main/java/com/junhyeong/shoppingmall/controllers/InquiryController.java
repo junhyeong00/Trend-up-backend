@@ -1,15 +1,18 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.CreateInquiryRequest;
 import com.junhyeong.shoppingmall.dtos.UpdateInquiryRequest;
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
-import com.junhyeong.shoppingmall.dtos.InquiryRequestDto;
-import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.dtos.CreateInquiryRequestDto;
+import com.junhyeong.shoppingmall.dtos.CreateInquiryResultDto;
 import com.junhyeong.shoppingmall.dtos.UpdateInquiryDto;
+import com.junhyeong.shoppingmall.exceptions.CreateInquiryFailed;
 import com.junhyeong.shoppingmall.exceptions.InquiryNotFound;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.exceptions.UpdateInquiryFailed;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.services.inquiry.CreateInquiryService;
 import com.junhyeong.shoppingmall.services.inquiry.DeleteInquiryService;
 import com.junhyeong.shoppingmall.services.inquiry.GetInquiresService;
@@ -59,17 +62,19 @@ public class InquiryController {
 
     @PostMapping("inquiry")
     @ResponseStatus(HttpStatus.CREATED)
-    public InquiryResultDto write(
+    public CreateInquiryResultDto write(
             @RequestAttribute("userName") UserName userName,
-            @Valid @RequestBody InquiryRequestDto inquiryRequestDto
+            @Valid @RequestBody CreateInquiryRequestDto createInquiryRequestDto
     ) {
-        return createInquiryService.write(
-                userName,
-                inquiryRequestDto.getProductId(),
-                inquiryRequestDto.getTitle(),
-                inquiryRequestDto.getContent(),
-                inquiryRequestDto.getIsSecret()
-        );
+        try {
+            CreateInquiryRequest createInquiryRequest = CreateInquiryRequest.of(createInquiryRequestDto);
+
+            return createInquiryService.write(userName, createInquiryRequest);
+        } catch (ProductNotFound | UserNotFound e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CreateInquiryFailed(e.getMessage());
+        }
     }
 
     @DeleteMapping("inquiries/{id}")
@@ -77,8 +82,8 @@ public class InquiryController {
     public void delete(
             @RequestAttribute("userName") UserName userName,
             @PathVariable("id") Long inquiryId
-            ) {
-            deleteInquiryService.delete(userName, inquiryId);
+    ) {
+        deleteInquiryService.delete(userName, inquiryId);
     }
 
     @PatchMapping("inquiries/{id}")
@@ -113,6 +118,12 @@ public class InquiryController {
         return e.getMessage();
     }
 
+    @ExceptionHandler(ProductNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String productNotFound(Exception e) {
+        return e.getMessage();
+    }
+
     @ExceptionHandler(IsNotWriter.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String isNotWriter(Exception e) {
@@ -122,6 +133,12 @@ public class InquiryController {
     @ExceptionHandler(UpdateInquiryFailed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String updateInquiryFailed(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(CreateInquiryFailed.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String createInquiryFailed(Exception e) {
         return e.getMessage();
     }
 }

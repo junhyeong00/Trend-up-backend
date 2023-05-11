@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.models;
 
-import com.junhyeong.shoppingmall.models.vo.PhoneNumber;
+import com.junhyeong.shoppingmall.models.order.PhoneNumber;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

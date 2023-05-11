@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.services.cart;
 
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
-import com.junhyeong.shoppingmall.models.vo.Cart;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.cart.Cart;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 

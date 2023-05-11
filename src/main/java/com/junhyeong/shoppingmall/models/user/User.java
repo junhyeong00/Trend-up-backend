@@ -1,8 +1,7 @@
-package com.junhyeong.shoppingmall.models;
+package com.junhyeong.shoppingmall.models.user;
 
 import com.junhyeong.shoppingmall.dtos.UserDto;
-import com.junhyeong.shoppingmall.models.vo.Cart;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.cart.Cart;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

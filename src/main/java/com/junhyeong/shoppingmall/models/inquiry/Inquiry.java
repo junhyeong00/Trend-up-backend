@@ -1,9 +1,9 @@
 package com.junhyeong.shoppingmall.models.inquiry;
 
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
-import com.junhyeong.shoppingmall.dtos.InquiryResultDto;
+import com.junhyeong.shoppingmall.dtos.CreateInquiryResultDto;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
-import com.junhyeong.shoppingmall.models.vo.UserName;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.Embedded;
@@ -95,8 +95,8 @@ public class Inquiry {
         return createAt;
     }
 
-    public InquiryResultDto toResultDto() {
-        return new InquiryResultDto(id);
+    public CreateInquiryResultDto toResultDto() {
+        return new CreateInquiryResultDto(id);
     }
 
     public InquiryDto toDto(Long userId, UserName userName, boolean answerStatus,

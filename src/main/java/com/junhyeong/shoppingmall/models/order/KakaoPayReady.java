@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models.vo;
+package com.junhyeong.shoppingmall.models.order;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
