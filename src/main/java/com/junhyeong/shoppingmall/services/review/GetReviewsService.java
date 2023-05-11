@@ -13,12 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetReviewsService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
@@ -28,6 +27,7 @@ public class GetReviewsService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public Page<Review> reviews(Long productId, Pageable pageable) {
         Specification<Review> spec = Specification.where(ReviewSpecification.equalProductId(productId));
         spec = spec.and(ReviewSpecification.isFalseDeletedStatus());
@@ -35,6 +35,7 @@ public class GetReviewsService {
         return reviewRepository.findAll(spec, pageable);
     }
 
+    @Transactional(readOnly = true)
     public List<ReviewDto> toDto(Page<Review> reviews) {
         return reviews.stream().map(review -> {
             User user = userRepository.findById(review.userId())
@@ -43,6 +44,7 @@ public class GetReviewsService {
         }).toList();
     }
 
+    @Transactional(readOnly = true)
     public double totalRating(Long productId, Long totalReviewCount) {
         Specification<Review> spec = Specification.where(ReviewSpecification.equalProductId(productId));
         spec = spec.and(ReviewSpecification.isFalseDeletedStatus());
@@ -53,6 +55,7 @@ public class GetReviewsService {
         reduce(0, (acc, rating) -> acc + rating) / totalReviewCount;
     }
 
+    @Transactional(readOnly = true)
     public MyReviewsDto myReviews(UserName userName, Pageable pageable) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);

@@ -8,12 +8,11 @@ import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetOrdersAdminService {
     private final OrderRepository orderRepository;
 
@@ -21,6 +20,7 @@ public class GetOrdersAdminService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional(readOnly = true)
     public Page<Order> orders(Pageable pageable) {
         return orderRepository.findAll(pageable);
     }

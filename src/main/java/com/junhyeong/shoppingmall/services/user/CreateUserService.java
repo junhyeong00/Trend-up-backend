@@ -11,7 +11,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class CreateUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -21,6 +20,7 @@ public class CreateUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public User register(String name, UserName userName, String password, String confirmPassword, String phoneNumber) {
         if (userRepository.findByUserName(userName).isPresent()) {
             throw new RegisterFailed(List.of("해당 아이디는 사용할 수 없습니다"));

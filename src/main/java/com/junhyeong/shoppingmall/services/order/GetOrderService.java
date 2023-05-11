@@ -10,12 +10,11 @@ import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.specifications.ReviewSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetOrderService {
     private final OrderRepository orderRepository;
     private final ReviewRepository reviewRepository;
@@ -25,10 +24,12 @@ public class GetOrderService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional(readOnly = true)
     public Order orderDetail(Long orderId) {
         return orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
     }
 
+    @Transactional(readOnly = true)
     public OrderDto toDto(Order order) {
         List<OrderProductDto> orderProductDtos = order.orderProducts().stream()
                 .map(orderProduct -> {
@@ -40,7 +41,6 @@ public class GetOrderService {
                     return orderProduct.toOrderProductDto(writable);
                 }).toList();
 
-        System.out.println(orderProductDtos);
         return order.toDto(orderProductDtos);
     }
 }

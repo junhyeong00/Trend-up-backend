@@ -13,12 +13,11 @@ import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetInquiresService {
     private final UserRepository userRepository;
     private final InquiryRepository inquiryRepository;
@@ -31,9 +30,8 @@ public class GetInquiresService {
         this.answerRepository = answerRepository;
     }
 
+    @Transactional(readOnly = true)
     public InquiriesDto inquiries(Long productId, UserName userName, Pageable pageable) {
-
-
         Page<Inquiry> inquiries = inquiryRepository.findAllByProductId(productId, pageable);
 
         int totalPageCount = inquiries.getTotalPages();

@@ -18,13 +18,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetOrdersService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
@@ -36,6 +35,7 @@ public class GetOrdersService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional(readOnly = true)
     public OrdersDto searchOrders(UserName userName, Pageable pageable,
                                     LocalDateTime startDate, LocalDateTime endDate) {
         User user = userRepository.findByUserName(userName)

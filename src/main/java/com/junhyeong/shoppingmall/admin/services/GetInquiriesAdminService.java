@@ -14,12 +14,11 @@ import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetInquiriesAdminService {
     private final InquiryRepository inquiryRepository;
     private final UserRepository userRepository;
@@ -34,6 +33,7 @@ public class GetInquiriesAdminService {
         this.answerRepository = answerRepository;
     }
 
+    @Transactional(readOnly = true)
     public InquiriesDto inquiries(Pageable pageable) {
         Page<Inquiry> inquiries = inquiryRepository.findAll(pageable);
 

@@ -8,11 +8,9 @@ import com.junhyeong.shoppingmall.models.product.Product;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class GetProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -22,6 +20,7 @@ public class GetProductService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional(readOnly = true)
     public ProductDto product(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(ProductNotFound::new);
 

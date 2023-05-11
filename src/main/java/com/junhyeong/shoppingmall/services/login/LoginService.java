@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 
 @Service
-@Transactional
 public class LoginService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -27,6 +26,7 @@ public class LoginService {
         this.jwtUtil = jwtUtil;
     }
 
+    @Transactional
     public User login(UserName userName, String password) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new LoginFailed("존재하지 않는 아이디입니다"));
@@ -38,6 +38,7 @@ public class LoginService {
         return user;
     }
 
+    @Transactional
     public LoginResultDto kaKaoLogin(HashMap<String, Object> userInfo) {
         String name = String.valueOf(userInfo.get("nickname"));
         UserName userName = new UserName(String.valueOf(userInfo.get("email")));

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class DeleteInquiryService {
     private final UserRepository userRepository;
     private final InquiryRepository inquiryRepository;
@@ -24,6 +23,7 @@ public class DeleteInquiryService {
         this.inquiryRepository = inquiryRepository;
     }
 
+    @Transactional
     public void delete(UserName userName, Long inquiryId) {
         Inquiry inquiry = inquiryRepository.findById(inquiryId)
                 .orElseThrow(InquiryNotFound::new);

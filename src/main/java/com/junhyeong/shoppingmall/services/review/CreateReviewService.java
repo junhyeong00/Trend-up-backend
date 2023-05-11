@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class CreateReviewService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
@@ -33,6 +32,7 @@ public class CreateReviewService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional
     public Review write(UserName userName, Double rating,
                         String content, Long orderId,
                         String imageUrl, OrderProduct orderProduct) {
@@ -42,12 +42,9 @@ public class CreateReviewService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(OrderNotFound::new);
 
-        // 배송이 완료된 상품인지 확인
         if (!order.isDelivered()) {
             throw new ReviewWriteFailed("배송완료된 상품만 리뷰를 작성할 수 있습니다");
         }
-
-        // 리뷰를 안썼는지 썼느지 어떻게 확인하지? 주문 안의 상품 아이디와 주문 아이디, 그리고 옵션 아이디와 일치하는지 확인
 
         Specification<Review> spec = Specification.where(ReviewSpecification.equalUserId(user.id()));
         spec = spec.and(ReviewSpecification.equalOrderId(orderId));

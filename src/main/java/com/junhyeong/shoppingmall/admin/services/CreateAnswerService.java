@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class CreateAnswerService {
     private final AnswerRepository answerRepository;
 
@@ -17,6 +16,7 @@ public class CreateAnswerService {
         this.answerRepository = answerRepository;
     }
 
+    @Transactional
     public AnswerResultDto write(Long inquiryId, String comment) {
         if (answerRepository.existsByInquiryId(inquiryId)) {
             throw new AnswerWriteFailed();

@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class CreateProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -28,6 +27,7 @@ public class CreateProductService {
         this.optionRepository = optionRepository;
     }
 
+    @Transactional
     public ProductResultDto createProduct(String productName, Long categoryId, String description,
                                           Long price, String image, List<CreateOptionDto> optionDtos) {
         if (!categoryRepository.existsById(categoryId)) {
