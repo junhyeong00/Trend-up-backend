@@ -4,11 +4,9 @@ import com.junhyeong.shoppingmall.dtos.DeliveryInformationDto;
 import com.junhyeong.shoppingmall.enums.DeliveryStatus;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class GetDeliveryInformationService {
     private final OrderRepository orderRepository;
 
@@ -16,6 +14,7 @@ public class GetDeliveryInformationService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional(readOnly = true)
     public DeliveryInformationDto deliveryInformation() {
         Long shippedCount = orderRepository.countByDeliveryStatus(DeliveryStatus.SHIPPED.value());
         Long inTransitCount = orderRepository.countByDeliveryStatus(DeliveryStatus.IN_TRANSIT.value());

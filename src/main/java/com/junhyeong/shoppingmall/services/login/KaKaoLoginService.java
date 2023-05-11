@@ -17,7 +17,6 @@ import java.net.URL;
 import java.util.HashMap;
 
 @Service
-@Transactional
 public class KaKaoLoginService {
     @Value("${kakao.api-key}")
     private String apiKey;

@@ -7,15 +7,14 @@ import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.specifications.OrderSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetSalesService {
     private final OrderRepository orderRepository;
 
@@ -23,6 +22,7 @@ public class GetSalesService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional(readOnly = true)
     public SalesDto sales() {
         LocalDateTime date = LocalDateTime.now().minusMonths(1);
 

@@ -1,7 +1,6 @@
 package com.junhyeong.shoppingmall.admin.controllers;
 
 import com.junhyeong.shoppingmall.admin.services.CreateProductService;
-import com.junhyeong.shoppingmall.admin.services.UpdateProductService;
 import com.junhyeong.shoppingmall.dtos.ProductResultDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

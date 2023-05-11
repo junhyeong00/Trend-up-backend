@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class UpdateInquiryService {
     private final UserRepository userRepository;
     private final InquiryRepository inquiryRepository;
@@ -24,6 +23,7 @@ public class UpdateInquiryService {
         this.inquiryRepository = inquiryRepository;
     }
 
+    @Transactional
     public void update(UserName userName, UpdateInquiryRequest updateInquiryRequest) {
         Inquiry inquiry = inquiryRepository.findById(updateInquiryRequest.getInquiryId())
                 .orElseThrow(InquiryNotFound::new);

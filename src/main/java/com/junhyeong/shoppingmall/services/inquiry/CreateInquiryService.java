@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class CreateInquiryService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
@@ -30,6 +29,7 @@ public class CreateInquiryService {
         this.inquiryRepository = inquiryRepository;
     }
 
+    @Transactional
     public CreateInquiryResultDto write(UserName userName, CreateInquiryRequest createInquiryRequest) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);

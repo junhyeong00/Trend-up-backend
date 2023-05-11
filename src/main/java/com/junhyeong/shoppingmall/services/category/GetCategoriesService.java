@@ -5,12 +5,11 @@ import com.junhyeong.shoppingmall.dtos.CategoryDto;
 import com.junhyeong.shoppingmall.models.category.Category;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetCategoriesService {
     private final CategoryRepository categoryRepository;
 
@@ -18,6 +17,7 @@ public class GetCategoriesService {
         this.categoryRepository = categoryRepository;
     }
 
+    @Transactional(readOnly = true)
     public CategoriesDto categories() {
         List<Category>  categories = categoryRepository.findAll();
 

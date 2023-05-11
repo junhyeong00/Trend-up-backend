@@ -5,11 +5,10 @@ import com.junhyeong.shoppingmall.models.user.User;
 import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class GetUserService {
     private UserRepository userRepository;
 
@@ -17,6 +16,7 @@ public class GetUserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public User user(UserName userName) {
         return userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);

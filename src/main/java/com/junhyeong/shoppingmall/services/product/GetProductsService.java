@@ -18,12 +18,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class GetProductsService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
@@ -37,6 +36,7 @@ public class GetProductsService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional(readOnly = true)
     public ProductsDto products(Integer page, Long categoryId, String keyword) {
         Pageable pageable = PageRequest.of(page -1, 8, Sort.by("createAt").descending().and(Sort.by("id").descending()));
 

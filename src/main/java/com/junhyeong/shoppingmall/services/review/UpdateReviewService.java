@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class UpdateReviewService {
     private final ReviewRepository reviewRepository;
 
@@ -16,6 +15,7 @@ public class UpdateReviewService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional
     public void edit(Long reviewId, Double rating, String content, String imageUrl) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFound::new);

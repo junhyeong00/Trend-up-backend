@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class UpdateCartService {
     private final UserRepository userRepository;
 
@@ -18,6 +17,7 @@ public class UpdateCartService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public void updateCart(UserName userName, Cart cart) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class DeleteReviewsService {
     private final ReviewRepository reviewRepository;
 
@@ -17,6 +16,7 @@ public class DeleteReviewsService {
         this.reviewRepository = reviewRepository;
     }
 
+    @Transactional
     public DeleteReviewDto delete(Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(ReviewNotFound::new);

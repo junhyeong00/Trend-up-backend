@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-@Transactional
 public class CreateOrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
@@ -46,6 +45,7 @@ public class CreateOrderService {
         this.kaKaoPay = kaKaoPay;
     }
 
+    @Transactional
     public String createOrder(UserName userName, PhoneNumber phoneNumber,
                               String receiver, Long payment,
                               Long totalPrice, Long deliveryFee,

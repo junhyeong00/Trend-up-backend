@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class UpdateDeliveryStatusService {
     private final OrderRepository orderRepository;
 
@@ -16,6 +15,7 @@ public class UpdateDeliveryStatusService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     public void changeDeliveryStatus(Long orderId, String deliveryStatus) {
         Order order = orderRepository.findById(orderId).orElseThrow(OrderNotFound::new);
 

@@ -7,11 +7,10 @@ import com.junhyeong.shoppingmall.models.user.User;
 import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class GetCartService {
     private final UserRepository userRepository;
 
@@ -19,6 +18,7 @@ public class GetCartService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public CartDto cart(UserName userName) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
