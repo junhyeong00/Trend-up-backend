@@ -2,6 +2,7 @@ package com.junhyeong.shoppingmall.services.order;
 
 import com.junhyeong.shoppingmall.dtos.CreateOrderProductDto;
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
+import com.junhyeong.shoppingmall.dtos.OrderRequest;
 import com.junhyeong.shoppingmall.exceptions.OptionNotFound;
 import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
@@ -46,77 +47,24 @@ public class CreateOrderService {
     }
 
     @Transactional
-    public String createOrder(UserName userName, PhoneNumber phoneNumber,
-                              String receiver, Long payment,
-                              Long totalPrice, Long deliveryFee,
-                              List<CreateOrderProductDto> orderProductDtos,
-                              String deliveryRequest, Address address) {
+    public String createOrder(UserName userName, OrderRequest orderRequest) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
 
-        List<OrderProduct> orderProducts = new ArrayList<>();
-
-        for (CreateOrderProductDto orderProductDto : orderProductDtos) {
-            Product product = productRepository.findById(orderProductDto.getProductId())
-                    .orElseThrow(ProductNotFound::new);
-            Option option = optionRepository.findById(orderProductDto.getOptionId())
-                    .orElseThrow(OptionNotFound::new);
-
-            Long productPrice = product.price() + option.optionPrice();
-
-            OrderProduct orderProduct = new OrderProduct(
-                    product.id(), product.name(), productPrice, option.id(), option.name(),
-                    orderProductDto.getQuantity(), product.image());
-
-            orderProducts.add(orderProduct);
-
-            // TODO 재고 관리
-//            if (option.stockQuantity() < orderProductDto.getQuantity()) {
-//                throw new OrderFailed(product.name() + " - " + option.name() + "의 재고가 부족합니다");
-//            }
-//
-//            option.reduceStock(orderProductDto.getQuantity());
-        }
-//
-//        orderProductDtos.stream().forEach((product) -> {
-//            Option option = optionRepository.findById(product.getOptionId())
-//                    .orElseThrow(OptionNotFound::new);
-//
-//        });
+        List<OrderProduct> orderProducts = getOrderProducts(orderRequest);
 
         Long orderId = Long.valueOf((time() + randomNumber()));
 
-        Order order = new Order(orderId,
-                user.id(), phoneNumber, receiver,
-                payment, totalPrice, deliveryFee,
-                deliveryRequest, orderProducts, address);
+        Order order = new Order(
+                orderId, user.id(),
+                orderRequest.getPhoneNumber(), orderRequest.getReceiver(),
+                orderRequest.getPayment(), orderRequest.getTotalPrice(),
+                orderRequest.getDeliveryFee(), orderRequest.getDeliveryRequest(),
+                orderProducts, orderRequest.getAddress());
 
         orderRepository.save(order);
 
-        String productName = orderProducts.get(0).productName();
-        Long quantity = orderProducts.get(0).productQuantity();
-
-        if (orderProducts.size() >= 2) {
-            productName =
-                    orderProducts.get(0).productName() + " 외 " +
-                            "" + (orderProducts.size() - 1) + "건";
-
-            for (OrderProduct orderProduct : orderProducts) {
-                quantity = 0L;
-                quantity += orderProduct.productQuantity();
-            }
-        }
-
-        List<OrderProductDto> orderItemDtos = orderProducts.stream().map((orderProduct) -> orderProduct.toOrderProductDto(false)).toList();
-
-        return kaKaoPay.kakaoPayReady(
-                orderId.toString(),
-                user.id(),
-                productName,
-                quantity,
-                payment,
-                orderItemDtos
-        );
+        return getKakaoPayUrl(orderRequest, user, orderProducts, orderId);
     }
 
     private String time() {
@@ -137,5 +85,49 @@ public class CreateOrderService {
         }
 
         return randomNumber;
+    }
+
+    private List<OrderProduct> getOrderProducts(OrderRequest orderRequest) {
+        return orderRequest.getOrderProducts().stream()
+                .map((orderProductDto) -> {
+                    Product product = productRepository.findById(orderProductDto.getProductId())
+                            .orElseThrow(ProductNotFound::new);
+                    Option option = optionRepository.findById(orderProductDto.getOptionId())
+                            .orElseThrow(OptionNotFound::new);
+
+                    Long productPrice = product.price() + option.optionPrice();
+
+                    return new OrderProduct(
+                            product.id(), product.name(), productPrice, option.id(), option.name(),
+                            orderProductDto.getQuantity(), product.image());
+                }).toList();
+    }
+
+    private String getKakaoPayUrl(OrderRequest orderRequest, User user, List<OrderProduct> orderProducts, Long orderId) {
+        String productName = orderProducts.get(0).productName();
+        Long quantity = orderProducts.get(0).productQuantity();
+
+        if (orderProducts.size() >= 2) {
+            productName =
+                    orderProducts.get(0).productName() + " 외 " +
+                            "" + (orderProducts.size() - 1) + "건";
+
+            for (OrderProduct orderProduct : orderProducts) {
+                quantity = 0L;
+                quantity += orderProduct.productQuantity();
+            }
+        }
+
+        List<OrderProductDto> orderItemDtos = orderProducts.stream()
+                .map(OrderProduct::toOrderProductDto).toList();
+
+        return kaKaoPay.kakaoPayReady(
+                orderId.toString(),
+                user.id(),
+                productName,
+                quantity,
+                orderRequest.getPayment(),
+                orderItemDtos
+        );
     }
 }
