@@ -3,14 +3,19 @@ package com.junhyeong.shoppingmall.models.inquiry;
 import com.junhyeong.shoppingmall.dtos.InquiryDto;
 import com.junhyeong.shoppingmall.dtos.CreateInquiryResultDto;
 import com.junhyeong.shoppingmall.exceptions.IsNotWriter;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
+import com.junhyeong.shoppingmall.models.answer.Answer;
+import com.junhyeong.shoppingmall.models.user.User;
 import com.junhyeong.shoppingmall.models.user.UserName;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.Page;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity

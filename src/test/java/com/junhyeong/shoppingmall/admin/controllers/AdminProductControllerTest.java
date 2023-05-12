@@ -25,9 +25,6 @@ class AdminProductControllerTest {
     @MockBean
     private CreateProductService createProductService;
 
-    @MockBean
-    private UpdateProductService updateProductService;
-
     @Test
     void createProduct() throws Exception {
         given(createProductService.createProduct(any(), any(), any(), any(), any(), any()))

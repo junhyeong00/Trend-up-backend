@@ -36,21 +36,23 @@ public class GetInquiresService {
 
         int totalPageCount = inquiries.getTotalPages();
 
-        if (userName != null) {
-            User user = userRepository.findByUserName(userName)
-                    .orElseThrow(UserNotFound::new);
-
-            List<InquiryDto> inquiryDtos = toDto(user, inquiries);
-
-            return new InquiriesDto(inquiryDtos, totalPageCount);
-        }
-
-        List<InquiryDto> inquiryDtos = toDto(inquiries);
+        List<InquiryDto> inquiryDtos = toDto(userName, inquiries);
 
         return new InquiriesDto(inquiryDtos, totalPageCount);
     }
 
-    private List<InquiryDto> toDto(User user, Page<Inquiry> inquiries) {
+    private List<InquiryDto> toDto(UserName userName, Page<Inquiry> inquiries) {
+        Long userId = null;
+
+        if (userName != null) {
+            User user = userRepository.findByUserName(userName)
+                    .orElseThrow(UserNotFound::new);
+
+            userId = user.id();
+        }
+
+        Long viewerId = userId;
+
         List<InquiryDto> inquiryDtos = inquiries.stream().map(inquiry -> {
             User writer = userRepository.findById(inquiry.userId())
                     .orElseThrow(UserNotFound::new);
@@ -60,28 +62,10 @@ public class GetInquiresService {
             if (answerStatus) {
                 Answer answer = answerRepository.findByInquiryId(inquiry.id());
 
-                return inquiry.toDto(user.id(), writer.userName(), answerStatus, answer.comment(), answer.createdAt());
+                return inquiry.toDto(viewerId, writer.userName(), answerStatus, answer.comment(), answer.createdAt());
             }
 
-            return inquiry.toDto(user.id(), writer.userName(), answerStatus);
-        }).toList();
-        return inquiryDtos;
-    }
-
-    private List<InquiryDto> toDto(Page<Inquiry> inquiries) {
-        List<InquiryDto> inquiryDtos = inquiries.stream().map(inquiry -> {
-            User writer = userRepository.findById(inquiry.userId())
-                    .orElseThrow(UserNotFound::new);
-
-            boolean answerStatus = answerRepository.existsByInquiryId(inquiry.id());
-
-            if (answerStatus) {
-                Answer answer = answerRepository.findByInquiryId(inquiry.id());
-
-                return inquiry.toDto(null, writer.userName(), answerStatus, answer.comment(), answer.createdAt());
-            }
-
-            return inquiry.toDto(null, writer.userName(), answerStatus);
+            return inquiry.toDto(viewerId, writer.userName(), answerStatus);
         }).toList();
         return inquiryDtos;
     }

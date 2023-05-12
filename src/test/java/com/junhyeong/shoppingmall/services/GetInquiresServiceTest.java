@@ -1,6 +1,7 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.InquiriesDto;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.inquiry.Content;
 import com.junhyeong.shoppingmall.models.inquiry.Inquiry;
 import com.junhyeong.shoppingmall.models.user.User;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -45,17 +47,11 @@ class GetInquiresServiceTest {
         Long productId = 1L;
         Long userId = 1L;
 
-        List<Inquiry> inquiries = List.of(
-                new Inquiry(1L, productId, userId, new Title("재입고 질문"), new Content("재입고 언제 될까요?"), false),
-                new Inquiry(2L, productId, userId, new Title("재입고 질문"), new Content("재입고 언제 될까요?"), true),
-                new Inquiry(3L, productId, userId, new Title("재입고 질문"), new Content("재입고 언제 될까요?"), false)
-        );
-
         int page = 1;
 
         Pageable pageable = PageRequest.of(page - 1, 8, Sort.by("createAt").descending());
 
-        Page<Inquiry> pageableInquiries = new PageImpl<>(inquiries, pageable, inquiries.size());
+        Page<Inquiry> pageableInquiries = new PageImpl<>(List.of(Inquiry.fake(productId)));
 
         UserName userName = new UserName("test123");
 
@@ -74,5 +70,26 @@ class GetInquiresServiceTest {
 
         verify(userRepository).findByUserName(userName);
         verify(inquiryRepository).findAllByProductId(productId, pageable);
+    }
+
+    @Test
+    void inquiriesWithUserNotFound() {
+        Long productId = 1L;
+
+        int page = 1;
+
+        Pageable pageable = PageRequest.of(page - 1, 8, Sort.by("createAt").descending());
+
+        Page<Inquiry> pageableInquiries = new PageImpl<>(List.of(Inquiry.fake(productId)));
+
+        UserName userName = new UserName("xxx");
+
+        given(userRepository.findByUserName(userName))
+                .willThrow(UserNotFound.class);
+
+        given(inquiryRepository.findAllByProductId(productId, pageable))
+                .willReturn(pageableInquiries);
+
+        assertThrows(UserNotFound.class, () -> getInquiresService.inquiries(productId, userName, pageable));
     }
 }

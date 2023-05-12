@@ -2,11 +2,11 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.MyReviewsDto;
-import com.junhyeong.shoppingmall.dtos.UpdateReviewDto;
+import com.junhyeong.shoppingmall.dtos.ProductReviewsDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewRequestDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
-import com.junhyeong.shoppingmall.dtos.ProductReviewsDto;
+import com.junhyeong.shoppingmall.dtos.UpdateReviewDto;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.models.order.OrderProduct;
 import com.junhyeong.shoppingmall.models.review.Review;
@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -90,7 +91,7 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewResultDto write(
             @RequestAttribute("userName") UserName userName,
-            @RequestBody ReviewRequestDto reviewRequestDto
+            @Validated @RequestBody ReviewRequestDto reviewRequestDto
     ) {
         OrderProduct orderProduct = new OrderProduct(
                 reviewRequestDto.getProductId(),
@@ -124,7 +125,7 @@ public class ReviewController {
     @PatchMapping("reviews/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void edit(
-            @RequestBody UpdateReviewDto updateReviewDto,
+            @Validated @RequestBody UpdateReviewDto updateReviewDto,
             @PathVariable("id") Long reviewId
     ) {
         updateReviewService.edit(

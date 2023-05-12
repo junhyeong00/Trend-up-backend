@@ -78,7 +78,7 @@ public class UserController {
     public UserDto user(
             @RequestAttribute("userName") UserName userName
     ) {
-        User user = getUserService.user(userName);
+        User user = getUserService.find(userName);
         return user.toDto();
     }
 

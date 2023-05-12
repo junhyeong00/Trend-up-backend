@@ -23,7 +23,7 @@ class GetUserServiceTest {
         given(userRepository.findByUserName(userName))
                 .willReturn(Optional.of(User.fake(userName)));
 
-        User user = getUserService.user(userName);
+        User user = getUserService.find(userName);
 
         assertThat(user).isNotNull();
         verify(userRepository).findByUserName(userName);
