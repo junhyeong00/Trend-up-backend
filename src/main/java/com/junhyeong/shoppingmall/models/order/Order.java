@@ -92,7 +92,6 @@ public class Order {
         Address address = new Address(123L, "인천", "102호");
         List<OrderProduct> orderProducts = new ArrayList<>();
         OrderProduct orderProduct = OrderProduct.fake(1L, 1L);
-//        OrderProduct orderProduct = new OrderProduct(1L, "가디건", 10000L, 1L, "두툼한",1L, null);
         PhoneNumber phoneNumber = new PhoneNumber("01012341234");
         orderProducts.add(orderProduct);
 

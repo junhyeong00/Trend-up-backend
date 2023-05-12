@@ -3,9 +3,13 @@ package com.junhyeong.shoppingmall.controllers;
 import com.junhyeong.shoppingmall.dtos.KakaoPayApprovalDto;
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrderErrorDto;
+import com.junhyeong.shoppingmall.dtos.OrderRequest;
 import com.junhyeong.shoppingmall.dtos.OrderRequestDto;
 import com.junhyeong.shoppingmall.dtos.OrdersDto;
+import com.junhyeong.shoppingmall.exceptions.OptionNotFound;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
+import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.order.Order;
 import com.junhyeong.shoppingmall.models.order.Address;
 import com.junhyeong.shoppingmall.models.order.PhoneNumber;
@@ -40,7 +44,8 @@ public class OrderController {
     private final GetOrderService getOrderService;
     private final KaKaoPay kaKaoPay;
 
-    public OrderController(CreateOrderService createOrderService, GetOrdersService getOrdersService, GetOrderService getOrderService, KaKaoPay kaKaoPay) {
+    public OrderController(CreateOrderService createOrderService, GetOrdersService getOrdersService,
+                           GetOrderService getOrderService, KaKaoPay kaKaoPay) {
         this.createOrderService = createOrderService;
         this.getOrdersService = getOrdersService;
         this.getOrderService = getOrderService;
@@ -73,34 +78,17 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public String createOrder(
             @RequestAttribute("userName") UserName userName,
-            @Validated @RequestBody OrderRequestDto orderRequestDto, BindingResult bindingResult
+            @Validated @RequestBody OrderRequestDto orderRequestDto
     ) {
-        if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getAllErrors()
-                    .stream()
-                    .map(error -> error.getDefaultMessage())
-                    .toList().get(0);
-            throw new OrderFailed(errorMessage);
+        try {
+            OrderRequest orderRequest = OrderRequest.of(orderRequestDto);
+
+            return createOrderService.createOrder(userName, orderRequest);
+        } catch (UserNotFound | ProductNotFound | OptionNotFound e) {
+            throw e;
+        } catch (Exception e) {
+            throw new OrderFailed(e.getMessage());
         }
-
-        Address address = new Address(
-                orderRequestDto.getZipCode(),
-                orderRequestDto.getRoadAddress(),
-                orderRequestDto.getDetailAddress());
-
-        PhoneNumber phoneNumber = new PhoneNumber(orderRequestDto.getPhoneNumber());
-
-        return createOrderService.createOrder(
-                userName,
-                phoneNumber,
-                orderRequestDto.getReceiver(),
-                orderRequestDto.getPayment(),
-                orderRequestDto.getTotalPrice(),
-                orderRequestDto.getDeliveryFee(),
-                orderRequestDto.getOrderProducts(),
-                orderRequestDto.getDeliveryRequest(),
-                address
-        );
     }
 
     @GetMapping("orders/kakaoPaySuccess")
@@ -112,7 +100,25 @@ public class OrderController {
 
     @ExceptionHandler(OrderFailed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public OrderErrorDto orderFailed(OrderFailed e) {
-        return new OrderErrorDto(e.getErrorMessage());
+    public String orderFailed(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String userNotFound(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(ProductNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String productNotFound(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(OptionNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String optionNotFound(Exception e) {
+        return e.getMessage();
     }
 }
