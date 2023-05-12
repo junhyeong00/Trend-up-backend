@@ -17,7 +17,7 @@ public class GetUserService {
     }
 
     @Transactional(readOnly = true)
-    public User user(UserName userName) {
+    public User find(UserName userName) {
         return userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
     }

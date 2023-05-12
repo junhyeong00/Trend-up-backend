@@ -56,7 +56,8 @@ public class GetProductsService {
 
         List<ProductDto> productDtos = products.stream()
                 .map((product -> {
-                    Category category = categoryRepository.findById(product.categoryId()).orElseThrow(CategoryNotFound::new);
+                    Category category = categoryRepository.findById(product.categoryId())
+                            .orElseThrow(CategoryNotFound::new);
 
                     Long totalReviewCount = totalReviewCount(product.id());
 

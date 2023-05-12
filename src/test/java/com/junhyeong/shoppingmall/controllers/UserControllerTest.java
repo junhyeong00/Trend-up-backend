@@ -59,14 +59,14 @@ class UserControllerTest {
 
     @Test
     void user() throws Exception {
-        given(getUserService.user(userName))
+        given(getUserService.find(userName))
                 .willReturn(User.fake(userName));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/user/me")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
-        verify(getUserService).user(userName);
+        verify(getUserService).find(userName);
     }
 
     @Test
