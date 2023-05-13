@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.CreateReviewRequest;
 import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.MyReviewsDto;
 import com.junhyeong.shoppingmall.dtos.ProductReviewsDto;
@@ -7,7 +8,10 @@ import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewRequestDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
 import com.junhyeong.shoppingmall.dtos.UpdateReviewDto;
+import com.junhyeong.shoppingmall.exceptions.OrderFailed;
+import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
 import com.junhyeong.shoppingmall.models.order.OrderProduct;
 import com.junhyeong.shoppingmall.models.review.Review;
 import com.junhyeong.shoppingmall.models.user.UserName;
@@ -93,26 +97,11 @@ public class ReviewController {
             @RequestAttribute("userName") UserName userName,
             @Validated @RequestBody ReviewRequestDto reviewRequestDto
     ) {
-        OrderProduct orderProduct = new OrderProduct(
-                reviewRequestDto.getProductId(),
-                reviewRequestDto.getProductName(),
-                reviewRequestDto.getProductPrice(),
-                reviewRequestDto.getOptionId(),
-                reviewRequestDto.getProductOption(),
-                reviewRequestDto.getProductQuantity(),
-                reviewRequestDto.getProductImage()
-        );
+            CreateReviewRequest createReviewRequest = CreateReviewRequest.of(reviewRequestDto);
 
-        Review review = createReviewService.write(
-                userName,
-                reviewRequestDto.getRating(),
-                reviewRequestDto.getContent(),
-                reviewRequestDto.getOrderId(),
-                reviewRequestDto.getImageUrl(),
-                orderProduct
-        );
+            Review review = createReviewService.write(userName, createReviewRequest);
 
-        return review.toResultDto();
+            return review.toResultDto();
     }
 
     @DeleteMapping("reviews/{id}")
@@ -137,7 +126,19 @@ public class ReviewController {
 
     @ExceptionHandler(ReviewWriteFailed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String reviewWriteFail() {
-        return "write fail";
+    public String reviewWriteFail(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String userNotFound(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(OrderNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String orderNotFound(Exception e) {
+        return e.getMessage();
     }
 }

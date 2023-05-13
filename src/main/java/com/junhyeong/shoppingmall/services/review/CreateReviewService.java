@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.services.review;
 
+import com.junhyeong.shoppingmall.dtos.CreateReviewRequest;
 import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
 import com.junhyeong.shoppingmall.exceptions.UserNotFound;
@@ -33,24 +34,45 @@ public class CreateReviewService {
     }
 
     @Transactional
-    public Review write(UserName userName, Double rating,
-                        String content, Long orderId,
-                        String imageUrl, OrderProduct orderProduct) {
+    public Review write(UserName userName, CreateReviewRequest createReviewRequest) {
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(UserNotFound::new);
 
-        Order order = orderRepository.findById(orderId)
+        Order order = orderRepository.findById(createReviewRequest.getOrderId())
                 .orElseThrow(OrderNotFound::new);
 
+        checkDelivered(order);
+
+        Specification<Review> spec = getReviewSpecification(createReviewRequest, user, order);
+
+        checkReviewExists(spec);
+
+        Review review = new Review(
+                user.id(), order.id(),
+                createReviewRequest.getOrderProduct(),
+                createReviewRequest.getRating(),
+                createReviewRequest.getContent(),
+                createReviewRequest.getImageUrl());
+
+        reviewRepository.save(review);
+        return review;
+    }
+
+    private void checkDelivered(Order order) {
         if (!order.isDelivered()) {
             throw new ReviewWriteFailed("배송완료된 상품만 리뷰를 작성할 수 있습니다");
         }
+    }
 
+    private Specification<Review> getReviewSpecification(CreateReviewRequest createReviewRequest, User user, Order order) {
         Specification<Review> spec = Specification.where(ReviewSpecification.equalUserId(user.id()));
-        spec = spec.and(ReviewSpecification.equalOrderId(orderId));
-        spec = spec.and(ReviewSpecification.equalProductId(orderProduct.productId()));
-        spec = spec.and(ReviewSpecification.equalOptionId(orderProduct.optionId()));
+        spec = spec.and(ReviewSpecification.equalOrderId(order.id()));
+        spec = spec.and(ReviewSpecification.equalProductId(createReviewRequest.getOrderProduct().productId()));
+        spec = spec.and(ReviewSpecification.equalOptionId(createReviewRequest.getOrderProduct().optionId()));
+        return spec;
+    }
 
+    private void checkReviewExists(Specification<Review> spec) {
         if (reviewRepository.exists(spec)) {
             Optional<Review> review = reviewRepository.findOne(spec);
 
@@ -60,10 +82,5 @@ public class CreateReviewService {
 
             throw new ReviewWriteFailed("이미 작성한 리뷰입니다");
         }
-
-        Review review = new Review(user.id(), orderId, orderProduct, rating, content, imageUrl);
-
-        reviewRepository.save(review);
-        return review;
     }
 }
