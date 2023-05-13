@@ -9,12 +9,14 @@ import com.junhyeong.shoppingmall.dtos.DeliveryStatusDto;
 import com.junhyeong.shoppingmall.dtos.OrderDto;
 import com.junhyeong.shoppingmall.dtos.OrdersDto;
 import com.junhyeong.shoppingmall.dtos.SalesDto;
+import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
 import com.junhyeong.shoppingmall.models.order.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,5 +75,11 @@ public class AdminOrderController {
             @RequestBody DeliveryStatusDto deliveryStatusDto
     ) {
         updateDeliveryStatusService.changeDeliveryStatus(orderId, deliveryStatusDto.getDeliveryStatus());
+    }
+
+    @ExceptionHandler(OrderNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String orderNotFound(Exception e) {
+        return e.getMessage();
     }
 }

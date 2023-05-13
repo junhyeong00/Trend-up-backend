@@ -1,11 +1,12 @@
 package com.junhyeong.shoppingmall.admin.controllers;
 
+import com.junhyeong.shoppingmall.admin.services.CreateProductService;
 import com.junhyeong.shoppingmall.dtos.ProductRequestDto;
 import com.junhyeong.shoppingmall.dtos.ProductResultDto;
-import com.junhyeong.shoppingmall.admin.services.CreateProductService;
+import com.junhyeong.shoppingmall.exceptions.CategoryNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +35,11 @@ public class AdminProductController {
                 productRequestDto.getImageUrl(),
                 productRequestDto.getOptions()
         );
+    }
+
+    @ExceptionHandler(CategoryNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String categoryNotFound(Exception e) {
+        return e.getMessage();
     }
 }
