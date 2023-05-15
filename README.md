@@ -67,6 +67,14 @@ Layered Architecture
 
 <br>
 
+## 👊 기술적 도전 및 문제 해결 과정
+- Transactional
+  - [@Transactional은 모든 작업을 RollBack해줄까?](https://velog.io/@jhbae0420/Transactional의-RollBack) 
+  - [@Transactional(readOnly = true)를 사용하는 이유와 주의할점](https://velog.io/@jhbae0420/TransactionalreadOnly-true를-사용하는-이유와-주의할점)
+- [비공개 문의글 작업](https://velog.io/@jhbae0420/비공개-문의글-작업-코딩시간-늘리기)
+- 장바구니
+  - [장바구니 상품을 어디에 저장할까?](https://velog.io/@jhbae0420/장바구니-상품을-어디에-저장할까-작업-의도-생각하기)
+  - [db에 json 형태의 string을 저장해도 될까?](https://velog.io/@jhbae0420/db에-json-형태의-string을-저장해도-될까)
 ## 도메인 설계
 <p align="center">
   <br>
