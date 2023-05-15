@@ -59,7 +59,7 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 ## 아키텍쳐
 <p align="center">
   <br>
-  <img width="600" alt="스크린샷" 
+  <img width="800" alt="아키텍쳐" 
     src="https://github.com/junhyeong00/Trend-up-backend/assets/107493122/d144515f-bf48-46d1-b358-bef773c84734">
   <br>
 </p>
@@ -80,10 +80,11 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 ## 도메인 설계
 <p align="center">
   <br>
-  <img width="1199" alt="스크린샷 2023-02-09 오후 1 25 49" 
-    src="https://user-images.githubusercontent.com/107493122/219573612-6a8be4d4-0330-404f-b8ac-2b073b74d6e5.png">
+  <img width="850" alt="도메인" 
+    src="https://github.com/junhyeong00/Trend-up-backend/assets/107493122/443179ea-409c-4467-bb34-ab3e56a52c2d">
   <br>
 </p>
+
 
 <br>
 
