@@ -59,11 +59,10 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 ## 아키텍쳐
 <p align="center">
   <br>
-  <img width="550" alt="스크린샷" 
-    src="https://github.com/junhyeong00/Trend-up-backend/assets/107493122/9c04aa52-df41-4155-86a6-0406e4c34daa">
+  <img width="600" alt="스크린샷" 
+    src="https://github.com/junhyeong00/Trend-up-backend/assets/107493122/d144515f-bf48-46d1-b358-bef773c84734">
   <br>
 </p>
-
 
 <br>
 
