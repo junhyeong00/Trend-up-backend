@@ -57,12 +57,12 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 <br>
 
 ## 아키텍쳐
-Layered Architecture
-
-1. UI Layer
-2. Application Layer
-3. Domain Layer
-4. Infrastructure Layer
+<p align="center">
+  <br>
+  <img width="550" alt="스크린샷" 
+    src="https://github.com/junhyeong00/Trend-up-backend/assets/107493122/9c04aa52-df41-4155-86a6-0406e4c34daa">
+  <br>
+</p>
 
 
 <br>
@@ -105,5 +105,4 @@ Layered Architecture
 - Sprint#7
   - 관리자는 상품 관리를 위해 상품 목록에서 상품을 수정,삭제 할 수 있으며, 주문관리에서 상품의 배송상태를 변경할 수 있다. 
   - 관리자는 작성된 문의에 대한 답변을 작성할 수 있다. 
-- Sprint#8
-  - 디자인을 가지고 css 작업을 한다
+
