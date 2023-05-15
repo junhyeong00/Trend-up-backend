@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("admin")
+@RequestMapping("admin/inquiries")
 public class AdminInquiryController {
     private final GetInquiriesAdminService getInquiriesAdminService;
 
@@ -23,7 +23,7 @@ public class AdminInquiryController {
         this.getInquiriesAdminService = getInquiriesAdminService;
     }
 
-    @GetMapping("inquiries")
+    @GetMapping
     public InquiriesDto inquiries(
             @PageableDefault(size = 8, sort = "createAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
