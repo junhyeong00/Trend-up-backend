@@ -60,7 +60,7 @@ public class InquiryController {
         return getInquiresService.inquiries(productId, userName, pageable);
     }
 
-    @PostMapping("inquiry")
+    @PostMapping("inquiries")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateInquiryResultDto write(
             @RequestAttribute("userName") UserName userName,

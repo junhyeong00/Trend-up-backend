@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("admin")
+@RequestMapping("admin/answer")
 public class AdminAnswerController {
     private final CreateAnswerService createAnswerService;
 
@@ -23,7 +23,7 @@ public class AdminAnswerController {
         this.createAnswerService = createAnswerService;
     }
 
-    @PostMapping("answer")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AnswerResultDto write(
             @Validated @RequestBody AnswerRequestDto answerRequestDto

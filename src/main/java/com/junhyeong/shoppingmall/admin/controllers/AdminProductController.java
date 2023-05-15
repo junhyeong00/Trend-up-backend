@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("admin")
+@RequestMapping("admin/product")
 public class AdminProductController {
     private final CreateProductService createProductService;
 
@@ -22,7 +22,7 @@ public class AdminProductController {
         this.createProductService = createProductService;
     }
 
-    @PostMapping("product")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResultDto createProduct(
             @Validated @RequestBody ProductRequestDto productRequestDto

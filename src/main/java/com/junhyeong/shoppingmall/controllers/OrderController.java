@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RestController
+@RequestMapping("orders")
 public class OrderController {
     private final CreateOrderService createOrderService;
     private final GetOrdersService getOrdersService;
@@ -52,7 +54,7 @@ public class OrderController {
         this.kaKaoPay = kaKaoPay;
     }
 
-    @GetMapping("orders")
+    @GetMapping
     public OrdersDto orders(
             @RequestAttribute("userName") UserName userName,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
@@ -63,7 +65,7 @@ public class OrderController {
         return getOrdersService.searchOrders(userName, pageable, startDate, endDate);
     }
 
-    @GetMapping("orders/{id}")
+    @GetMapping("{id}")
     public OrderDto orderDetail(
             @RequestAttribute("userName") UserName userName,
             @PathVariable("id") Long orderId
@@ -74,7 +76,7 @@ public class OrderController {
         return orderDto;
     }
 
-    @PostMapping("order")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public String createOrder(
             @RequestAttribute("userName") UserName userName,
@@ -91,7 +93,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("orders/kakaoPaySuccess")
+    @GetMapping("kakaoPaySuccess")
     public KakaoPayApprovalDto orderResult(
             @RequestParam("pg_token") String pgToken
     ) {

@@ -91,7 +91,7 @@ public class ReviewController {
         return getReviewService.review(reviewId);
     }
 
-    @PostMapping("review")
+    @PostMapping("reviews")
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewResultDto write(
             @RequestAttribute("userName") UserName userName,
