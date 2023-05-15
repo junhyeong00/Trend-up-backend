@@ -75,6 +75,9 @@ Layered Architecture
 - 장바구니
   - [장바구니 상품을 어디에 저장할까?](https://velog.io/@jhbae0420/장바구니-상품을-어디에-저장할까-작업-의도-생각하기)
   - [db에 json 형태의 string을 저장해도 될까?](https://velog.io/@jhbae0420/db에-json-형태의-string을-저장해도-될까)
+
+<br>
+
 ## 도메인 설계
 <p align="center">
   <br>
@@ -82,6 +85,8 @@ Layered Architecture
     src="https://user-images.githubusercontent.com/107493122/219573612-6a8be4d4-0330-404f-b8ac-2b073b74d6e5.png">
   <br>
 </p>
+
+<br>
 
 ## 🏃🏻‍♂️ 프로젝트 Sprint별 목표 
 - Sprint#1
