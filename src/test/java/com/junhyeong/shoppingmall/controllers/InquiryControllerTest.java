@@ -63,7 +63,7 @@ class InquiryControllerTest {
         given(createInquiryService.write(any(), any()))
                 .willReturn(new CreateInquiryResultDto(1L));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiries")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -79,7 +79,7 @@ class InquiryControllerTest {
 
     @Test
     void writeWithBlankTitle() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiries")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -93,7 +93,7 @@ class InquiryControllerTest {
 
     @Test
     void writeWithBlankContent() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiries")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -110,7 +110,7 @@ class InquiryControllerTest {
         given(createInquiryService.write(any(), any()))
                 .willThrow(ProductNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiries")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -127,7 +127,7 @@ class InquiryControllerTest {
         given(createInquiryService.write(any(), any()))
                 .willThrow(UserNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/inquiry")
+        mockMvc.perform(MockMvcRequestBuilders.post("/inquiries")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +

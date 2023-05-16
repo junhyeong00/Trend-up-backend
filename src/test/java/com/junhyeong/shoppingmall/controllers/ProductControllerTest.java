@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.exceptions.CategoryNotFound;
 import com.junhyeong.shoppingmall.models.product.Product;
 import com.junhyeong.shoppingmall.services.product.GetProductService;
 import com.junhyeong.shoppingmall.services.product.GetProductsService;
@@ -44,13 +45,25 @@ class ProductControllerTest {
     }
 
     @Test
+    void productsWithCategoryNotFound() throws Exception {
+        given(getProductsService.products(any(),any(),any()))
+                .willThrow(CategoryNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/products")
+                        .param("page", "1"))
+                .andExpect(status().isNotFound());
+
+        verify(getProductsService).products(any(), any(), any());
+    }
+
+    @Test
     void product() throws Exception {
         Long productId = 1L;
         Long categoryId = 1L;
 
         Product product = new Product(productId, categoryId, "상품 1", "상품 설명 1", 500L, null);
 
-        given(getProductService.product(productId)).willReturn(product.toDto("상의", 5, 3L));
+        given(getProductService.product(productId)).willReturn(product.toDetailDto("상의"));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/products/1"))
                 .andExpect(status().isOk());

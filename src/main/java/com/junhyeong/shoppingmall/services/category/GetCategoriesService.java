@@ -4,6 +4,7 @@ import com.junhyeong.shoppingmall.dtos.CategoriesDto;
 import com.junhyeong.shoppingmall.dtos.CategoryDto;
 import com.junhyeong.shoppingmall.models.category.Category;
 import com.junhyeong.shoppingmall.repositories.CategoryRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class GetCategoriesService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "categoriesCache", cacheManager = "redisCacheManager")
     public CategoriesDto categories() {
         List<Category>  categories = categoryRepository.findAll();
 

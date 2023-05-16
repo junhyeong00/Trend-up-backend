@@ -11,8 +11,8 @@ import com.junhyeong.shoppingmall.repositories.ProductRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.specifications.ProductSpecification;
 import com.junhyeong.shoppingmall.specifications.ReviewSpecification;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -37,18 +37,11 @@ public class GetProductsService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "productsCache", key = "#page + #categoryId + #keyword", cacheManager = "redisCacheManager")
     public ProductsDto products(Integer page, Long categoryId, String keyword) {
-        Pageable pageable = PageRequest.of(page -1, 8, Sort.by("createAt").descending().and(Sort.by("id").descending()));
+        Pageable pageable = PageRequest.of(page - 1, 8, Sort.by("createAt").descending().and(Sort.by("id").descending()));
 
-        Specification<Product> spec = (root, query, builder) -> null;
-
-        if (categoryId != 0) {
-            spec = spec.and(ProductSpecification.equalCategoryId(categoryId));
-        }
-
-        if (keyword != null) {
-            spec = spec.and(ProductSpecification.likeProductName(keyword));
-        }
+        Specification<Product> spec = getProductSpecification(categoryId, keyword);
 
         Page<Product> products = productRepository.findAll(spec, pageable);
 
@@ -65,10 +58,20 @@ public class GetProductsService {
                     return product.toDto(category.name(), totalRating, totalReviewCount);
                 })).toList();
 
-        Page<ProductDto> pageableProductDtos
-                =new PageImpl<>(productDtos, PageRequest.of(page - 1, 8), productDtos.size());
+        return new ProductsDto(productDtos, totalPageCount);
+    }
 
-        return new ProductsDto(pageableProductDtos, totalPageCount);
+    private Specification<Product> getProductSpecification(Long categoryId, String keyword) {
+        Specification<Product> spec = (root, query, builder) -> null;
+
+        if (categoryId != 0) {
+            spec = spec.and(ProductSpecification.equalCategoryId(categoryId));
+        }
+
+        if (!keyword.isBlank()) {
+            spec = spec.and(ProductSpecification.likeProductName(keyword));
+        }
+        return spec;
     }
 
     private Long totalReviewCount(Long productId) {
@@ -83,7 +86,7 @@ public class GetProductsService {
         List<Review> reviews = reviewRepository.findAll(spec);
 
         double totalRating = reviews.stream().
-                mapToDouble(review ->review.rating()).
+                mapToDouble(review -> review.rating()).
                 reduce(0, (acc, rating) -> acc + rating) / totalReviewCount;
 
         return totalReviewCount != 0 ? totalRating : 0;

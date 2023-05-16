@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.services.product;
 
+import com.junhyeong.shoppingmall.dtos.ProductDetailDto;
 import com.junhyeong.shoppingmall.dtos.ProductDto;
 import com.junhyeong.shoppingmall.exceptions.CategoryNotFound;
 import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
@@ -21,10 +22,10 @@ public class GetProductService {
     }
 
     @Transactional(readOnly = true)
-    public ProductDto product(Long productId) {
+    public ProductDetailDto product(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(ProductNotFound::new);
 
         Category category = categoryRepository.findById(product.categoryId()).orElseThrow(CategoryNotFound::new);
-        return product.toDto(category.name());
+        return product.toDetailDto(category.name());
     }
 }

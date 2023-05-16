@@ -62,7 +62,7 @@ class UserControllerTest {
         given(getUserService.find(userName))
                 .willReturn(User.fake(userName));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/me")
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/me")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
@@ -74,7 +74,7 @@ class UserControllerTest {
         given(getCartService.cart(userName))
                 .willReturn(new Cart("items").toDto());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/user/cart")
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/cart")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
@@ -83,7 +83,7 @@ class UserControllerTest {
 
     @Test
     void updateCart() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.patch("/user/cart")
+        mockMvc.perform(MockMvcRequestBuilders.patch("/users/cart")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"items\":\"items\"}"))
@@ -97,7 +97,7 @@ class UserControllerTest {
         given(createUserService.register(any(), any(), any(), any(), any()))
                 .willReturn(User.fake(userName));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -112,7 +112,7 @@ class UserControllerTest {
 
     @Test
     void registerWithBlankName() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -127,7 +127,7 @@ class UserControllerTest {
 
     @Test
     void registerWithIncorrectName() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -142,7 +142,7 @@ class UserControllerTest {
 
     @Test
     void registerWithBlankUserName() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -157,7 +157,7 @@ class UserControllerTest {
 
     @Test
     void registerWithIncorrectUserName() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -172,7 +172,7 @@ class UserControllerTest {
 
     @Test
     void registerWithBlankPassword() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -187,7 +187,7 @@ class UserControllerTest {
 
     @Test
     void registerWithIncorrectPassword() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -202,7 +202,7 @@ class UserControllerTest {
 
     @Test
     void registerWithBlankConfirmPassword() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -217,7 +217,7 @@ class UserControllerTest {
 
     @Test
     void registerWithBlankPhoneNumber() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -232,7 +232,7 @@ class UserControllerTest {
 
     @Test
     void registerWithIncorrectPhoneNumber() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -250,7 +250,7 @@ class UserControllerTest {
         given(createUserService.register(any(), any(), any(), any(), any()))
                 .willThrow(new RegisterFailed(List.of("해당 아이디는 사용할 수 없습니다")));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/user")
+        mockMvc.perform(MockMvcRequestBuilders.post("/users")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +

@@ -62,7 +62,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willReturn("");
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -92,7 +92,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willThrow(UserNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -120,7 +120,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willThrow(ProductNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -148,7 +148,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willThrow(OptionNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -177,7 +177,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willThrow(new OrderFailed("받는 분 성함을 입력해주세요"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -208,7 +208,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willThrow(new OrderFailed("받는 분 번호를 입력해주세요"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -239,7 +239,7 @@ class OrderControllerTest {
         given(createOrderService.createOrder(any(), any()))
                 .willThrow(new OrderFailed("주소를 입력해주세요"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +

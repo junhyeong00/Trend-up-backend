@@ -2,8 +2,8 @@ package com.junhyeong.shoppingmall.utils;
 
 import com.junhyeong.shoppingmall.dtos.OrderProductDto;
 import com.junhyeong.shoppingmall.exceptions.KakaoPayReadyException;
-import com.junhyeong.shoppingmall.models.order.KakaoPayApproval;
-import com.junhyeong.shoppingmall.models.order.KakaoPayReady;
+import com.junhyeong.shoppingmall.models.kakaoPay.KakaoPayApproval;
+import com.junhyeong.shoppingmall.models.kakaoPay.KakaoPayReady;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;

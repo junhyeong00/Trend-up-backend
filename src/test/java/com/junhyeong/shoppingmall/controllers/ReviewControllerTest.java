@@ -83,7 +83,7 @@ class ReviewControllerTest {
         given(createReviewService.write(any(), any()))
                 .willReturn(Review.fake(reviewId));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -103,7 +103,7 @@ class ReviewControllerTest {
         given(createReviewService.write(any(), any()))
                 .willThrow(new ReviewWriteFailed("배송완료된 상품만 리뷰를 작성할 수 있습니다"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -121,7 +121,7 @@ class ReviewControllerTest {
         given(createReviewService.write(any(), any()))
                 .willThrow(new ReviewWriteFailed("이미 작성한 리뷰입니다"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -139,7 +139,7 @@ class ReviewControllerTest {
         given(createReviewService.write(any(), any()))
                 .willThrow(OrderNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -157,7 +157,7 @@ class ReviewControllerTest {
         given(createReviewService.write(any(), any()))
                 .willThrow(UserNotFound.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +

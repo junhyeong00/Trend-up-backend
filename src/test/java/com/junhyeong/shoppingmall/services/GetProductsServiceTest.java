@@ -56,7 +56,7 @@ class GetProductsServiceTest {
 
         given(categoryRepository.findById(categoryId)).willReturn(Optional.of(Category.fake(categoryId)));
 
-        String keyword = null;
+        String keyword = "";
 
         getProductsService.products(page, categoryId, keyword);
 

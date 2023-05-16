@@ -1,4 +1,4 @@
-package com.junhyeong.shoppingmall.models.order;
+package com.junhyeong.shoppingmall.models.kakaoPay;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

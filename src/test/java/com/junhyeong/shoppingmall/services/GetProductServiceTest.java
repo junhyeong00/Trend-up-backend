@@ -1,5 +1,6 @@
 package com.junhyeong.shoppingmall.services;
 
+import com.junhyeong.shoppingmall.dtos.ProductDetailDto;
 import com.junhyeong.shoppingmall.dtos.ProductDto;
 import com.junhyeong.shoppingmall.models.category.Category;
 import com.junhyeong.shoppingmall.models.product.Product;
@@ -39,7 +40,7 @@ class GetProductServiceTest {
 
         given(categoryRepository.findById(categoryId)).willReturn(Optional.of(Category.fake(categoryId)));
 
-        ProductDto found = getProductService.product(product.id());
+        ProductDetailDto found = getProductService.product(product.id());
 
         assertThat(found).isNotNull();
 
