@@ -80,7 +80,7 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 <br>
 
 ## 👊 기술적 도전 및 문제 해결 과정
-- [Redis 캐시(Cache)를 적용해 조회 성능 50% 개선]([https://velog.io/@jhbae0420/redis](https://velog.io/@jhbae0420/Redis-캐시Cache를-적용해-조회-성능-개선하기))
+- [Redis 캐시(Cache)를 적용해 조회 성능 50% 개선](https://velog.io/@jhbae0420/Redis-캐시Cache를-적용해-조회-성능-개선하기)
 - Transactional
   - [@Transactional은 모든 작업을 RollBack해줄까?](https://velog.io/@jhbae0420/Transactional의-RollBack) 
   - [@Transactional(readOnly = true)를 사용하는 이유와 주의할점](https://velog.io/@jhbae0420/TransactionalreadOnly-true를-사용하는-이유와-주의할점)
