@@ -37,7 +37,7 @@ public class GetProductsService {
     }
 
     @Transactional(readOnly = true)
-//    @Cacheable(value = "productsCache", key = "#page + #categoryId + #keyword", cacheManager = "redisCacheManager")
+    @Cacheable(value = "productsCache", key = "#page + #categoryId + #keyword", cacheManager = "redisCacheManager")
     public ProductsDto products(Integer page, Long categoryId, String keyword) {
         Pageable pageable = PageRequest.of(page - 1, 8, Sort.by("createAt").descending().and(Sort.by("id").descending()));
 
