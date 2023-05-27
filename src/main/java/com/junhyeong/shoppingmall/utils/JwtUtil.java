@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.user.UserName;
 
 public class JwtUtil {
     private final Algorithm algorithm;

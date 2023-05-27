@@ -1,7 +1,7 @@
 package com.junhyeong.shoppingmall.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.user.UserName;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +13,7 @@ public class ReviewDto {
     private String productName;
     private String productOption;
     private String userName;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy.MM.dd")
     private LocalDateTime createAt;
 
     public ReviewDto(Long id, Double rating, String content, String image,

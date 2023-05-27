@@ -1,14 +1,14 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.user.GetUserService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -23,7 +23,7 @@ class GetUserServiceTest {
         given(userRepository.findByUserName(userName))
                 .willReturn(Optional.of(User.fake(userName)));
 
-        User user = getUserService.user(userName);
+        User user = getUserService.find(userName);
 
         assertThat(user).isNotNull();
         verify(userRepository).findByUserName(userName);

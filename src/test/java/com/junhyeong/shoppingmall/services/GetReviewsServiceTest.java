@@ -1,9 +1,10 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.OrderProduct;
-import com.junhyeong.shoppingmall.models.Review;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
+import com.junhyeong.shoppingmall.models.review.Review;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.review.GetReviewsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

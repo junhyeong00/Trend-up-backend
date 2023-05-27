@@ -2,35 +2,43 @@ package com.junhyeong.shoppingmall.dtos;
 
 public class ProductDto {
     private Long id;
-    private String category;
+    private Long categoryId;
+    private String categoryName;
     private String name;
-    private String description;
     private Long price;
     private String image;
+    private double totalRating;
+    private Long totalReviewCount;
 
-    public ProductDto(Long id, String category, String name, String description, Long price, String image) {
+    public ProductDto() {
+    }
+
+    public ProductDto(Long id, Long category, String categoryName, String name, Long price,
+                      String image, double totalRating, Long totalReviewCount) {
         this.id = id;
-        this.category = category;
+        this.categoryId = category;
+        this.categoryName = categoryName;
         this.name = name;
-        this.description = description;
         this.price = price;
         this.image = image;
+        this.totalRating = Double.valueOf(String.format("%.1f", totalRating));
+        this.totalReviewCount = totalReviewCount;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Long getPrice() {
@@ -39,5 +47,13 @@ public class ProductDto {
 
     public String getImage() {
         return image;
+    }
+
+    public double getTotalRating() {
+        return totalRating;
+    }
+
+    public Long getTotalReviewCount() {
+        return totalReviewCount;
     }
 }

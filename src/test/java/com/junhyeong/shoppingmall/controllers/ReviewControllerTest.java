@@ -1,15 +1,17 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.OrderProduct;
-import com.junhyeong.shoppingmall.models.Review;
-import com.junhyeong.shoppingmall.models.UserName;
-import com.junhyeong.shoppingmall.services.CreateReviewService;
-import com.junhyeong.shoppingmall.services.DeleteReviewsService;
-import com.junhyeong.shoppingmall.services.GetReviewService;
-import com.junhyeong.shoppingmall.services.GetReviewsService;
-import com.junhyeong.shoppingmall.services.PatchReviewService;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
+import com.junhyeong.shoppingmall.models.order.Order;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
+import com.junhyeong.shoppingmall.models.review.Review;
+import com.junhyeong.shoppingmall.models.user.UserName;
+import com.junhyeong.shoppingmall.services.review.CreateReviewService;
+import com.junhyeong.shoppingmall.services.review.DeleteReviewsService;
+import com.junhyeong.shoppingmall.services.review.GetReviewService;
+import com.junhyeong.shoppingmall.services.review.GetReviewsService;
+import com.junhyeong.shoppingmall.services.review.UpdateReviewService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -55,7 +57,7 @@ class ReviewControllerTest {
     private DeleteReviewsService deleteReviewsService;
 
     @MockBean
-    private PatchReviewService patchReviewService;
+    private UpdateReviewService updateReviewService;
 
     @SpyBean
     private JwtUtil jwtUtil;
@@ -78,10 +80,10 @@ class ReviewControllerTest {
         Order order = Order.fake(orderId);
         order.toDelivered();
 
-        given(createReviewService.write(any(), any(), any(), any(), any(), any()))
+        given(createReviewService.write(any(), any()))
                 .willReturn(Review.fake(reviewId));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -93,15 +95,15 @@ class ReviewControllerTest {
                 )
                 .andExpect(status().isCreated());
 
-        verify(createReviewService).write(any(), any(), any(), any(), any(), any());
+        verify(createReviewService).write(any(), any());
     }
 
     @Test
     void writeFailWithShippedOrder() throws Exception {
-        given(createReviewService.write(any(), any(), any(), any(), any(), any()))
+        given(createReviewService.write(any(), any()))
                 .willThrow(new ReviewWriteFailed("배송완료된 상품만 리뷰를 작성할 수 있습니다"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -116,10 +118,10 @@ class ReviewControllerTest {
 
     @Test
     void writeFailWithExistReview() throws Exception {
-        given(createReviewService.write(any(), any(), any(), any(), any(), any()))
+        given(createReviewService.write(any(), any()))
                 .willThrow(new ReviewWriteFailed("이미 작성한 리뷰입니다"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -130,6 +132,42 @@ class ReviewControllerTest {
                                 "}")
                 )
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void writeFailWithOrderNotFound() throws Exception {
+        given(createReviewService.write(any(), any()))
+                .willThrow(OrderNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"productId\":\"1\", " +
+                                "\"orderId\":\"999\", " +
+                                "\"rating\":\"5\", " +
+                                "\"content\":\"부드럽고 따뜻해요\"" +
+                                "}")
+                )
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void writeFailWithUserNotFound() throws Exception {
+        given(createReviewService.write(any(), any()))
+                .willThrow(UserNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/reviews")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"productId\":\"1\", " +
+                                "\"orderId\":\"1\", " +
+                                "\"rating\":\"5\", " +
+                                "\"content\":\"부드럽고 따뜻해요\"" +
+                                "}")
+                )
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -188,6 +226,6 @@ class ReviewControllerTest {
                                 "}"))
                 .andExpect(status().isNoContent());
 
-        verify(patchReviewService).edit(any(), any(), any(), any());
+        verify(updateReviewService).edit(any(), any(), any(), any());
     }
 }

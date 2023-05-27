@@ -2,9 +2,9 @@ package com.junhyeong.shoppingmall.controllers;
 
 import com.junhyeong.shoppingmall.config.MockMvcEncoding;
 import com.junhyeong.shoppingmall.exceptions.LoginFailed;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.UserName;
-import com.junhyeong.shoppingmall.services.LoginService;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
+import com.junhyeong.shoppingmall.services.login.LoginService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;

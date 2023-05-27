@@ -1,10 +1,10 @@
 package com.junhyeong.shoppingmall.models;
 
 import com.junhyeong.shoppingmall.enums.DeliveryStatus;
+import com.junhyeong.shoppingmall.models.order.Order;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class OrderTest {
     @Test
@@ -26,14 +26,14 @@ class OrderTest {
 
         order.toInTransit();
 
-        assertThat(order.getDeliveryStatus()).isEqualTo(DeliveryStatus.IN_TRANSIT.value());
+        assertThat(order.deliveryStatus()).isEqualTo(DeliveryStatus.IN_TRANSIT.value());
 
         order.toDelivered();
 
-        assertThat(order.getDeliveryStatus()).isEqualTo(DeliveryStatus.DELIVERED.value());
+        assertThat(order.deliveryStatus()).isEqualTo(DeliveryStatus.DELIVERED.value());
 
         order.toShipped();
 
-        assertThat(order.getDeliveryStatus()).isEqualTo(DeliveryStatus.SHIPPED.value());
+        assertThat(order.deliveryStatus()).isEqualTo(DeliveryStatus.SHIPPED.value());
     }
 }

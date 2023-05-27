@@ -1,26 +1,31 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.dtos.CreateReviewRequest;
 import com.junhyeong.shoppingmall.dtos.DeleteReviewDto;
 import com.junhyeong.shoppingmall.dtos.MyReviewsDto;
-import com.junhyeong.shoppingmall.dtos.PatchReviewDto;
+import com.junhyeong.shoppingmall.dtos.ProductReviewsDto;
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
 import com.junhyeong.shoppingmall.dtos.ReviewRequestDto;
 import com.junhyeong.shoppingmall.dtos.ReviewResultDto;
-import com.junhyeong.shoppingmall.dtos.ProductReviewsDto;
+import com.junhyeong.shoppingmall.dtos.UpdateReviewDto;
+import com.junhyeong.shoppingmall.exceptions.OrderFailed;
+import com.junhyeong.shoppingmall.exceptions.OrderNotFound;
 import com.junhyeong.shoppingmall.exceptions.ReviewWriteFailed;
-import com.junhyeong.shoppingmall.models.OrderProduct;
-import com.junhyeong.shoppingmall.models.Review;
-import com.junhyeong.shoppingmall.models.UserName;
-import com.junhyeong.shoppingmall.services.CreateReviewService;
-import com.junhyeong.shoppingmall.services.DeleteReviewsService;
-import com.junhyeong.shoppingmall.services.GetReviewService;
-import com.junhyeong.shoppingmall.services.GetReviewsService;
-import com.junhyeong.shoppingmall.services.PatchReviewService;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
+import com.junhyeong.shoppingmall.models.order.OrderProduct;
+import com.junhyeong.shoppingmall.models.review.Review;
+import com.junhyeong.shoppingmall.models.user.UserName;
+import com.junhyeong.shoppingmall.services.review.CreateReviewService;
+import com.junhyeong.shoppingmall.services.review.DeleteReviewsService;
+import com.junhyeong.shoppingmall.services.review.GetReviewService;
+import com.junhyeong.shoppingmall.services.review.GetReviewsService;
+import com.junhyeong.shoppingmall.services.review.UpdateReviewService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,18 +45,17 @@ public class ReviewController {
     private final GetReviewsService getReviewsService;
     private final GetReviewService getReviewService;
     private final DeleteReviewsService deleteReviewsService;
-    private final PatchReviewService patchReviewService;
-
+    private final UpdateReviewService updateReviewService;
 
     public ReviewController(CreateReviewService createReviewService,
                             GetReviewsService getReviewsService,
                             GetReviewService getReviewService,
-                            DeleteReviewsService deleteReviewsService, PatchReviewService patchReviewService) {
+                            DeleteReviewsService deleteReviewsService, UpdateReviewService updateReviewService) {
         this.createReviewService = createReviewService;
         this.getReviewsService = getReviewsService;
         this.getReviewService = getReviewService;
         this.deleteReviewsService = deleteReviewsService;
-        this.patchReviewService = patchReviewService;
+        this.updateReviewService = updateReviewService;
     }
 
     @GetMapping("products/{productId}/reviews")
@@ -87,32 +91,17 @@ public class ReviewController {
         return getReviewService.review(reviewId);
     }
 
-    @PostMapping("review")
+    @PostMapping("reviews")
     @ResponseStatus(HttpStatus.CREATED)
     public ReviewResultDto write(
             @RequestAttribute("userName") UserName userName,
-            @RequestBody ReviewRequestDto reviewRequestDto
+            @Validated @RequestBody ReviewRequestDto reviewRequestDto
     ) {
-        OrderProduct orderProduct = new OrderProduct(
-                reviewRequestDto.getProductId(),
-                reviewRequestDto.getProductName(),
-                reviewRequestDto.getProductPrice(),
-                reviewRequestDto.getOptionId(),
-                reviewRequestDto.getProductOption(),
-                reviewRequestDto.getProductQuantity(),
-                reviewRequestDto.getProductImage()
-        );
+            CreateReviewRequest createReviewRequest = CreateReviewRequest.of(reviewRequestDto);
 
-        Review review = createReviewService.write(
-                userName,
-                reviewRequestDto.getRating(),
-                reviewRequestDto.getContent(),
-                reviewRequestDto.getOrderId(),
-                reviewRequestDto.getImageUrl(),
-                orderProduct
-        );
+            Review review = createReviewService.write(userName, createReviewRequest);
 
-        return review.toResultDto();
+            return review.toResultDto();
     }
 
     @DeleteMapping("reviews/{id}")
@@ -125,19 +114,31 @@ public class ReviewController {
     @PatchMapping("reviews/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void edit(
-            @RequestBody PatchReviewDto patchReviewDto,
+            @Validated @RequestBody UpdateReviewDto updateReviewDto,
             @PathVariable("id") Long reviewId
     ) {
-        patchReviewService.edit(
+        updateReviewService.edit(
                 reviewId,
-                patchReviewDto.getRating(),
-                patchReviewDto.getContent(),
-                patchReviewDto.getImageUrl());
+                updateReviewDto.getRating(),
+                updateReviewDto.getContent(),
+                updateReviewDto.getImageUrl());
     }
 
     @ExceptionHandler(ReviewWriteFailed.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String reviewWriteFail() {
-        return "write fail";
+    public String reviewWriteFail(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String userNotFound(Exception e) {
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(OrderNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String orderNotFound(Exception e) {
+        return e.getMessage();
     }
 }

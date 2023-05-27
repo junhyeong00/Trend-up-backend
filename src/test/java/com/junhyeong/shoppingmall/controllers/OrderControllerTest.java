@@ -1,27 +1,26 @@
 package com.junhyeong.shoppingmall.controllers;
 
+import com.junhyeong.shoppingmall.exceptions.OptionNotFound;
 import com.junhyeong.shoppingmall.exceptions.OrderFailed;
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.UserName;
-import com.junhyeong.shoppingmall.services.CreateOrderService;
-import com.junhyeong.shoppingmall.services.GetOrderService;
-import com.junhyeong.shoppingmall.services.GetOrdersService;
+import com.junhyeong.shoppingmall.exceptions.ProductNotFound;
+import com.junhyeong.shoppingmall.exceptions.UserNotFound;
+import com.junhyeong.shoppingmall.models.order.Order;
+import com.junhyeong.shoppingmall.models.user.UserName;
+import com.junhyeong.shoppingmall.services.order.CreateOrderService;
+import com.junhyeong.shoppingmall.services.order.GetOrderService;
+import com.junhyeong.shoppingmall.services.order.GetOrdersService;
 import com.junhyeong.shoppingmall.utils.JwtUtil;
+import com.junhyeong.shoppingmall.utils.KaKaoPay;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -44,6 +43,9 @@ class OrderControllerTest {
     @MockBean
     private GetOrderService getOrderService;
 
+    @MockBean
+    private KaKaoPay kaKaoPay;
+
     @SpyBean
     private JwtUtil jwtUtil;
 
@@ -57,11 +59,10 @@ class OrderControllerTest {
 
     @Test
     void createOrder() throws Exception {
-        Long orderId = 1L;
-        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
-                .willReturn(Order.fake(orderId));
+        given(createOrderService.createOrder(any(), any()))
+                .willReturn("");
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -83,16 +84,100 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isCreated());
 
-        verify(createOrderService).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
+        verify(createOrderService).createOrder(any(), any());
+    }
+
+    @Test
+    void createOrderWithUserNotFound() throws Exception {
+        given(createOrderService.createOrder(any(), any()))
+                .willThrow(UserNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"receiver\":\"배준형\"," +
+                                "\"phoneNumber\":\"01012341234\"," +
+                                "\"payment\":\"20000\"," +
+                                "\"totalPrice\":\"17000\"," +
+                                "\"deliveryFee\":\"3000\"," +
+                                "\"deliveryRequest\":\"안전 배송해주세요\"," +
+                                "\"zipCode\":\"123\"," +
+                                "\"roadAddress\":\"뉴욕\"," +
+                                "\"detailAddress\":\"뉴욕\"," +
+                                "\"orderProductDtos\":" +
+                                "{" +
+                                "\"productId\":\"1\"," +
+                                "\"optionId\":\"1\"," +
+                                "\"quantity\":\"2\"" +
+                                "}" +
+                                "}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void createOrderWithProductNotFound() throws Exception {
+        given(createOrderService.createOrder(any(), any()))
+                .willThrow(ProductNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"receiver\":\"배준형\"," +
+                                "\"phoneNumber\":\"01012341234\"," +
+                                "\"payment\":\"20000\"," +
+                                "\"totalPrice\":\"17000\"," +
+                                "\"deliveryFee\":\"3000\"," +
+                                "\"deliveryRequest\":\"안전 배송해주세요\"," +
+                                "\"zipCode\":\"123\"," +
+                                "\"roadAddress\":\"뉴욕\"," +
+                                "\"detailAddress\":\"뉴욕\"," +
+                                "\"orderProductDtos\":" +
+                                "{" +
+                                "\"productId\":\"999\"," +
+                                "\"optionId\":\"1\"," +
+                                "\"quantity\":\"2\"" +
+                                "}" +
+                                "}"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void createOrderWithOptionNotFound() throws Exception {
+        given(createOrderService.createOrder(any(), any()))
+                .willThrow(OptionNotFound.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{" +
+                                "\"receiver\":\"배준형\"," +
+                                "\"phoneNumber\":\"01012341234\"," +
+                                "\"payment\":\"20000\"," +
+                                "\"totalPrice\":\"17000\"," +
+                                "\"deliveryFee\":\"3000\"," +
+                                "\"deliveryRequest\":\"안전 배송해주세요\"," +
+                                "\"zipCode\":\"123\"," +
+                                "\"roadAddress\":\"뉴욕\"," +
+                                "\"detailAddress\":\"뉴욕\"," +
+                                "\"orderProductDtos\":" +
+                                "{" +
+                                "\"productId\":\"1\"," +
+                                "\"optionId\":\"999\"," +
+                                "\"quantity\":\"2\"" +
+                                "}" +
+                                "}"))
+                .andExpect(status().isNotFound());
     }
 
     @Test
     void createOrderWithBlankReceiver() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+        given(createOrderService.createOrder(any(), any()))
                 .willThrow(new OrderFailed("받는 분 성함을 입력해주세요"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -114,16 +199,16 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isBadRequest());
 
-        verify(createOrderService, never()).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
+        verify(createOrderService, never()).createOrder(any(), any());
     }
 
     @Test
     void createOrderWithBlankPhoneNumber() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+        given(createOrderService.createOrder(any(), any()))
                 .willThrow(new OrderFailed("받는 분 번호를 입력해주세요"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -145,16 +230,16 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isBadRequest());
 
-        verify(createOrderService, never()).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
+        verify(createOrderService, never()).createOrder(any(), any());
     }
 
     @Test
     void createOrderWithBlankAddress() throws Exception {
         Long orderId = 1L;
-        given(createOrderService.createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any()))
+        given(createOrderService.createOrder(any(), any()))
                 .willThrow(new OrderFailed("주소를 입력해주세요"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/order")
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{" +
@@ -176,23 +261,11 @@ class OrderControllerTest {
                                 "}"))
                 .andExpect(status().isBadRequest());
 
-        verify(createOrderService, never()).createOrder(any(), any(), any(), any(), any(), any(), any(), any(), any());
+        verify(createOrderService, never()).createOrder(any(), any());
     }
 
     @Test
     void orders() throws Exception {
-        Long orderId = 1L;
-        List<Order> orders = List.of(
-                Order.fake(orderId)
-        );
-
-        int page = 1;
-
-        Page<Order> pageableOrders
-                = new PageImpl<>(orders, PageRequest.of(page - 1, 2), orders.size());
-        given(getOrdersService.searchOrders(any(), any(), any(), any()))
-                .willReturn(pageableOrders);
-
         mockMvc.perform(MockMvcRequestBuilders.get("/orders")
                         .header("Authorization", "Bearer " + token)
                         .param("page", "1"))

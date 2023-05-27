@@ -1,14 +1,12 @@
 package com.junhyeong.shoppingmall.specifications;
 
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.Review;
+import com.junhyeong.shoppingmall.models.review.Review;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.time.LocalDateTime;
 
 public class ReviewSpecification {
     public static Specification<Review> equalUserId(

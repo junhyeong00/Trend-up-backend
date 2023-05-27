@@ -1,14 +1,14 @@
 package com.junhyeong.shoppingmall.services;
 
 import com.junhyeong.shoppingmall.dtos.ReviewDto;
-import com.junhyeong.shoppingmall.models.Review;
+import com.junhyeong.shoppingmall.models.review.Review;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
+import com.junhyeong.shoppingmall.services.review.GetReviewService;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

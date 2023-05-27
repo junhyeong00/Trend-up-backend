@@ -1,6 +1,6 @@
 package com.junhyeong.shoppingmall.specifications;
 
-import com.junhyeong.shoppingmall.models.Order;
+import com.junhyeong.shoppingmall.models.order.Order;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -36,6 +36,16 @@ public class OrderSpecification {
             @Override
             public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 return criteriaBuilder.between(root.get("createAt"), startDate, endDate);
+            }
+        };
+    }
+
+    public static Specification<Order> equalDeliveryStatus(
+            String deliveryStatus) {
+        return new Specification<Order>() {
+            @Override
+            public Predicate toPredicate(Root<Order> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("deliveryStatus"), deliveryStatus);
             }
         };
     }

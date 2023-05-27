@@ -5,12 +5,14 @@ public class UserDto {
     private String userName;
     private String name;
     private String phoneNumber;
+    private boolean isSnsUser;
 
-    public UserDto(Long id, String userName, String name, String phoneNumber) {
+    public UserDto(Long id, String userName, String name, String phoneNumber, boolean isSnsUser) {
         this.id = id;
         this.userName = userName;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.isSnsUser = isSnsUser;
     }
 
     public Long getId() {
@@ -27,5 +29,9 @@ public class UserDto {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public boolean isSnsUser() {
+        return isSnsUser;
     }
 }

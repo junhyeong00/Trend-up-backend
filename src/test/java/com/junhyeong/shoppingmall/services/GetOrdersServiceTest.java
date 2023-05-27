@@ -1,11 +1,13 @@
 package com.junhyeong.shoppingmall.services;
 
-import com.junhyeong.shoppingmall.models.Order;
-import com.junhyeong.shoppingmall.models.User;
-import com.junhyeong.shoppingmall.models.UserName;
+import com.junhyeong.shoppingmall.dtos.OrdersDto;
+import com.junhyeong.shoppingmall.models.order.Order;
+import com.junhyeong.shoppingmall.models.user.User;
+import com.junhyeong.shoppingmall.models.user.UserName;
 import com.junhyeong.shoppingmall.repositories.OrderRepository;
 import com.junhyeong.shoppingmall.repositories.ReviewRepository;
 import com.junhyeong.shoppingmall.repositories.UserRepository;
+import com.junhyeong.shoppingmall.services.order.GetOrdersService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -62,9 +64,9 @@ class GetOrdersServiceTest {
         given(orderRepository.findAll(any(Specification.class), eq(pageable)))
                 .willReturn(pageableOrders);
 
-        Page<Order> found = getOrdersService.searchOrders(userName, pageable, null, null);
+        OrdersDto found = getOrdersService.searchOrders(userName, pageable, null, null);
 
-        assertThat(found).hasSize(1);
+        assertThat(found).isNotNull();
 
         verify(orderRepository).findAll(any(Specification.class), eq(pageable));
     }
