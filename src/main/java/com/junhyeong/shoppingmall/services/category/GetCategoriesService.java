@@ -19,7 +19,7 @@ public class GetCategoriesService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "categoriesCache", cacheManager = "redisCacheManager")
+//    @Cacheable(value = "categoriesCache", cacheManager = "redisCacheManager")
     public CategoriesDto categories() {
         List<Category>  categories = categoryRepository.findAll();
 
