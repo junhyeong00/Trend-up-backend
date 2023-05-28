@@ -25,14 +25,9 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 <br>
 
 ## 기술 스택
-### Backend
-<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"></a>
-<img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+![image](https://github.com/junhyeong00/Trend-up-backend/assets/107493122/a46f521a-a5ea-4094-84e0-8cbc84fddb19)
 
-### Database
-<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgreSQL&logoColor=white"/>
 <br>
-
 
 
 ## 도메인 설계
