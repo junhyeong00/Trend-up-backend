@@ -79,10 +79,6 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
 - Transactional
   - [@Transactional은 모든 작업을 RollBack해줄까?](https://velog.io/@jhbae0420/Transactional의-RollBack) 
   - [@Transactional(readOnly = true)를 사용하는 이유와 주의할점](https://velog.io/@jhbae0420/TransactionalreadOnly-true를-사용하는-이유와-주의할점)
-- [비공개 문의글 작업](https://velog.io/@jhbae0420/비공개-문의글-작업-코딩시간-늘리기)
-- 장바구니
-  - [장바구니 상품을 어디에 저장할까?](https://velog.io/@jhbae0420/장바구니-상품을-어디에-저장할까-작업-의도-생각하기)
-  - [db에 json 형태의 string을 저장해도 될까?](https://velog.io/@jhbae0420/db에-json-형태의-string을-저장해도-될까)
 
 <br>
 
@@ -100,22 +96,6 @@ Trend Up은 전자기기 쇼핑몰로 사용자가 필요한 물건을 쉽게 �
     
     ⇒ 성능 개선 경험을 통해 사용자를 위한 성능적인 측면도 고려하게 됨
     
- <br>
-
-
-### **장바구니 상품을 Json형태의 String으로 저장**
-
-- LocalStorage에 저장하는 방식을 이용하여 DB를 사용하지 않아도 장바구니를 관리할 수 있도록 구현
-
-**구현 이슈**
-
-- 다른 기기로 접속했을 때 이전에 담아둔 장바구니를 그대로 사용할 수 없다는 사용성 측면의 문제 발생
-
-**해결**
-
-- LocalStorage와 함께 DB도 사용하여 다른 기기에서도 장바구니를 이용할 수 있도록 함. 또한, 상품 변경 및 삭제 시에는 DB에 데이터를 저장하고, 로그인 시에만 데이터를 받아오도록 구현하여 **쿼리 횟수 최소화**
-- Json 형태의 String으로 상품 목록을 DB에 저장하여, 변경된 상품 목록을 프론트에서 처리하고 DB에는 변경된 내용만 저장하여 작업을 간단화하고 **DB 부담 최소화**
-
 <br>
 
 ### **JUnit5, Mockito 를 이용한 단위 테스트 작성**
